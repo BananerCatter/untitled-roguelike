@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://cmu2qrnde2at7"]
 
 [ext_resource type="PackedScene" uid="uid://bj1pki7ewk2w" path="res://scenes/player.tscn" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://umjew73r8h5c" path="res://scenes/main_menu.tscn" id="2_0wfyh"]
 
 [node name="main" type="Node2D" unique_id=1012450263]
 
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
+position = Vector2(709, 350)
 
-[node name="MainMenu" parent="." unique_id=582311429 instance=ExtResource("2_0wfyh")]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=509946171]
