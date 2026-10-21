@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://nq43bmotyqy5"]
+
+[ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="1_vt3ux"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rns2u"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.6375204, 0.08052311, 0.059664413, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt76a"]
+bg_color = Color(0, 0, 0, 0.7294118)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2dgd"]
+bg_color = Color(0.9981839, 0.84958, 0.83507156, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27450982)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[node name="ProgressBar" type="ProgressBar" unique_id=548487250]
+z_index = 1
+custom_minimum_size = Vector2(0, 600)
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rns2u")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+script = ExtResource("1_vt3ux")
+
+[node name="Timer" type="Timer" parent="." unique_id=1982625604]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DamageBar" type="ProgressBar" parent="." unique_id=188511693]
+z_index = -1
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bt76a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
