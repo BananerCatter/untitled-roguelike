@@ -17,8 +17,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
 radius = 7.2111025
 
-[node name="Player" type="CharacterBody2D" unique_id=1112876604]
+[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("1_g2els")
+max_hp = 300
+hitbox = NodePath("hitbox")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1082742204]
 scale = Vector2(0.125, 0.125)
@@ -26,3 +28,11 @@ sprite_frames = SubResource("SpriteFrames_b013q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1457482273]
 shape = SubResource("CircleShape2D_lpp5k")
+
+[node name="hitbox" type="CollisionShape2D" parent="." unique_id=1985752426]
+shape = SubResource("CircleShape2D_lpp5k")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1699145894]
+zoom = Vector2(4, 4)
+process_callback = 0
+position_smoothing_enabled = true

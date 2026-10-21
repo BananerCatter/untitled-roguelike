@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://1mbjqqv607qo"]
+
+[ext_resource type="Script" uid="uid://c3hrg7jruos65" path="res://scenes/game_ui.gd" id="1_yubou"]
+
+[node name="GameUi" type="CanvasLayer" unique_id=1748888889]
+script = ExtResource("1_yubou")
+
+[node name="HUD" type="Control" parent="." unique_id=1928020135]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=991519412]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 51.0
+offset_bottom = 960.0
+grow_vertical = 2
+theme_override_constants/margin_left = 21
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/MarginContainer" unique_id=1008275292]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+size_flags_vertical = 1
+fill_mode = 3
+show_percentage = false
