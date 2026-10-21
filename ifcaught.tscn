@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bjmwvm6jasmcu"]
+
+[ext_resource type="PackedScene" uid="uid://dgx6iev1nvrer" path="res://diag_manager.tscn" id="1_5ahy2"]
+[ext_resource type="Script" uid="uid://rntmovmu14qg" path="res://scenes/ifcaught/ifcaught.gd" id="1_hj84a"]
+[ext_resource type="PackedScene" uid="uid://cg8o35g4bh3e5" path="res://item_panel.tscn" id="3_68e3i"]
+
+[node name="ifcaught" type="Node2D" unique_id=751647800]
+script = ExtResource("1_hj84a")
+
+[node name="DiagManager" parent="." unique_id=88173553 instance=ExtResource("1_5ahy2")]
+
+[node name="ItemPanel" parent="." unique_id=1319543762 instance=ExtResource("3_68e3i")]
