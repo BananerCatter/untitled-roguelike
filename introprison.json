@@ -1,0 +1,33 @@
+[
+	{
+		"speaker": "You",
+		"text": "Wow...is that a rat in my pocket or am I just happy to be here?"
+	},
+	{
+		"speaker": "You",
+		"text": "I need to get out of here soon, before they remember about me..",
+		"set_flags": {
+			"introfade": true
+		}
+	},
+	{
+		"speaker": "You",
+		"text": "There's no way I'm going to be able to just walk out, maybe if I try to blend in?",
+		"requires": {
+			"introfade": true
+		},
+		"choices": [
+			{
+				"text": "This would look better on me anyway..",
+				"next_line": 3,
+				"set_flags": {
+					"cute": true
+				}
+			}
+		]
+	},
+	{
+		"speaker": "You",
+		"text": "Much better. I should probably find a weapon just in case this doesn't work."
+	}
+]

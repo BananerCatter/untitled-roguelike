@@ -1,0 +1,43 @@
+[
+	{
+		"speaker":"You",
+		"text":"Is that you, Sullivan? I almost forgot what you looked like...it's been weeks..."
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"It's been hours at most. I got here quicker than expected."
+	},
+	{
+		"speaker":"You",
+		"text":"Is there usually a line at the gate?"
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"No. All I told them was that I'm looking for the long-lost son of countess Bonette de Blèu"
+	},
+	{
+		"speaker":"You",
+		"text":"Jeez, you're making me blush!"
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"I'm glad you're still healthy, because I struck a deal with them.",
+		"requires": {
+			"bail": false
+		},
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"You're gonna be working a real job until you can pay me back. Have fun now!",
+		"requires": {
+			"bail": false
+		},
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"Are you trying to make me change my mind?",
+		"requires": {
+			"bail": true
+		}
+	}
+]

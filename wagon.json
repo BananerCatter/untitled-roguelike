@@ -1,0 +1,228 @@
+[
+{
+"choices": [
+			{
+				"text": "What did you think about the castle?",
+				"next_line": 1
+			},
+			{
+				"text": "What did you think about the ruins?",
+				"next_line": 18,
+				"requires": {
+					"ruinbeat": true
+				}
+			},
+			{
+				"text":"What did you think about the giany freaky polar bear cave?",
+				"next_line": 30,
+				"requires": {
+					"bearbeat": true
+				}
+			},
+			{
+				"text":"Something else...",
+				"next_line": 38
+			}
+		],
+	},
+	{
+			"speaker":"Sullivan",
+			"text":"You wouldn't expect a lord to be that...weird. I guess money does change people..."
+		},
+		{
+			"speaker":"You",
+			"text":"I kinda understand him. Imagine if you had all that money and someone was trying to take it from you."
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"I'd donate most of my money. All to the orphans. They'd live in mansions."
+		},
+		{
+			"speaker":"You",
+			"text":"You'd laugh in their face like that too?"
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"I'd smile because I was happy for them."
+		},
+		{
+			"speaker":"You",
+			"text":"Would you give me anything?"
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"Are you an orphan?"
+		},
+		{
+			"speaker":"You",
+			"text":"You'd only give money to orphans? Not sick kids or widows or poor people?"
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"Do you have the plague? Syphillis?"
+		},
+		{
+			"speaker":"You",
+			"text":"Unless you haven't been careful, no"
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"Are you a widow?"
+		},
+		{
+			"speaker":"You",
+			"text":"No.."
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"Maybe I'd hire you to clean my palaces."
+		},
+		{
+			"speaker":"You",
+			"text":"I'm still poor. You could give me money for land"
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"Do you even know how to farm?"
+		},
+		{
+			"speaker":"You",
+			"text":"We should probably find someone who does. We could live off the land, be self sustaining."
+		},
+		{
+			"speaker":"Sullivan",
+			"text":"When we stop chasing around after treasures, I'll love to see you try to grow anything."
+		},
+	{
+		"speaker":"Sullivan",
+		"text":"I definetly feel bad for Whitney. Having to spend so many years being someone's property.."
+	},
+	{
+		"speaker":"You",
+		"text":"Yea, it's horrible. Can't blame her for being so hellbent on revenge."
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"I wish there was a way to help out.."
+	},
+	{
+		"speaker":"You",
+		"text":"Yea, if only you'd have had some weapons to give her..."
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"If only someone here had just happened to find a lot of money recently..."
+	},
+	{
+		"speaker":"You",
+		"text":"It would've atleast helped if someone would've had a means of transport..."
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"Or if someone who knew how to fight would come help..."
+	},
+	{
+		"speaker":"You",
+		"text":"You've got to be feeling real guilty about not being able to help..."
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"Well, if she were to ask, maybe I'd try to find something to spare."
+	},
+	{
+		"speaker":"You",
+		"text":"Don't overexert yourself!"
+	},
+	{
+		"speaker":"Sullivan",
+		"text":"I'm serious. I don't know how people can just sit by and watch these things happen."
+	},
+	{
+		"speaker":"You",
+		"text":"Well, I hope she atleast feels comfortable enough to let us know if we can help in some way."
+	},
+{
+	"speaker":"Sullivan",
+	"text":"The only reason you're alive is because that bear knew you don't have enough nutrients in you."
+},
+{
+	"speaker": "You",
+	"text":"Next time, you could welcome me with a home-cooked meal"
+},
+{
+	"speaker":"Sullivan",
+	"text":"I've been told I look good in an apron"
+},
+{
+	"speaker":"You",
+	"text":"Who's been telling you things like this?"
+},
+{
+	"speaker":"Sullivan",
+	"text":"That's none of your business!"
+},
+{
+	"speaker":"You",
+	"text":"Well, it's just because I don't see how much an apron would change things."
+},
+{
+	"speaker":"Sullivan",
+	"text":"Fuck you, man. From now you're scavengning your own food."
+},
+{
+	"speaker":"You",
+	"text":"Like a bear?"
+},
+{
+	"speaker":"Sullivan",
+	"text":"If you want to try out the look, I can help you out."
+},
+{
+	"choices": [
+			{
+				"text": "Can you tell me anything about this?",
+				"next_line": 1
+			},
+			{
+				"text": "Tell me something about yourself.",
+				"next_line": 3
+			},
+			{
+				"text": "Let's make a stop somewhere.",
+				"next_line":2
+			},
+	],
+},
+{
+	"speaker":"Sullivan",
+	"text":"About what?"
+},
+{
+	"speaker":"Sullivan",
+	"text":"I certainly wouldn't mind a break. Anyhwere in particular?"
+},
+{
+	"speaker":"Sullivan",
+	"text":"Something about myself? Like what?",
+},
+{
+"choices": [
+			{
+				"text":"What's your type?",
+				"next_line": 1,
+			"requires": {
+			"loveS": 100
+			},
+			{
+				"text":"What were you doing before being a traveling merchant?",
+				"next_line": 3
+			"requires": {
+			"loveS": 100
+			},
+		},
+	{
+		"speaker":"Sullivan",
+		"text":"Are you trying to set me up with someone?"
+	},
+	}
+]

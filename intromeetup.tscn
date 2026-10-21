@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dix4bo5dec57h"]
+
+[ext_resource type="Script" uid="uid://dtahcjvu8qj68" path="res://scenes/intromeetup/intromeetup.gd" id="1_arwvt"]
+[ext_resource type="PackedScene" uid="uid://dgx6iev1nvrer" path="res://diag_manager.tscn" id="2_qcqok"]
+[ext_resource type="PackedScene" uid="uid://cg8o35g4bh3e5" path="res://item_panel.tscn" id="3_qcqok"]
+
+[node name="Intromeetup" type="Node2D" unique_id=423046255]
+script = ExtResource("1_arwvt")
+
+[node name="DiagManager" parent="." unique_id=88173553 instance=ExtResource("2_qcqok")]
+visible = false
+
+[node name="ItemPanel" parent="." unique_id=1319543762 instance=ExtResource("3_qcqok")]

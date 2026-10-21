@@ -1,0 +1,30 @@
+[
+	{
+		"speaker":"Sullivan",
+		"text":"How did you even get caught? I thought you 'had it all covered'.",
+	},
+{
+	"choices": [
+			{
+				"text": "We're not all perfect",
+				"next_line": 2,
+			},
+			{
+				"text":"Well, maybe next time it'll work out..",
+				"next_line": 4
+			},
+		]
+},
+{
+	"speaker":"Sullivan",
+	"text":"You know, someday, I'm not gonna be around to help you"
+},
+{
+	"speaker":"You",
+	"text":"Guess I've got to enjoy...this...while I can"
+},
+{
+	"speaker":"Sullivan",
+	"text":"Maybe next time you'll have a decent plan for once"
+}
+]
