@@ -2,23 +2,43 @@
 
 [ext_resource type="Script" uid="uid://c3hrg7jruos65" path="res://scripts/game_ui.gd" id="1_yubou"]
 [ext_resource type="PackedScene" uid="uid://nq43bmotyqy5" path="res://scenes/progress_bar.tscn" id="2_rns2u"]
+[ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_u001w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u001w"]
+bg_color = Color(0, 0.7118078, 0.45705438, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt76a"]
+bg_color = Color(0, 0, 0, 0.7294118)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2dgd"]
+bg_color = Color(0.9981839, 0.84958, 0.83507156, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27450982)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
 
 [node name="GameUi" type="CanvasLayer" unique_id=1748888889]
 script = ExtResource("1_yubou")
 
 [node name="HUD" type="Control" parent="." unique_id=1928020135]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=991519412]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 51.0
-offset_bottom = 960.0
+offset_right = 67.0
 grow_vertical = 2
 theme_override_constants/margin_left = 21
 theme_override_constants/margin_top = 200
@@ -27,3 +47,53 @@ theme_override_constants/margin_bottom = 200
 [node name="ProgressBar" parent="HUD/MarginContainer" unique_id=548487250 instance=ExtResource("2_rns2u")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="HUD" unique_id=1440021984]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -67.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 21
+theme_override_constants/margin_bottom = 200
+
+[node name="StaminaBar" type="ProgressBar" parent="HUD/MarginContainer2" unique_id=616897710]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u001w")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+script = ExtResource("3_u001w")
+
+[node name="Timer" type="Timer" parent="HUD/MarginContainer2/StaminaBar" unique_id=1982625604]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DamageBar" type="ProgressBar" parent="HUD/MarginContainer2/StaminaBar" unique_id=188511693]
+z_index = -1
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bt76a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

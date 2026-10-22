@@ -8,8 +8,8 @@ func _set_health(new_health):
 	var prev = health
 	health=min(max_value, new_health)
 	value=health
-	if(new_health<=0):
-		queue_free()
+#	if(new_health<=0):
+#		queue_free()
 	if prev > new_health:
 		timer.start()
 	if prev < new_health:
@@ -33,6 +33,6 @@ func _ready() -> void:
 
 
 func _on_timer_timeout() -> void:
-	print("something")
+
 	damage_bar.value=health
 		
