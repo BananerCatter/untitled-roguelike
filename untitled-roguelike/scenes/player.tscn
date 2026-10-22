@@ -17,11 +17,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
 radius = 7.2111025
 
-[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox", "timer", "stamina_cooldown")]
+[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox", "timer", "dash_cooldown", "stamina_cooldown")]
 script = ExtResource("1_g2els")
 max_hp = 300
 hitbox = NodePath("hitbox")
 timer = NodePath("DashTime")
+dash_cooldown = NodePath("DashCooldown")
 stamina_cooldown = NodePath("Cooldown")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1082742204]
@@ -44,10 +45,15 @@ wait_time = 0.15
 one_shot = true
 autostart = true
 
+[node name="DashCooldown" type="Timer" parent="." unique_id=310818469]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
 [node name="Cooldown" type="Timer" parent="." unique_id=1917706371]
-wait_time = 5.0
+wait_time = 0.7
 one_shot = true
 autostart = true
 
 [connection signal="timeout" from="DashTime" to="." method="_on_dash_time_timeout"]
-[connection signal="timeout" from="Cooldown" to="." method="_on_dash_time_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

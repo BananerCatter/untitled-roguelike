@@ -12,6 +12,8 @@ signal stamina_changed(stamina_value:float)
 @export var hitbox: CollisionShape2D
 @export var acceleration: float =500
 @export var timer: Timer 
+@export var dash_cooldown: Timer
+var can_dash:bool = true
 @export var stamina: float =100
 @export var max_stamina: float =100
 @export var stamina_cooldown: Timer
@@ -56,15 +58,17 @@ func idle():
 
 func moving():
 
-	
 	if get_input() == Vector2.ZERO:
 		change_state(States.IDLE)
-	if Input.is_action_just_pressed("dash") && stamina >0:
-		lose_stamina(20)
-		if timer.is_stopped: 
-			timer.start()
-		change_state(States.DASH)
-		
+	if Input.is_action_just_pressed("dash"):
+		if can_dash:
+			can_dash=false
+			lose_stamina(20)
+			dash_cooldown.start()
+			if timer.is_stopped: 
+				timer.start()
+			change_state(States.DASH)
+	
 
 func dash():
 	pass
@@ -90,6 +94,7 @@ func _physics_process(delta: float) -> void:
 			speed= move_toward(speed, max_speed, acceleration*delta)
 		States.DASH:
 			dash()
+			
 			speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult)
 	
 	if(hp<=0):
@@ -100,6 +105,10 @@ func _physics_process(delta: float) -> void:
 		if(stamina>max_stamina):
 			stamina=max_stamina
 		stamina_changed.emit((stamina*100/max_stamina))
-		print (stamina)
+
 	velocity = get_input()*speed
 	move_and_slide()
+
+
+func _on_dash_cooldown_timeout() -> void:
+	can_dash = true
