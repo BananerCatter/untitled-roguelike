@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://fp7f7gtsbfy7"]
+
+[ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="1_n1jr3"]
+[ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sw3va"]
+atlas = ExtResource("1_n1jr3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kb2m"]
+atlas = ExtResource("1_n1jr3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kegi0"]
+atlas = ExtResource("1_n1jr3")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t1as8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sw3va")
+}],
+"loop": 1,
+"name": &"chase",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kb2m")
+}],
+"loop": 1,
+"name": &"dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kegi0")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64ljx"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b013q"]
+radius = 70.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sw3va"]
+radius = 140.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2kb2m"]
+radius = 20.0
+
+[node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "hitbox", "dash_duration", "dash_cooldown", "enter_area", "exit_area")]
+motion_mode = 1
+script = ExtResource("1_sw3va")
+sprite = NodePath("AnimatedSprite2D")
+max_speed = 100.0
+speed = 100.0
+acceleration = 50.0
+dash_mult = 4.0
+hp = 200
+max_hp = 200
+hitbox = NodePath("CollisionShape2D")
+dash_duration = NodePath("DashDuration")
+dash_cooldown = NodePath("DashCooldown")
+stamina = 100.0
+max_stamina = 100.0
+stamina_recovery = 24.0
+enter_area = NodePath("EnterArea")
+exit_area = NodePath("ExitArea")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=329525684]
+sprite_frames = SubResource("SpriteFrames_t1as8")
+animation = &"chase"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1089423508]
+shape = SubResource("RectangleShape2D_64ljx")
+
+[node name="EnterArea" type="Area2D" parent="." unique_id=1200492102]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterArea" unique_id=654154822]
+shape = SubResource("CircleShape2D_b013q")
+
+[node name="ExitArea" type="Area2D" parent="." unique_id=2080260226]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea" unique_id=1447938003]
+shape = SubResource("CircleShape2D_sw3va")
+
+[node name="StopArea" type="Area2D" parent="." unique_id=527975177]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StopArea" unique_id=1435666555]
+shape = SubResource("CircleShape2D_2kb2m")
+disabled = true
+
+[node name="DashDuration" type="Timer" parent="." unique_id=1628053114]
+wait_time = 0.3
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="." unique_id=1956792]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]
+[connection signal="body_exited" from="EnterArea" to="." method="_on_enter_area_body_exited"]
+[connection signal="body_exited" from="ExitArea" to="." method="_on_exit_area_body_exited"]
+[connection signal="body_exited" from="StopArea" to="." method="_on_exit_area_body_exited"]

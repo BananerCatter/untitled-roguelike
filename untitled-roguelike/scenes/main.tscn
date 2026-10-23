@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bqqqfw3107yn" path="res://assets/img/tiles/tileset1.png" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://b3wlypjd8o0si" path="res://assets/img/tiles/tileset2.png" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://1mbjqqv607qo" path="res://scenes/game_ui.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://fp7f7gtsbfy7" path="res://scenes/base_enemy.tscn" id="6_tefeu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -451,3 +452,8 @@ rendering_quadrant_size = 32
 position = Vector2(709, 350)
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
+
+[node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
+position = Vector2(837.4016, 423.1862)
+
+[connection signal="on_death" from="Player" to="." method="_on_player_on_death"]

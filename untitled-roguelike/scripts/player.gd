@@ -4,20 +4,20 @@ signal on_death
 signal hp_changed(hp_value: float)
 signal stamina_changed(stamina_value:float)
 
-@export var max_speed: float = 200
+@export var max_speed: float
 @export var speed: float
-@export var dash_mult: float = 2
-@export var hp: int = 300
+@export var dash_mult: float 
+@export var hp: int 
 @export var max_hp: int
 @export var hitbox: CollisionShape2D
-@export var acceleration: float =500
+@export var acceleration: float
 @export var timer: Timer 
 @export var dash_cooldown: Timer
 var can_dash:bool = true
-@export var stamina: float =100
-@export var max_stamina: float =100
+@export var stamina: float 
+@export var max_stamina: float 
 @export var stamina_cooldown: Timer
-@export var stamina_recovery: float =24
+@export var stamina_recovery: float
 #For now, the state machine is kinda pointless, but it will save us a looottt of time in the future, Ik we gotta work a lot of hours but we need to make these hours count !!!
 enum States {IDLE, MOVING, DASH}
 var state = States.IDLE
@@ -27,6 +27,7 @@ func change_state(new_state):
 
 func _ready() -> void:
 	max_hp=hp
+	@warning_ignore("integer_division")
 	hp_changed.emit((hp*100)/max_hp)
 	stamina_changed.emit((stamina*100/max_stamina))
 func take_damage(damage:int) -> void:
@@ -39,6 +40,7 @@ func heal(damage:int) -> void:
 		hp=max_hp
 	else:
 		hp+=damage
+	@warning_ignore("integer_division")
 	hp_changed.emit((hp*100)/max_hp)
 
 

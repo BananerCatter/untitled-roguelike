@@ -19,11 +19,19 @@ radius = 7.2111025
 
 [node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox", "timer", "dash_cooldown", "stamina_cooldown")]
 script = ExtResource("1_g2els")
+max_speed = 200.0
+speed = 200.0
+dash_mult = 4.0
+hp = 300
 max_hp = 300
 hitbox = NodePath("hitbox")
+acceleration = 500.0
 timer = NodePath("DashTime")
 dash_cooldown = NodePath("DashCooldown")
+stamina = 100.0
+max_stamina = 100.0
 stamina_cooldown = NodePath("Cooldown")
+stamina_recovery = 24.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1082742204]
 scale = Vector2(0.125, 0.125)
