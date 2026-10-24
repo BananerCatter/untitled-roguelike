@@ -1,0 +1,27 @@
+{
+"id": "burger",
+	"name": "Amazing Burger",
+	"default_description": "A delicious burger. You can't resist it much longer.",
+	"conditional_descriptions": [
+		{
+			"conditions": [
+				{
+					"flag":"cooking_show",
+					"operator":"equals",
+					"value":false
+				}
+			],
+			"text": "A delicious burger, made with fresh ingredients. The sauce looks especially complex."
+		},
+		{
+			"conditions": [
+				{
+				"flag":"hungry",
+				"operator":"equals",
+				"value":true
+				}
+			],
+			"text":"Eat it right now. That smell, that texture...it's calling out your name.."
+		}
+	]
+}

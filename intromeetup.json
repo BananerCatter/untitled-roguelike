@@ -1,0 +1,137 @@
+[
+	{
+		"speaker": "Random guy",
+		"text": "Wow, they're just throwing dead bodies out in the street for everyone to see...These people are crazy!",
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Everybody's poor too, barely managed to sell anything. I'm going to have to eat grass with the horses if this keeps up!",
+
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Ew, is it moving? Someone kill it!"
+	},
+	{
+		"speaker": "You",
+		"text": "I'm gonna kill him...",
+	},
+	{
+		"speaker": "Random guy",
+		"text": "What the hell did you say to me? Do you know how much money I'll get if I turn you back in?",
+		"set_flags": {
+			"introp2": true
+		}
+	},
+	{
+		"speaker": "You",
+		"text": "You won't be able to carry me there, obese monster!",
+	},
+	{
+		"speaker": "Random guy",
+		"text": "I'm gonna do something to you",
+		"set_flags": {
+			"introp3": true
+		}
+	},
+	{
+		"speaker": "Random guy",
+		"text": "What the hell is wrong with you? Nearly killed me...",
+	},
+	{
+		"speaker": "You",
+		"text": "Look, if you help me now, I'll give you more money than these guys have ever seen in their lives!",
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Do you think I'm stupid?"
+	},
+	{
+		"speaker": "You",
+		"text": "The reason I got arrested in the first place was because I wasn't prepared enough to get this money."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "I hope you're looking lovingly in my eyes and not at my wares"
+	},
+	{
+		"speaker": "You",
+		"text": "Well, that's exactly it. If you help me, we can split this load of money evenly and we're both happy."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Or we'll both be peeled off the street in two hours and hanged.."
+	},
+	{
+		"speaker": "Husky voice",
+		"text": "Over there!"
+	},
+	{
+		"speaker": "Random guy",
+		"text": "If you're lying to me..you're going right back in here!",
+		"set_flags": {
+			"introp4": true
+		},
+	},
+	{
+		"speaker": "You",
+		"text":"I'm gonna be the only one going in, all you do is sit back and watch. It's totally risk-free money!"
+	},
+	{
+		"speaker": "Random guy",
+		"text": "And if you're caught again?"
+	},
+	{
+		"choices": [
+			{
+				"text": "Don't miss me too much...",
+				"next_line": 19,
+			},
+			{
+				"text": "That won't happen. I've got a better plan now.",
+				"next_line": 20,
+			}
+			]
+	},
+	{
+		"speaker": "Random guy",
+		"text": "So you don't have any plan? Just going back in and hoping they don't see if you if you stand really still?"
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Where are you even going 'into' anyway?"
+	},
+	{
+		"speaker": "You",
+		"text": "I'm going into the castle, just like last time. But now, since I'd have better equipment and I already know the layout of the place, it'll be easy as cake. I'll be back in minutes unseen, unheard."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "So that's what you do for a living? Enter houses and sell off expensive pants?"
+	},
+	{
+		"speaker": "You",
+		"text": "You wouldn't believe me if I told you.."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "Are you playing hard to get with me?"
+	},
+	{
+		"speaker": "You",
+		"text": "Well, I do all sorts of jobs. These past few years I've been on the search for rare, expensive items. Legendary items."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "So you're a jewel thief?"
+	},
+	{
+		"speaker": "You",
+		"text": "You'll see."
+	},
+	{
+		"speaker": "Random guy",
+		"text": "I'll see..."
+		
+	}
+]
