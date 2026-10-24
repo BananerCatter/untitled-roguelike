@@ -14,6 +14,7 @@ extends CharacterBody2D
 
 @export var dash_duration: Timer 
 @export var dash_cooldown: Timer
+@export var dash_brake: Timer
 var can_dash:bool = true
 
 @export var stamina: float 
@@ -28,7 +29,7 @@ var direction: Vector2
 var dash_direction: Vector2
 var player_found: bool =false
 var stop: bool = false
-enum States {IDLE, MOVING, DASH}
+enum States {IDLE, MOVING, DASH, ATTACK}
 
 var previous_state: States
 var state:States = States.IDLE
@@ -41,8 +42,8 @@ func change_state(new_state:States, force_restart:bool =false) ->void:
 		state =new_state
 		enter_state(new_state)
 			
-func exit_state(entered_state:States) -> void:
-		match entered_state:
+func exit_state(exited_state:States) -> void:
+		match exited_state:
 			States.IDLE:
 				exit_idle()
 
@@ -51,8 +52,8 @@ func exit_state(entered_state:States) -> void:
 
 			States.DASH:
 				exit_dash()
-func enter_state(exited_state:States) -> void:
-		match exited_state:
+func enter_state(entered_state:States) -> void:
+		match entered_state:
 			States.IDLE:
 				enter_idle()
 
@@ -69,7 +70,11 @@ func enter_idle():
 func idle(delta: float):
 	speed = move_toward(speed, 0, acceleration*delta)
 	velocity=speed*direction
-	if player_found && !stop:
+	if previous_state == States.DASH:
+		speed = move_toward(speed, max_speed, acceleration*delta*dash_mult)
+		
+		
+	if player_found && dash_brake.is_stopped():
 		change_state(States.MOVING)
 func exit_idle():
 	pass
@@ -80,7 +85,8 @@ func enter_moving():
 func moving(delta: float):
 	direction = (player.global_position-global_position).normalized()
 	if previous_state==States.DASH:
-		speed = move_toward(speed, max_speed, acceleration*delta*dash_mult*dash_mult)
+		change_state(States.IDLE)
+		speed = move_toward(speed, max_speed, acceleration*delta)
 	else:
 		speed = move_toward(speed, max_speed, acceleration*delta)
 	if can_dash && dash_cooldown.is_stopped():
@@ -99,14 +105,15 @@ func enter_dash():
 	sprite.play("dash")
 	dash_duration.start()
 func dash(delta: float):
+
 	velocity=speed*dash_direction
+	
 	speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult*dash_mult)
+
 	if dash_duration.is_stopped():
-		if player_found:
-			change_state(States.MOVING)
-		else:
-			change_state(States.IDLE)
+		change_state(States.IDLE)
 func exit_dash():
+	dash_brake.start()
 	dash_cooldown.start()
 	can_dash=false
 #--------------------------------------------------------------

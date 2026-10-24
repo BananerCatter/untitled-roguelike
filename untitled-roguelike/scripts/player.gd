@@ -19,12 +19,41 @@ var can_dash:bool = true
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
 #For now, the state machine is kinda pointless, but it will save us a looottt of time in the future, Ik we gotta work a lot of hours but we need to make these hours count !!!
+#-----------------------------------------------------------------------------------------------------------------
 enum States {IDLE, MOVING, DASH}
 var state = States.IDLE
-func change_state(new_state):
-	state =new_state
+var previous_state: States
+var direction: Vector2
+#-----------------------------------------------------------------------------------------------------------------
+func change_state(new_state:States, force_restart:bool =false) ->void:
+		if state == new_state && !force_restart:
+			return
+		exit_state(state)	
+		previous_state=state
+		state =new_state
+		enter_state(new_state)
+			
+func exit_state(exited_state:States) -> void:
+		match exited_state:
+			States.IDLE:
+				exit_idle()
 
+			States.MOVING:
+				exit_moving()
 
+			States.DASH:
+				exit_dash()
+func enter_state(entered_state:States) -> void:
+		match entered_state:
+			States.IDLE:
+				enter_idle()
+
+			States.MOVING:
+				enter_moving()
+
+			States.DASH:
+				enter_dash()
+#-----------------------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	max_hp=hp
 	@warning_ignore("integer_division")
@@ -54,26 +83,45 @@ func _input(event: InputEvent) -> void:
 func get_input() -> Vector2:
 	var direction = Input.get_vector("left", "right", "up", "down")
 	return direction
-func idle():
-	if get_input() != Vector2.ZERO:
+	
+func enter_idle():
+	pass
+func idle(delta:float):
+	speed = move_toward(speed, 0, acceleration*delta)
+	if get_input() != Vector2.ZERO && dash_cooldown.is_stopped():
 		change_state(States.MOVING)
-
-func moving():
-
+	velocity=get_input()*speed
+func exit_idle():
+	pass
+#-----------------------------------------------------------------------------------------------------------------
+func enter_moving():
+	velocity = get_input()*speed
+func moving(delta:float):
+	speed= move_toward(speed, max_speed, acceleration*delta)
 	if get_input() == Vector2.ZERO:
 		change_state(States.IDLE)
-	if Input.is_action_just_pressed("dash"):
-		if can_dash:
-			can_dash=false
-			lose_stamina(20)
-			dash_cooldown.start()
-			if timer.is_stopped: 
-				timer.start()
-			change_state(States.DASH)
-	
+	if Input.is_action_just_pressed("dash") && can_dash:
 
-func dash():
+			change_state(States.DASH)
+	velocity = get_input()*speed
+func exit_moving():
 	pass
+
+func enter_dash():
+	timer.start()
+	can_dash=false
+	lose_stamina(20)
+	direction=get_input()
+
+
+func dash(delta:float):
+	speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult)
+	velocity= direction*speed
+	if timer.is_stopped():
+		change_state(States.IDLE)
+func exit_dash():
+	dash_cooldown.start()
+	
 
 func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
@@ -87,15 +135,14 @@ func _on_dash_time_timeout() -> void:
 func _physics_process(delta: float) -> void:
 	match state:
 		States.IDLE:
-			idle()
-			get_input()
-			speed = move_toward(speed, 0, acceleration*delta)
+			idle(delta)
+
 		States.MOVING:
-			moving()
-			get_input()
-			speed= move_toward(speed, max_speed, acceleration*delta)
+			moving(delta)
+			
+
 		States.DASH:
-			dash()
+			dash(delta)
 			
 			speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult)
 	
@@ -108,7 +155,6 @@ func _physics_process(delta: float) -> void:
 			stamina=max_stamina
 		stamina_changed.emit((stamina*100/max_stamina))
 
-	velocity = get_input()*speed
 	move_and_slide()
 
 

@@ -54,7 +54,7 @@ radius = 140.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_2kb2m"]
 radius = 20.0
 
-[node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "hitbox", "dash_duration", "dash_cooldown", "enter_area", "exit_area")]
+[node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "hitbox", "dash_duration", "dash_cooldown", "dash_brake", "enter_area", "exit_area")]
 motion_mode = 1
 script = ExtResource("1_sw3va")
 sprite = NodePath("AnimatedSprite2D")
@@ -67,6 +67,7 @@ max_hp = 200
 hitbox = NodePath("CollisionShape2D")
 dash_duration = NodePath("DashDuration")
 dash_cooldown = NodePath("DashCooldown")
+dash_brake = NodePath("DashBrake")
 stamina = 100.0
 max_stamina = 100.0
 stamina_recovery = 24.0
@@ -97,11 +98,14 @@ shape = SubResource("CircleShape2D_2kb2m")
 disabled = true
 
 [node name="DashDuration" type="Timer" parent="." unique_id=1628053114]
-wait_time = 0.3
+wait_time = 0.6
 one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="." unique_id=1956792]
 wait_time = 5.0
+one_shot = true
+
+[node name="DashBrake" type="Timer" parent="." unique_id=1738423556]
 one_shot = true
 
 [connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]

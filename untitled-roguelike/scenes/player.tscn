@@ -21,7 +21,7 @@ radius = 7.2111025
 script = ExtResource("1_g2els")
 max_speed = 200.0
 speed = 200.0
-dash_mult = 4.0
+dash_mult = 1.5
 hp = 300
 max_hp = 300
 hitbox = NodePath("hitbox")
@@ -51,7 +51,6 @@ position_smoothing_enabled = true
 [node name="DashTime" type="Timer" parent="." unique_id=140604936]
 wait_time = 0.15
 one_shot = true
-autostart = true
 
 [node name="DashCooldown" type="Timer" parent="." unique_id=310818469]
 wait_time = 0.5
