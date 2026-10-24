@@ -4,11 +4,13 @@ signal on_death
 signal hp_changed(hp_value: float)
 signal stamina_changed(stamina_value:float)
 
+@export var stats: Stats
+
 @export var max_speed: float
 @export var speed: float
 @export var dash_mult: float 
-@export var hp: int 
-@export var max_hp: int
+var hp: int 
+var max_hp: int
 @export var hitbox: CollisionShape2D
 @export var acceleration: float
 @export var timer: Timer 
@@ -18,6 +20,8 @@ var can_dash:bool = true
 @export var max_stamina: float 
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
+
+var faction = stats.factions
 #For now, the state machine is kinda pointless, but it will save us a looottt of time in the future, Ik we gotta work a lot of hours but we need to make these hours count !!!
 #-----------------------------------------------------------------------------------------------------------------
 enum States {IDLE, MOVING, DASH}
@@ -55,22 +59,23 @@ func enter_state(entered_state:States) -> void:
 				enter_dash()
 #-----------------------------------------------------------------------------------------------------------------
 func _ready() -> void:
-	max_hp=hp
+	print (faction)
+	max_hp=stats.current_max_health
 	@warning_ignore("integer_division")
-	hp_changed.emit((hp*100)/max_hp)
+	hp_changed.emit((stats.health*100)/stats.current_max_health)
 	stamina_changed.emit((stamina*100/max_stamina))
 func take_damage(damage:int) -> void:
-	hp-=damage
+	stats.health-=damage
 	@warning_ignore("integer_division")
-	hp_changed.emit((hp*100)/max_hp)
+	hp_changed.emit((stats.health*100)/max_hp)
 	
 func heal(damage:int) -> void:
-	if(hp+damage>max_hp):
-		hp=max_hp
+	if(stats.health+damage>max_hp):
+		stats.health=max_hp
 	else:
-		hp+=damage
+		stats.health+=damage
 	@warning_ignore("integer_division")
-	hp_changed.emit((hp*100)/max_hp)
+	hp_changed.emit((stats.health*100)/max_hp)
 
 
 func _input(event: InputEvent) -> void:
@@ -146,7 +151,7 @@ func _physics_process(delta: float) -> void:
 			
 			speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult)
 	
-	if(hp<=0):
+	if(stats.health<=0):
 		on_death.emit()
 	
 	if stamina_cooldown.is_stopped() && stamina<max_stamina:

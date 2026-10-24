@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b3wlypjd8o0si" path="res://assets/img/tiles/tileset2.png" id="2_sugp2"]
 [ext_resource type="PackedScene" uid="uid://1mbjqqv607qo" path="res://scenes/game_ui.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://fp7f7gtsbfy7" path="res://scenes/base_enemy.tscn" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="7_o6xl0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sugp2"]
 texture = ExtResource("2_0wfyh")
@@ -438,6 +439,15 @@ physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_jyhfs")
 sources/0 = SubResource("TileSetAtlasSource_sugp2")
 
+[sub_resource type="Resource" id="Resource_tipki"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
 [node name="main" type="Node2D" unique_id=1012450263]
 rotation = -0.0014160064
 script = ExtResource("1_tbgi4")
@@ -455,5 +465,6 @@ position = Vector2(709, 350)
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(837.4016, 423.1862)
+stats = SubResource("Resource_tipki")
 
 [connection signal="on_death" from="Player" to="." method="_on_player_on_death"]

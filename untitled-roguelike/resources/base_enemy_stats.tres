@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Stats" format=3 uid="uid://baheirlcclwxy"]
+
+[ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="1_ckkd7"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_ckkd7")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"

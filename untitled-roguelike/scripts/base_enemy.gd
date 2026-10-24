@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
+@export var stats: Stats
+
 @onready var player: CharacterBody2D = get_parent().get_node("Player")
 @export var sprite: AnimatedSprite2D
 @export var max_speed: float
 @export var speed: float
 @export var acceleration: float
 @export var dash_mult: float 
-@export var hp: int 
-@export var max_hp: int
+
 
 @export var hitbox: CollisionShape2D
 

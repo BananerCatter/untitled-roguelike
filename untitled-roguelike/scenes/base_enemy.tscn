@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="1_n1jr3"]
 [ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
+[ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
+[ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_2kb2m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sw3va"]
 atlas = ExtResource("1_n1jr3")
@@ -54,16 +56,37 @@ radius = 140.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_2kb2m"]
 radius = 20.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rns2u"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.6375204, 0.08052311, 0.059664413, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bt76a"]
+bg_color = Color(0, 0, 0, 0.7294118)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2dgd"]
+bg_color = Color(0.9981839, 0.84958, 0.83507156, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27450982)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "hitbox", "dash_duration", "dash_cooldown", "dash_brake", "enter_area", "exit_area")]
 motion_mode = 1
 script = ExtResource("1_sw3va")
+stats = ExtResource("2_kegi0")
 sprite = NodePath("AnimatedSprite2D")
 max_speed = 100.0
 speed = 100.0
 acceleration = 50.0
 dash_mult = 4.0
-hp = 200
-max_hp = 200
 hitbox = NodePath("CollisionShape2D")
 dash_duration = NodePath("DashDuration")
 dash_cooldown = NodePath("DashCooldown")
@@ -77,6 +100,10 @@ exit_area = NodePath("ExitArea")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=329525684]
 sprite_frames = SubResource("SpriteFrames_t1as8")
 animation = &"chase"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2008966204]
+offset_right = 2.0
+offset_bottom = 600.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1089423508]
 shape = SubResource("RectangleShape2D_64ljx")
@@ -108,7 +135,51 @@ one_shot = true
 [node name="DashBrake" type="Timer" parent="." unique_id=1738423556]
 one_shot = true
 
+[node name="Control" type="Control" parent="." unique_id=1298626049]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=548487250]
+z_index = 1
+custom_minimum_size = Vector2(30, 5)
+layout_mode = 0
+offset_left = -15.0
+offset_top = -17.0
+offset_right = 15.0
+offset_bottom = -12.0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rns2u")
+value = 100.0
+show_percentage = false
+script = ExtResource("3_2kb2m")
+
+[node name="Timer" type="Timer" parent="Control/ProgressBar" unique_id=1982625604]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DamageBar" type="ProgressBar" parent="Control/ProgressBar" unique_id=188511693]
+z_index = -1
+custom_minimum_size = Vector2(30, 5)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -541.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_bt76a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
 [connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]
 [connection signal="body_exited" from="EnterArea" to="." method="_on_enter_area_body_exited"]
 [connection signal="body_exited" from="ExitArea" to="." method="_on_exit_area_body_exited"]
 [connection signal="body_exited" from="StopArea" to="." method="_on_exit_area_body_exited"]
+[connection signal="timeout" from="Control/ProgressBar/Timer" to="Control/ProgressBar" method="_on_timer_timeout"]
