@@ -24,6 +24,7 @@ func init_health(_health):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	health=100
 	damage_bar.value=value
 
 

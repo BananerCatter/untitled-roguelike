@@ -22,6 +22,9 @@ func _init() -> void:
 func setup_stats() -> void:
 	current_max_health=base_max_health
 	health=current_max_health
+	current_damage=base_damage
+func take_damage(dmg:int):
+	_on_health_set(health-dmg)
 func _on_health_set(new_value:int):
 	health=clampi(new_value,0,current_max_health)
 	if health <= 0:

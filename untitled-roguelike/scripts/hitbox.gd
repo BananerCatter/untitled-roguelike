@@ -1,13 +1,15 @@
-class_name hitbox extends Area2D
+class_name Hitbox extends Area2D
 
 # uncomment this when we have actual stats, for now just use an int for damage
 # var attacker_stats: Stats
-var attacker_damage: int
+var attacker_stats: Stats
 var hitbox_lifetime: float
 var shape: Shape2D
 
-func _init(_attacker_damage: int, _hitbox_lifetime: float, _shape: Shape2D) -> void:
-	attacker_damage=_attacker_damage
+
+
+func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D) -> void:
+	attacker_stats=_attacker_stats
 	hitbox_lifetime=_hitbox_lifetime
 	shape=_shape
 func _ready():
@@ -23,8 +25,17 @@ func _ready():
 		var collision_shape = CollisionShape2D.new()
 		collision_shape.shape = shape
 		add_child(collision_shape)
+		
 	set_collision_layer_value(1,false)
 	set_collision_mask_value(1,false)
 	
+	match attacker_stats.faction:
+		Stats.factions.PLAYER:
+			set_collision_mask_value(1,true)
+		Stats.factions.ENEMY:
+			set_collision_mask_value(2,true)
+	
 func _on_area_entered(area: Area2D):
-	pass
+	if not area.has_method("receive_hit"):
+		return
+	area.receive_hit(attacker_stats.current_damage)

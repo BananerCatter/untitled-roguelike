@@ -10,8 +10,8 @@ extends CharacterBody2D
 @export var dash_mult: float 
 
 
-@export var hitbox: CollisionShape2D
-
+@export var hitbox_shape: Shape2D
+var hitbox: Hitbox
 
 @export var dash_duration: Timer 
 @export var dash_cooldown: Timer
@@ -26,11 +26,14 @@ var can_dash:bool = true
 @export var enter_area: Area2D
 @export var exit_area: Area2D
 
+@onready var damage_bar: ProgressBar = %ProgressBar
+
 var direction: Vector2
 var dash_direction: Vector2
 var player_found: bool =false
 var stop: bool = false
-enum States {IDLE, MOVING, DASH, ATTACK}
+var can_attack: bool = false
+enum States {IDLE, MOVING, DASH, LIGHT_ATTACK}
 
 var previous_state: States
 var state:States = States.IDLE
@@ -53,6 +56,8 @@ func exit_state(exited_state:States) -> void:
 
 			States.DASH:
 				exit_dash()
+			States.LIGHT_ATTACK:
+				exit_light_attack()
 func enter_state(entered_state:States) -> void:
 		match entered_state:
 			States.IDLE:
@@ -63,6 +68,8 @@ func enter_state(entered_state:States) -> void:
 
 			States.DASH:
 				enter_dash()
+			States.LIGHT_ATTACK:
+				exit_light_attack()
 #--------------------------------------------------------------
 #IDLE
 func enter_idle():
@@ -77,6 +84,7 @@ func idle(delta: float):
 		
 	if player_found && dash_brake.is_stopped():
 		change_state(States.MOVING)
+	
 func exit_idle():
 	pass
 #--------------------------------------------------------------	
@@ -97,6 +105,8 @@ func moving(delta: float):
 		change_state(States.IDLE)
 	if !player_found:
 		change_state(States.IDLE)
+	if can_attack  && dash_cooldown.is_stopped(): 
+		change_state(States.LIGHT_ATTACK)
 func exit_moving():
 	pass
 #--------------------------------------------------------------	
@@ -117,10 +127,20 @@ func exit_dash():
 	dash_brake.start()
 	dash_cooldown.start()
 	can_dash=false
+# Attack (for now just the light attack)
+func light_attack(delta:float):
+	hitbox = Hitbox.new (stats, 0.5, hitbox_shape)
+	add_child(hitbox)
+	change_state(States.IDLE)
+func enter_light_attack():
+	stamina -= 10
+func exit_light_attack():
+	dash_cooldown.start()
 #--------------------------------------------------------------
 func _ready() -> void:
 	change_state(States.IDLE,true)
-
+	stats.health_changed.connect(damage_bar._get_value)
+	stats.health_changed.emit(stats.health, stats.current_max_health)
 func _physics_process(delta: float) -> void:
 		match state:
 			States.IDLE:
@@ -131,6 +151,10 @@ func _physics_process(delta: float) -> void:
 
 			States.DASH:
 				dash(delta)
+			States.LIGHT_ATTACK:
+				light_attack(delta)
+		if stats.health <=0:
+			queue_free()
 		move_and_slide()
 
 #--------------------------------------------------------------
@@ -159,3 +183,12 @@ func _on_stop_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		stop=false
 		player_found=true
+
+
+func _on_attack_range_body_entered(body: Node2D) -> void:
+	if body == player:
+		can_attack = true
+
+func _on_attack_range_body_exited(body: Node2D) -> void:
+	if body == player:
+		can_attack = false

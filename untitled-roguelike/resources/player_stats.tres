@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="1_wld0n"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_wld0n")
 base_max_health = 300
-base_damage = 20.0
+base_damage = 40.0
 base_defence = 30.0
 metadata/_custom_type_script = "uid://cyurnsedhb28p"

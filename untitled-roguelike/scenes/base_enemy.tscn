@@ -3,7 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="1_n1jr3"]
 [ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
 [ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
-[ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_2kb2m"]
+[ext_resource type="Script" uid="uid://cfkxrn82ksxc7" path="res://scripts/enemy_hp.gd" id="4_64ljx"]
+[ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="5_64ljx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_64ljx"]
+radius = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sw3va"]
 atlas = ExtResource("1_n1jr3")
@@ -51,7 +55,7 @@ size = Vector2(16, 16)
 radius = 70.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sw3va"]
-radius = 140.0
+radius = 180.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2kb2m"]
 radius = 20.0
@@ -78,7 +82,13 @@ shadow_color = Color(0, 0, 0, 0.27450982)
 shadow_size = 1
 shadow_offset = Vector2(0, 1)
 
-[node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "hitbox", "dash_duration", "dash_cooldown", "dash_brake", "enter_area", "exit_area")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vlovk"]
+radius = 12.0
+
+[node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "dash_duration", "dash_cooldown", "dash_brake", "enter_area", "exit_area")]
 motion_mode = 1
 script = ExtResource("1_sw3va")
 stats = ExtResource("2_kegi0")
@@ -87,7 +97,7 @@ max_speed = 100.0
 speed = 100.0
 acceleration = 50.0
 dash_mult = 4.0
-hitbox = NodePath("CollisionShape2D")
+hitbox_shape = SubResource("CircleShape2D_64ljx")
 dash_duration = NodePath("DashDuration")
 dash_cooldown = NodePath("DashCooldown")
 dash_brake = NodePath("DashBrake")
@@ -142,6 +152,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=548487250]
+unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(30, 5)
 layout_mode = 0
@@ -152,9 +163,9 @@ offset_bottom = -12.0
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
 theme_override_styles/fill = SubResource("StyleBoxFlat_rns2u")
-value = 100.0
+value = 60.0
 show_percentage = false
-script = ExtResource("3_2kb2m")
+script = ExtResource("4_64ljx")
 
 [node name="Timer" type="Timer" parent="Control/ProgressBar" unique_id=1982625604]
 wait_time = 0.5
@@ -175,11 +186,25 @@ size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_bt76a")
 theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
 value = 100.0
-fill_mode = 3
 show_percentage = false
+
+[node name="AttackRange" type="Area2D" parent="." unique_id=1648761200]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1598724817]
+shape = SubResource("CircleShape2D_lpp5k")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1655696417]
+script = ExtResource("5_64ljx")
+metadata/_custom_type_script = "uid://c2qaivfsi7ncn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1018844325]
+shape = SubResource("CircleShape2D_vlovk")
+debug_color = Color(0.9892697, 0, 0.29782167, 0.41960785)
 
 [connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]
 [connection signal="body_exited" from="EnterArea" to="." method="_on_enter_area_body_exited"]
 [connection signal="body_exited" from="ExitArea" to="." method="_on_exit_area_body_exited"]
 [connection signal="body_exited" from="StopArea" to="." method="_on_exit_area_body_exited"]
 [connection signal="timeout" from="Control/ProgressBar/Timer" to="Control/ProgressBar" method="_on_timer_timeout"]
+[connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]

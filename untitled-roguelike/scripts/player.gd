@@ -11,7 +11,7 @@ signal stamina_changed(stamina_value:float)
 @export var dash_mult: float 
 var hp: int 
 var max_hp: int
-@export var hitbox: CollisionShape2D
+var hitbox: Hitbox
 @export var acceleration: float
 @export var timer: Timer 
 @export var dash_cooldown: Timer
@@ -20,11 +20,11 @@ var can_dash:bool = true
 @export var max_stamina: float 
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
-
+@export var hitbox_shape: Shape2D
 var faction = stats.factions
 #For now, the state machine is kinda pointless, but it will save us a looottt of time in the future, Ik we gotta work a lot of hours but we need to make these hours count !!!
 #-----------------------------------------------------------------------------------------------------------------
-enum States {IDLE, MOVING, DASH}
+enum States {IDLE, MOVING, DASH, LIGHT_ATTACK}
 var state = States.IDLE
 var previous_state: States
 var direction: Vector2
@@ -47,6 +47,10 @@ func exit_state(exited_state:States) -> void:
 
 			States.DASH:
 				exit_dash()
+				
+			States.LIGHT_ATTACK:
+				exit_light_attack()
+				
 func enter_state(entered_state:States) -> void:
 		match entered_state:
 			States.IDLE:
@@ -57,23 +61,25 @@ func enter_state(entered_state:States) -> void:
 
 			States.DASH:
 				enter_dash()
+				
+			States.LIGHT_ATTACK:
+				enter_light_attack()
 #-----------------------------------------------------------------------------------------------------------------
 func _ready() -> void:
 	print (faction)
 	max_hp=stats.current_max_health
 	@warning_ignore("integer_division")
-	hp_changed.emit((stats.health*100)/stats.current_max_health)
+	stats.call_deferred("take_damage", 0)
+	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
 func take_damage(damage:int) -> void:
-	stats.health-=damage
+	stats.take_damage(damage)
 	@warning_ignore("integer_division")
 	hp_changed.emit((stats.health*100)/max_hp)
 	
 func heal(damage:int) -> void:
-	if(stats.health+damage>max_hp):
-		stats.health=max_hp
-	else:
-		stats.health+=damage
+
+	stats.take_damage(-damage)
 	@warning_ignore("integer_division")
 	hp_changed.emit((stats.health*100)/max_hp)
 
@@ -95,6 +101,8 @@ func idle(delta:float):
 	speed = move_toward(speed, 0, acceleration*delta)
 	if get_input() != Vector2.ZERO && dash_cooldown.is_stopped():
 		change_state(States.MOVING)
+	if Input.is_action_just_pressed("light_attack") && stamina >0:
+			change_state(States.LIGHT_ATTACK)
 	velocity=get_input()*speed
 func exit_idle():
 	pass
@@ -106,8 +114,9 @@ func moving(delta:float):
 	if get_input() == Vector2.ZERO:
 		change_state(States.IDLE)
 	if Input.is_action_just_pressed("dash") && can_dash:
-
 			change_state(States.DASH)
+	if Input.is_action_just_pressed("light_attack") && stamina >0:
+			change_state(States.LIGHT_ATTACK)
 	velocity = get_input()*speed
 func exit_moving():
 	pass
@@ -126,7 +135,15 @@ func dash(delta:float):
 		change_state(States.IDLE)
 func exit_dash():
 	dash_cooldown.start()
-	
+#-----------------------------------------------------------------------------------------------------------------	
+func light_attack(delta:float):
+	hitbox = Hitbox.new (stats, 0.5, hitbox_shape)
+	add_child(hitbox)
+	change_state(States.IDLE)
+func enter_light_attack():
+	stamina -= 10
+func exit_light_attack():
+	dash_cooldown.start()
 
 func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
@@ -149,7 +166,8 @@ func _physics_process(delta: float) -> void:
 		States.DASH:
 			dash(delta)
 			
-			speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult)
+		States.LIGHT_ATTACK:
+			light_attack(delta)
 	
 	if(stats.health<=0):
 		on_death.emit()
