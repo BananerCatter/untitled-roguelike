@@ -1,6 +1,7 @@
-[gd_scene format=4 uid="uid://cmu2qrnde2at7"]
+[gd_scene format=3 uid="uid://cmu2qrnde2at7"]
 
 [ext_resource type="PackedScene" uid="uid://bj1pki7ewk2w" path="res://scenes/player.tscn" id="1_o5qli"]
+<<<<<<< Updated upstream
 [ext_resource type="Script" uid="uid://bhkaoykn4qu24" path="res://scenes/main_level.gd" id="1_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://bqqqfw3107yn" path="res://assets/img/tiles/tileset1.png" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://b3wlypjd8o0si" path="res://assets/img/tiles/tileset2.png" id="2_sugp2"]
@@ -451,3 +452,24 @@ rendering_quadrant_size = 32
 position = Vector2(709, 350)
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
+=======
+[ext_resource type="PackedScene" uid="uid://otbaj7jwrxr1" path="res://scenes/rooms/room_start.tscn" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://byiq0sw6akv1j" path="res://scripts/room_gen.gd" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cqgvaip3278yn" path="res://scenes/rooms/room_basic.tscn" id="4_tbgi4"]
+
+[node name="main" type="Node2D" unique_id=1012450263]
+
+[node name="RoomStart" parent="." unique_id=624525659 instance=ExtResource("2_0wfyh")]
+
+[node name="RoomGenerator" type="Node2D" parent="." unique_id=930825946]
+script = ExtResource("3_jyhfs")
+starting_room = ExtResource("2_0wfyh")
+basic_room = ExtResource("4_tbgi4")
+start_cell = Vector2i(1, 8)
+end_cell = Vector2i(8, 3)
+min_turns = 3
+max_turns = 8
+
+[node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
+position = Vector2(204, 134)
+>>>>>>> Stashed changes
