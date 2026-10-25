@@ -70,7 +70,7 @@ func grid_create() -> void:
 
 func set_start_and_end() -> void:
 	grid[start_cell.y][start_cell.x]= start
-	grid[end_cell.y][end_cell.x]= end
+	grid[end_cell.y][end_cell.x]= end	
 
 func grid_print() -> void:
 	for y in range (grid_height):

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ib5t11nrr4fd"]
+
+[ext_resource type="Script" uid="uid://byiq0sw6akv1j" path="res://scripts/room_gen.gd" id="1_bxlfd"]
+[ext_resource type="PackedScene" uid="uid://otbaj7jwrxr1" path="res://scenes/rooms/room_start.tscn" id="2_wu2nr"]
+[ext_resource type="PackedScene" uid="uid://cqgvaip3278yn" path="res://scenes/rooms/room_basic.tscn" id="3_iviw2"]
+
+[node name="DungeonTest" type="Node2D" unique_id=91884242]
+script = ExtResource("1_bxlfd")
+starting_room = ExtResource("2_wu2nr")
+basic_room = ExtResource("3_iviw2")
