@@ -31,6 +31,6 @@ func _ready() -> void:
 func _on_timer_timeout() -> void:
 
 	damage_bar.value=value
-	damage_bar.max_value=value
+	damage_bar.max_value=max_value
 	
 		

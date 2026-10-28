@@ -4,6 +4,11 @@
 [ext_resource type="Script" uid="uid://ctvnrgd2he8u8" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Resource" uid="uid://wvnq8mbo1x63" path="res://resources/player_stats.tres" id="2_qhqgy"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="5_tuyoq"]
+[ext_resource type="Script" uid="uid://cj3ww4hu5c7a6" path="res://scripts/state_machine/player/player_idle_state.gd" id="6_smehm"]
+[ext_resource type="Script" uid="uid://bbco06uu7tguh" path="res://scripts/state_machine/player/player_moving_state.gd" id="7_fjrip"]
+[ext_resource type="Script" uid="uid://citdmimjycefb" path="res://scripts/state_machine/player/player_dash_state.gd" id="8_ur7pv"]
+[ext_resource type="Script" uid="uid://du6gbmxal54yt" path="res://scripts/state_machine/player/player_light_attack.gd" id="9_ur7pv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
 radius = 15.0
@@ -25,13 +30,13 @@ radius = 7.5
 [sub_resource type="CircleShape2D" id="CircleShape2D_qlg0r"]
 radius = 8.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("timer", "dash_cooldown", "stamina_cooldown")]
+[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("timer", "dash_cooldown", "stamina_cooldown", "state_machine")]
 motion_mode = 1
 script = ExtResource("1_g2els")
 stats = ExtResource("2_qhqgy")
 max_speed = 200.0
 speed = 200.0
-dash_mult = 1.5
+dash_mult = 4.0
 acceleration = 500.0
 timer = NodePath("DashTime")
 dash_cooldown = NodePath("DashCooldown")
@@ -40,6 +45,7 @@ max_stamina = 100.0
 stamina_cooldown = NodePath("Cooldown")
 stamina_recovery = 24.0
 hitbox_shape = SubResource("CircleShape2D_qhqgy")
+state_machine = NodePath("StateMachine")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1082742204]
 scale = Vector2(0.125, 0.125)
@@ -73,6 +79,31 @@ metadata/_custom_type_script = "uid://c2qaivfsi7ncn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1806957226]
 shape = SubResource("CircleShape2D_qlg0r")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1238702158 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_tuyoq")
+initial_state = NodePath("IDLE")
+metadata/_custom_type_script = "uid://dvvx7oyset3k2"
+
+[node name="IDLE" type="Node" parent="StateMachine" unique_id=408147637 node_paths=PackedStringArray("character")]
+script = ExtResource("6_smehm")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="MOVING" type="Node" parent="StateMachine" unique_id=416937803 node_paths=PackedStringArray("character")]
+script = ExtResource("7_fjrip")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="DASH" type="Node" parent="StateMachine" unique_id=1556161496 node_paths=PackedStringArray("character")]
+script = ExtResource("8_ur7pv")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="LIGHT_ATTACK" type="Node" parent="StateMachine" unique_id=2046043144 node_paths=PackedStringArray("character")]
+script = ExtResource("9_ur7pv")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
 
 [connection signal="timeout" from="DashTime" to="." method="_on_dash_time_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
