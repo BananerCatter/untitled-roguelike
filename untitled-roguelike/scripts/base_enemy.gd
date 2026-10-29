@@ -28,131 +28,20 @@ var can_dash:bool = true
 
 @onready var damage_bar: ProgressBar = %ProgressBar
 
+
 var direction: Vector2
 var dash_direction: Vector2
 var player_found: bool =false
 var stop: bool = false
 var can_attack: bool = false
-enum States {IDLE, MOVING, DASH, LIGHT_ATTACK}
 
-var previous_state: States
-var state:States = States.IDLE
-#--------------------------------------------------------------
-func change_state(new_state:States, force_restart:bool =false) ->void:
-		if state == new_state && !force_restart:
-			return
-		exit_state(state)	
-		previous_state=state
-		state =new_state
-		enter_state(new_state)
-			
-func exit_state(exited_state:States) -> void:
-		match exited_state:
-			States.IDLE:
-				exit_idle()
-
-			States.MOVING:
-				exit_moving()
-
-			States.DASH:
-				exit_dash()
-			States.LIGHT_ATTACK:
-				exit_light_attack()
-func enter_state(entered_state:States) -> void:
-		match entered_state:
-			States.IDLE:
-				enter_idle()
-
-			States.MOVING:
-				enter_moving()
-
-			States.DASH:
-				enter_dash()
-			States.LIGHT_ATTACK:
-				exit_light_attack()
-#--------------------------------------------------------------
-#IDLE
-func enter_idle():
-	sprite.play("idle")
-	direction=Vector2.ZERO
-func idle(delta: float):
-	speed = move_toward(speed, 0, acceleration*delta)
-	velocity=speed*direction
-	if previous_state == States.DASH:
-		speed = move_toward(speed, max_speed, acceleration*delta*dash_mult)
-		
-		
-	if player_found && dash_brake.is_stopped():
-		change_state(States.MOVING)
-	
-func exit_idle():
-	pass
-#--------------------------------------------------------------	
-#MOVING
-func enter_moving():
-	sprite.play("chase")
-func moving(delta: float):
-	direction = (player.global_position-global_position).normalized()
-	if previous_state==States.DASH:
-		change_state(States.IDLE)
-		speed = move_toward(speed, max_speed, acceleration*delta)
-	else:
-		speed = move_toward(speed, max_speed, acceleration*delta)
-	if can_dash && dash_cooldown.is_stopped():
-		change_state(States.DASH)
-	velocity=speed*direction
-	if stop:
-		change_state(States.IDLE)
-	if !player_found:
-		change_state(States.IDLE)
-	if can_attack  && dash_cooldown.is_stopped(): 
-		change_state(States.LIGHT_ATTACK)
-func exit_moving():
-	pass
-#--------------------------------------------------------------	
-#DASHING
-func enter_dash():
-	dash_direction=direction
-	sprite.play("dash")
-	dash_duration.start()
-func dash(delta: float):
-
-	velocity=speed*dash_direction
-	
-	speed = move_toward(speed, max_speed*dash_mult, acceleration*delta*dash_mult*dash_mult)
-
-	if dash_duration.is_stopped():
-		change_state(States.IDLE)
-func exit_dash():
-	dash_brake.start()
-	dash_cooldown.start()
-	can_dash=false
-# Attack (for now just the light attack)
-func light_attack(delta:float):
-	hitbox = Hitbox.new (stats, 0.5, hitbox_shape)
-	add_child(hitbox)
-	change_state(States.IDLE)
-func enter_light_attack():
-	stamina -= 10
-func exit_light_attack():
-	dash_cooldown.start()
-#--------------------------------------------------------------
 func _ready() -> void:
-	change_state(States.IDLE,true)
 	stats.health_changed.connect(damage_bar._get_value)
 	stats.health_changed.emit(stats.health, stats.current_max_health)
+	#add to state machine when done
+
+
 func _physics_process(delta: float) -> void:
-		match state:
-			States.IDLE:
-				idle(delta)
-
-			States.MOVING:
-				moving(delta)
-
-			States.DASH:
-				dash(delta)
-			States.LIGHT_ATTACK:
-				light_attack(delta)
 		if stats.health <=0:
 			queue_free()
 		move_and_slide()

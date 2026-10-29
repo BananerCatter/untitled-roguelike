@@ -5,6 +5,11 @@
 [ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
 [ext_resource type="Script" uid="uid://cfkxrn82ksxc7" path="res://scripts/enemy_hp.gd" id="4_64ljx"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="5_64ljx"]
+[ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="6_j4o54"]
+[ext_resource type="Script" uid="uid://7sj83wb6pg0r" path="res://scripts/state_machine/enemy_basic/enemy_idle.gd" id="7_rffmh"]
+[ext_resource type="Script" uid="uid://bwjyoh3onktui" path="res://scripts/state_machine/enemy_basic/enemy_moving.gd" id="8_rffmh"]
+[ext_resource type="Script" uid="uid://bm7mv4e8r1i1i" path="res://scripts/state_machine/enemy_basic/enemy_dash.gd" id="9_rffmh"]
+[ext_resource type="Script" uid="uid://c07kl2176lxfm" path="res://scripts/state_machine/enemy_basic/enemy_light_attack.gd" id="10_hf87f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_64ljx"]
 radius = 20.0
@@ -52,7 +57,7 @@ animations = [{
 size = Vector2(16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b013q"]
-radius = 70.0
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sw3va"]
 radius = 180.0
@@ -90,7 +95,7 @@ script = ExtResource("1_sw3va")
 stats = ExtResource("2_kegi0")
 sprite = NodePath("AnimatedSprite2D")
 max_speed = 100.0
-speed = 100.0
+speed = 80.0
 acceleration = 50.0
 dash_mult = 4.0
 hitbox_shape = SubResource("CircleShape2D_64ljx")
@@ -106,10 +111,6 @@ exit_area = NodePath("ExitArea")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=329525684]
 sprite_frames = SubResource("SpriteFrames_t1as8")
 animation = &"chase"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2008966204]
-offset_right = 2.0
-offset_bottom = 600.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1089423508]
 shape = SubResource("RectangleShape2D_64ljx")
@@ -141,13 +142,13 @@ one_shot = true
 [node name="DashBrake" type="Timer" parent="." unique_id=1738423556]
 one_shot = true
 
-[node name="Control" type="Control" parent="." unique_id=1298626049]
+[node name="Control" type="Control" parent="." unique_id=203371573]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=548487250]
+[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=463072556]
 unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(30, 5)
@@ -163,12 +164,12 @@ value = 60.0
 show_percentage = false
 script = ExtResource("4_64ljx")
 
-[node name="Timer" type="Timer" parent="Control/ProgressBar" unique_id=1982625604]
+[node name="Timer" type="Timer" parent="Control/ProgressBar" unique_id=982392409]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[node name="DamageBar" type="ProgressBar" parent="Control/ProgressBar" unique_id=188511693]
+[node name="DamageBar" type="ProgressBar" parent="Control/ProgressBar" unique_id=2132570570]
 z_index = -1
 custom_minimum_size = Vector2(30, 5)
 layout_mode = 1
@@ -201,6 +202,41 @@ metadata/_custom_type_script = "uid://c2qaivfsi7ncn"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1018844325]
 shape = SubResource("CircleShape2D_vlovk")
 debug_color = Color(0.9892697, 0, 0.29782167, 0.41960785)
+
+[node name="StateMachine" type="Node" parent="." unique_id=79957621 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_j4o54")
+initial_state = NodePath("IDLE")
+metadata/_custom_type_script = "uid://dvvx7oyset3k2"
+
+[node name="IDLE" type="Node" parent="StateMachine" unique_id=846488222 node_paths=PackedStringArray("character")]
+script = ExtResource("7_rffmh")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="MOVING" type="Node" parent="StateMachine" unique_id=499489462 node_paths=PackedStringArray("navigation_agent", "nav_recalc_timer", "character")]
+script = ExtResource("8_rffmh")
+navigation_agent = NodePath("../../NavigationAgent2D")
+nav_recalc_timer = NodePath("../../NavigationRecalcTimer")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="DASH" type="Node" parent="StateMachine" unique_id=808611559 node_paths=PackedStringArray("character")]
+script = ExtResource("9_rffmh")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="LIGHT_ATTACK" type="Node" parent="StateMachine" unique_id=259491695 node_paths=PackedStringArray("character")]
+script = ExtResource("10_hf87f")
+character = NodePath("../..")
+metadata/_custom_type_script = "uid://e2i2umk5fsrq"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=230591432]
+debug_enabled = true
+debug_path_custom_color = Color(1, 0, 1, 1)
+
+[node name="NavigationRecalcTimer" type="Timer" parent="." unique_id=496996138]
+wait_time = 0.1
+autostart = true
 
 [connection signal="body_entered" from="EnterArea" to="." method="_on_enter_area_body_entered"]
 [connection signal="body_exited" from="EnterArea" to="." method="_on_enter_area_body_exited"]

@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://c1ftfdb0j7kpv"]
+
+[ext_resource type="Script" uid="uid://cfkxrn82ksxc7" path="res://scripts/enemy_hp.gd" id="1_la8mi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rns2u"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.6375204, 0.08052311, 0.059664413, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlg0r"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2dgd"]
+bg_color = Color(0.9981839, 0.84958, 0.83507156, 1)
+shadow_color = Color(0, 0, 0, 0.27450982)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[node name="Control" type="Control" unique_id=203371573]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=463072556]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(30, 5)
+layout_mode = 0
+offset_left = -15.0
+offset_top = -17.0
+offset_right = 15.0
+offset_bottom = -12.0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rns2u")
+value = 60.0
+show_percentage = false
+script = ExtResource("1_la8mi")
+
+[node name="Timer" type="Timer" parent="ProgressBar" unique_id=982392409]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DamageBar" type="ProgressBar" parent="ProgressBar" unique_id=2132570570]
+z_index = -1
+custom_minimum_size = Vector2(30, 5)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -2.5
+offset_right = 15.0
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_qlg0r")
+theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
+value = 100.0
+show_percentage = false
+
+[connection signal="timeout" from="ProgressBar/Timer" to="ProgressBar" method="_on_timer_timeout"]

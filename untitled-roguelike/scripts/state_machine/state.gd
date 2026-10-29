@@ -4,7 +4,7 @@ class_name State extends Node
 
 signal change_state(state_name: String)
 	
-# Called when the node enters the scene tree for the first time.
+
 func enter_state() ->void:
 	pass
 	
