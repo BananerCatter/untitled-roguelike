@@ -5,7 +5,10 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_wld0n")
+max_health_level = 3
+damage_level = 3
+defence_level = 3
 base_max_health = 300
-base_damage = 40.0
-base_defence = 30.0
+base_damage = 100.0
+base_defence = 10.0
 metadata/_custom_type_script = "uid://cyurnsedhb28p"

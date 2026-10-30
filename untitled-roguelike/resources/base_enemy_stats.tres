@@ -5,6 +5,7 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_ckkd7")
+max_health_level = 100
 base_max_health = 100
 base_damage = 20.0
 base_defence = 10.0

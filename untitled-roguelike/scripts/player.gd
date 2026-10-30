@@ -35,6 +35,8 @@ func _ready() -> void:
 	stats.call_deferred("take_damage", 0)
 	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
+	print(stats.max_health_level)
+	print(faction)
 func take_damage(damage:int) -> void:
 	stats.take_damage(damage)
 	
@@ -47,6 +49,8 @@ func _input(event: InputEvent) -> void:
 #Debug lines to test out the hp ui, remember to remove these lines and change the key actions for "1" and "2" once we have some real enemies !!!
 		if event.is_action_pressed("debug_add_hp"):
 			heal(10)
+			stats.max_health_level+=1
+			print (stats.max_health_level)
 		if event.is_action_pressed("debug_deal_damage"):
 			take_damage(10)
 

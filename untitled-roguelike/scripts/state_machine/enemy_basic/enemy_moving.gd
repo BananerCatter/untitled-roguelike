@@ -10,7 +10,7 @@ func enter_state() ->void:
 	if not nav_recalc_timer.timeout.is_connected(_on_nav_recalc_timer_timeout):
 		nav_recalc_timer.timeout.connect(_on_nav_recalc_timer_timeout)
 	navigation_agent.path_desired_distance=4.0
-	navigation_agent.target_desired_distance=32.0
+	navigation_agent.target_desired_distance=36.0
 	call_deferred("actor_setup")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,7 +24,7 @@ func physics_update(delta:float) -> void:
 	character.direction=(current_agent_pos.direction_to(next_path_pos)).normalized()
 	
 	character.velocity=character.speed*character.direction
-	print (character.velocity, " ", character.velocity.length())
+
 	#if character.can_dash && character.dash_cooldown.is_stopped():
 		#change_state.emit("dash")
 
