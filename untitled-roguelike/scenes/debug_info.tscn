@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://omuvjwg14edu"]
+
+[ext_resource type="Script" uid="uid://dysofdfudsymc" path="res://scripts/debug_info.gd" id="1_0e4su"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b013q"]
+bg_color = Color(0, 0, 0, 0.42745098)
+
+[node name="DebugInfo" type="CanvasLayer" unique_id=1603574886]
+script = ExtResource("1_0e4su")
+
+[node name="InfoContainer" type="BoxContainer" parent="." unique_id=36967455]
+anchors_preset = -1
+anchor_right = 0.12552084
+anchor_bottom = 0.08148148
+offset_left = 35.60228
+offset_top = 13.0
+offset_right = -1.5258789e-05
+vertical = true
+
+[node name="FPSLabel" type="Label" parent="InfoContainer" unique_id=1066696109]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_b013q")

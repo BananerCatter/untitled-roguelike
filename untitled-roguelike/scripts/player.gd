@@ -35,8 +35,7 @@ func _ready() -> void:
 	stats.call_deferred("take_damage", 0)
 	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
-	print(stats.max_health_level)
-	print(faction)
+
 func take_damage(damage:int) -> void:
 	stats.take_damage(damage)
 	

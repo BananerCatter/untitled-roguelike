@@ -4,10 +4,20 @@
 [ext_resource type="Script" uid="uid://bhkaoykn4qu24" path="res://scripts/main_level.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://b0hcornef2rji" path="res://scenes/tileground.tscn" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://1mbjqqv607qo" path="res://scenes/game_ui.tscn" id="4_jyhfs"]
-[ext_resource type="Resource" uid="uid://wvnq8mbo1x63" path="res://resources/player_stats.tres" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://fp7f7gtsbfy7" path="res://scenes/base_enemy.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://ib5t11nrr4fd" path="res://scenes/dungeon_test.tscn" id="8_tipki"]
+
+[sub_resource type="Resource" id="Resource_u2c82"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+max_health_level = 3
+damage_level = 3
+defence_level = 3
+base_max_health = 300
+base_damage = 100.0
+base_defence = 10.0
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b013q"]
 vertices = PackedVector2Array(947, 492, 979, 496, 919, 496, 915, 492, 1015, 464, 1015, 624, 979, 588, 915, 524, 919, 528, 887, 528, 855, 524, 855, 624, 887, 588, 1015, 300, 1015, 460, 979, 428, 979, 336, 855, 300, 887, 336, 851, 624, 819, 588, 819, 528, 851, 524, 851, 300, 851, 265.6875, 855, 265.71094, 691, 464, 656.84375, 464, 656.8594, 460, 691, 460, 1047.8438, 460, 1047.8516, 464, 855, 658.7031, 851, 658.71094, 691, 624, 727, 588, 727, 496, 887, 396, 855, 400, 851, 400, 819, 396, 819, 336, 691, 300, 727, 336, 727, 428, 791, 524, 787, 528, 787, 496, 791, 492, 759, 492, 947, 432, 919, 428, 915, 432, 915, 400, 919, 396, 791, 400, 787, 396, 787, 428, 791, 432, 759, 432)
@@ -17,7 +27,43 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_tipki"]
+[sub_resource type="Resource" id="Resource_k5pu3"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
+[sub_resource type="Resource" id="Resource_iqu8w"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
+[sub_resource type="Resource" id="Resource_5fr2l"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
+[sub_resource type="Resource" id="Resource_2sb77"]
+resource_local_to_scene = true
+script = ExtResource("7_o6xl0")
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
+[sub_resource type="Resource" id="Resource_fkrx8"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 base_max_health = 300
@@ -38,7 +84,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAI
 
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
 position = Vector2(709, 350)
-stats = ExtResource("5_tipki")
+stats = SubResource("Resource_u2c82")
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
 
@@ -47,6 +93,22 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_tipki")
+stats = SubResource("Resource_k5pu3")
+
+[node name="BaseEnemy2" parent="." unique_id=853528917 instance=ExtResource("6_tefeu")]
+position = Vector2(970.3505, 459.37448)
+stats = SubResource("Resource_iqu8w")
+
+[node name="BaseEnemy3" parent="." unique_id=74215984 instance=ExtResource("6_tefeu")]
+position = Vector2(970.1409, 607.3743)
+stats = SubResource("Resource_5fr2l")
+
+[node name="BaseEnemy4" parent="." unique_id=1078549179 instance=ExtResource("6_tefeu")]
+position = Vector2(729.1412, 607.0331)
+stats = SubResource("Resource_2sb77")
+
+[node name="BaseEnemy5" parent="." unique_id=830621990 instance=ExtResource("6_tefeu")]
+position = Vector2(729.36774, 447.03326)
+stats = SubResource("Resource_fkrx8")
 
 [connection signal="on_death" from="Player" to="." method="_on_player_on_death"]

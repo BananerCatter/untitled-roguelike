@@ -8,7 +8,7 @@ func _ready() -> void:
 	Player.stats.health_changed.connect(UI._on_hp_changed)
 	Player.stamina_changed.connect(UI._on_stamina_changed)
 	Player.stats.health_changed.emit(Player.stats.health, Player.stats.current_max_health)
-	Player.hp_changed.emit((Player.stats.health*100)/Player.stats.current_max_health)
+
 
 
 
