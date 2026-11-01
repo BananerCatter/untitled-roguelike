@@ -13,10 +13,12 @@ const empty = 0
 const pathI = 1
 const start = 2
 const end = 3
+const branchI = 4
 
 var grid : Array = []
 
 func _ready() -> void:
+	room_connections.clear()
 	grid_create()
 	
 	if not coords_check(start_cell):
@@ -38,21 +40,52 @@ func _ready() -> void:
 		if cell!=start_cell and cell!=end_cell:
 			grid[cell.y][cell.x]= pathI
 	
+	for i in range (generated_path.size()-1):
+		connect_rooms(generated_path[i], generated_path[i+1])
+
+	var branch_cells: Array[Vector2i]= generate_branches(generated_path)
 	grid_print()
+	
+	for y in range(grid.size()):
+		for x in range(grid[y].size()):
+			var cell = Vector2i(x,y)
+			if is_room(cell):
+				print(cell, " -> ", get_required_door(cell))
 	
 	var firstRoom = starting_room.instantiate()
 	add_child(firstRoom)
+	var width = firstRoom.room_width
 	
 	var secondRoom = basic_room.instantiate()
 	add_child(secondRoom)
+	var width2 = secondRoom.room_width
 	
-	var first_door=firstRoom.get_door("EastH")
-	var second_door=secondRoom.get_door("WestH")
 	
-	secondRoom.position.x = firstRoom.position.x + 416
-	secondRoom.position.y = first_door.global_position.y -second_door.global_position.y
+	var first_marker = get_first_marker(
+		Vector2i(5,6),
+		Vector2i(5,5)
+		)
+	var second_marker = get_opposite_marker(first_marker)
+
+	var first_door=firstRoom.get_door(first_marker)
+	var second_door=secondRoom.get_door(second_marker)
 	
-	print(max_turns)
+	match first_marker:
+		"EastH":
+			secondRoom.position.x = firstRoom.position.x + width * 32
+			secondRoom.position.y = first_door.global_position.y -second_door.global_position.y
+		"WestH":
+			secondRoom.position.x = firstRoom.position.x - width2 * 32
+			secondRoom.position.y = first_door.global_position.y -second_door.global_position.y
+		"NorthH":
+			secondRoom.position.x = first_door.global_position.x - second_door.global_position.x
+			secondRoom.position.y = firstRoom.position.y - secondRoom.room_height * 32
+		"SouthH":
+			secondRoom.position.x = first_door.global_position.x - second_door.global_position.x
+			secondRoom.position.y = firstRoom.position.y + firstRoom.room_height * 32
+		_: 
+			push_error("No valid marker found")
+
 
 func grid_create() -> void:
 	grid.clear()
@@ -70,7 +103,7 @@ func grid_create() -> void:
 
 func set_start_and_end() -> void:
 	grid[start_cell.y][start_cell.x]= start
-	grid[end_cell.y][end_cell.x]= end	
+	grid[end_cell.y][end_cell.x]= end
 
 func grid_print() -> void:
 	for y in range (grid_height):
@@ -85,6 +118,8 @@ func grid_print() -> void:
 					line += "E"
 				pathI :
 					line += "#"
+				branchI:
+					line +="*"
 					
 		print (line)
 
@@ -128,6 +163,10 @@ var steps_since_turn: int = 0
 @export var auto_set_turns: bool = true
 @export var steps_between_turns: int = 3
 
+@export_range(1,5) var branch_rooms: int = 3
+@export_range(1,5) var branch_length: int = 3
+@export_range(1,5) var min_branch_distance: int = 1
+
 func calculate_max_turns() -> int:
 	var distance: int = distance_to_end(start_cell)
 	return int(distance / steps_between_turns)
@@ -135,7 +174,7 @@ func calculate_max_turns() -> int:
 func generate_path() -> Array[Vector2i]:
 	if auto_set_turns :
 		max_turns=calculate_max_turns()
-		min_turns=max_turns/2
+		min_turns=max_turns/2 + 1
 		
 	var turns_used: int = 0
 	var last_dir : Vector2i = Vector2i.ZERO
@@ -218,3 +257,136 @@ func generate_path() -> Array[Vector2i]:
 	
 	print("The Path:", path)
 	return path
+
+func generate_branches(generated_path: Array[Vector2i]) -> Array[Vector2i] :
+	var branch_cells: Array[Vector2i] = []
+	var branch_origins: Array[Vector2i] = []
+	var possible_starts = generated_path.duplicate()
+	possible_starts.shuffle()
+	
+	var branches_made: int = 0
+	
+	for branch_start in possible_starts:
+		if branches_made >= branch_rooms:
+			break;
+		if branch_start==start_cell or branch_start==end_cell:
+			continue;
+			
+		var too_close: bool = false
+		
+		for branch_cell in branch_cells:
+			var distance = abs(branch_start.x-branch_cell.x) + abs(branch_start.y-branch_cell.y)
+			if distance <= min_branch_distance:
+				too_close=true
+				break;
+		if not too_close:
+			for branch in branch_origins:
+				var distance = abs(branch_start.x-branch.x) + abs(branch_start.y-branch.y)
+				if distance <= min_branch_distance:
+					too_close=true
+					break;
+		if too_close:
+			continue
+		var current_branch: Array[Vector2i] = []
+		var current_cell: Vector2i = branch_start
+		
+		for i in range(branch_length):
+			var neighbors=get_cell_neighbors(current_cell)
+			neighbors.shuffle()
+			
+			var next_cell: Vector2i = Vector2i(-1,-1)
+
+			for neighbor in neighbors:
+				if cell_check(neighbor) and neighbor!=end_cell:
+					next_cell=neighbor
+					break;
+			
+			if next_cell== Vector2i(-1,-1):
+				break;
+			
+			grid[next_cell.y][next_cell.x]= branchI
+			current_branch.append(next_cell)
+			branch_cells.append(next_cell)
+			
+			current_cell=next_cell
+		if not current_branch.is_empty():
+			connect_rooms(branch_start,current_branch[0])
+			
+			for i in range(current_branch.size()-1):
+				connect_rooms(current_branch[i],current_branch[i+1])
+			
+			branches_made+=1
+			branch_origins.append(branch_start)
+			print("Branch from ", branch_start, ": ", current_branch)
+	return branch_cells
+
+func get_first_marker(room: Vector2i, room2: Vector2i) -> String:
+	
+	var direction = room2 - room
+	match direction:
+		Vector2i(1,0):
+			return "EastH"
+		Vector2i(-1,0):
+			return "WestH"
+		Vector2i(0,1):
+			return "SouthH"
+		Vector2i(0,-1): 
+			return "NorthH"
+		_:
+			push_error("Not Valid direction") 
+			return ""
+	
+func get_opposite_marker(direction: String) -> String:
+	match direction:
+		"EastH":
+			return "WestH"
+		"WestH":
+			return "EastH"
+		"NorthH":
+			return "SouthH"
+		"SouthH": 
+			return "NorthH"
+		_:
+			push_error("Not Valid direction") 
+			return ""
+
+func is_room(cell:Vector2i) -> bool:
+	if not coords_check(cell):
+		return false
+	return grid[cell.y][cell.x] != empty
+
+func get_required_door(cell: Vector2i) -> String:
+	var required_doors=""
+	if not room_connections.has(cell):
+		return required_doors
+	var directions: Array[Vector2i] = [
+		Vector2i(0,-1),
+		Vector2i(1,0),
+		Vector2i(0,1),
+		Vector2i(-1,0)
+	]
+	for direction in directions:
+		var neighbor = cell + direction
+		if room_connections[cell].has(neighbor):
+			match direction:
+				Vector2i(1,0):
+					required_doors+="E"
+				Vector2i(-1,0):
+					required_doors+="W"
+				Vector2i(0,1):
+					required_doors+="S"
+				Vector2i(0,-1): 
+					required_doors+="N"
+				_:
+					push_error("Connected rooms aren't next to each other") 
+	return required_doors
+
+var room_connections: Dictionary = {}
+
+func connect_rooms(a: Vector2i, b: Vector2i) -> void:
+	if not room_connections.has(a):
+		room_connections[a]=[]
+	if not room_connections.has(b):
+		room_connections[b]=[]
+	room_connections[a].append(b)
+	room_connections[b].append(a)
