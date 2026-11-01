@@ -1,6 +1,7 @@
 extends Node2D
 
-
+@export var room_width: int = 13
+@export var room_height: int = 9
 # Called when the node enters the scene tree for the first time.
 func get_exits() -> Array[Marker2D]:
 	var doors: Array[Marker2D] = []
