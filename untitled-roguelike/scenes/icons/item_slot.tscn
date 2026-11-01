@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://de4juax8udvw7"]
+
+[ext_resource type="Script" uid="uid://66exa3igxogy" path="res://scripts/inventory/item_slot.gd" id="1_b1id1"]
+
+[node name="ItemSlot" type="PanelContainer" unique_id=174505351]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+scale = Vector2(2, 2)
+script = ExtResource("1_b1id1")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=125608403]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2

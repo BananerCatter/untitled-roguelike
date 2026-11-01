@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://d3238s82eop2t"]
+
+[ext_resource type="Texture2D" uid="uid://c1c5b4ikmgcuu" path="res://assets/img/animation/dagger_basic.png" id="1_p47wc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqu8w"]
+atlas = ExtResource("1_p47wc")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fr2l"]
+atlas = ExtResource("1_p47wc")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b013q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqu8w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fr2l")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="DaggerSprite" type="AnimatedSprite2D" unique_id=787908242]
+sprite_frames = SubResource("SpriteFrames_b013q")
+frame_progress = 0.04805823

@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://5k73nvky5g5v"]
+
+[ext_resource type="Script" uid="uid://osesn3438fq5" path="res://scripts/inventory/inventory_dialogue.gd" id="1_52gng"]
+[ext_resource type="PackedScene" uid="uid://de4juax8udvw7" path="res://scenes/icons/item_slot.tscn" id="2_ka0ok"]
+
+[node name="InventoryDialogue" type="PanelContainer" unique_id=1827396229]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_52gng")
+item_slot = ExtResource("2_ka0ok")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1845507053]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1964085832]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1901125302]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1766890067]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "<"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=2088639553]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]

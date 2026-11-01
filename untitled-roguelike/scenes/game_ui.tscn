@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c3hrg7jruos65" path="res://scripts/game_ui.gd" id="1_yubou"]
 [ext_resource type="PackedScene" uid="uid://nq43bmotyqy5" path="res://scenes/progress_bar.tscn" id="2_rns2u"]
 [ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_u001w"]
+[ext_resource type="PackedScene" uid="uid://5k73nvky5g5v" path="res://scenes/inventory_dialogue.tscn" id="4_u2dgd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
 
@@ -95,5 +96,13 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
 value = 100.0
 fill_mode = 3
 show_percentage = false
+
+[node name="InventoryDialogue" parent="." unique_id=1827396229 instance=ExtResource("4_u2dgd")]
+unique_name_in_owner = true
+visible = false
+offset_left = 115.0
+offset_top = 40.0
+offset_right = -1636.0
+offset_bottom = -97.0
 
 [connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

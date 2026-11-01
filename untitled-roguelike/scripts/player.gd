@@ -3,8 +3,11 @@ extends CharacterBody2D
 signal on_death
 signal hp_changed(hp_value: float)
 signal stamina_changed(stamina_value:float)
+signal update_inventory
 
 @export var stats: Stats
+var inventory:Inventory = Inventory.new()
+
 
 @export var max_speed: float
 @export var speed: float
@@ -21,13 +24,10 @@ var can_dash:bool = true
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
 @export var hitbox_shape: Shape2D
-var faction = stats.factions
-@export var state_machine: StateMachine
-#For now, the state machine is kinda pointless, but it will save us a looottt of time in the future, Ik we gotta work a lot of hours but we need to make these hours count !!!
-#Moving the state machine to a dedicated node structure, because the player script is getting laughably bloated
-#-----------------------------------------------------------------------------------------------------------------
 
-var direction: Vector2
+
+
+
 
 func _ready() -> void:
 	max_hp=stats.current_max_health
@@ -36,8 +36,10 @@ func _ready() -> void:
 	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
 
+
 func take_damage(damage:int) -> void:
 	stats.take_damage(damage)
+	
 	
 func heal(damage:int) -> void:
 	stats.take_damage(-damage)
@@ -53,29 +55,24 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("debug_deal_damage"):
 			take_damage(10)
 
+
 func get_input() -> Vector2:
 	var direction = Input.get_vector("left", "right", "up", "down")
 	return direction
 	
-func enter_idle():
-	pass
-func idle(delta:float):
-	pass
-func exit_idle():
-	pass
-#-----------------------------------------------------------------------------------------------------------------
-func enter_moving():
-	velocity = get_input()*speed
-
-	dash_cooldown.start()
-
+	
+func on_item_picked_up(item: Item):
+	inventory.add_item(item)
+	update_inventory.emit()
+	
+	
+	
 func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
 	stamina_cooldown.start()
 	stamina_changed.emit((stamina*100/max_stamina))
 	
-func _on_dash_time_timeout() -> void:
-	state_machine._on_change_state("idle")
+
 func _physics_process(delta: float) -> void:
 	
 	if(stats.health<=0):
