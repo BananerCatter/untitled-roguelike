@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://ba6yum2ks6yf8" path="res://scripts/items/pickup.gd" id="8_iqu8w"]
 [ext_resource type="PackedScene" uid="uid://ib5t11nrr4fd" path="res://scenes/dungeon_test.tscn" id="8_tipki"]
-[ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="9_iqu8w"]
+[ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="9_iqu8w"]
 
 [sub_resource type="Resource" id="Resource_iqu8w"]
 resource_local_to_scene = true
@@ -65,28 +65,28 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 position = Vector2(852.4016, 423.20743)
 stats = SubResource("Resource_5fr2l")
 
-[node name="DaggerPickupTest" type="Node2D" parent="." unique_id=1973899873]
+[node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)
 script = ExtResource("8_iqu8w")
 item = ExtResource("9_iqu8w")
 
-[node name="Area2D" type="Area2D" parent="DaggerPickupTest" unique_id=403534871]
+[node name="Area2D" type="Area2D" parent="PotionPickupTest" unique_id=403534871]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DaggerPickupTest/Area2D" unique_id=40620130]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PotionPickupTest/Area2D" unique_id=40620130]
 position = Vector2(-6.112152e-05, 6.0948667e-05)
 shape = SubResource("CircleShape2D_b013q")
 
-[node name="DaggerPickupTest2" type="Node2D" parent="." unique_id=1405199623]
-position = Vector2(889.18207, 578.25964)
+[node name="PotionPickupTest2" type="Node2D" parent="." unique_id=1405199623]
+position = Vector2(889.18207, 578.2597)
 script = ExtResource("8_iqu8w")
 item = ExtResource("9_iqu8w")
 
-[node name="Area2D" type="Area2D" parent="DaggerPickupTest2" unique_id=1711629645]
+[node name="Area2D" type="Area2D" parent="PotionPickupTest2" unique_id=1711629645]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DaggerPickupTest2/Area2D" unique_id=900743638]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PotionPickupTest2/Area2D" unique_id=900743638]
 position = Vector2(-6.112152e-05, 6.0948667e-05)
 shape = SubResource("CircleShape2D_b013q")
 
 [connection signal="on_death" from="Player" to="." method="_on_player_on_death"]
-[connection signal="body_entered" from="DaggerPickupTest/Area2D" to="DaggerPickupTest" method="_on_area_2d_body_entered"]
-[connection signal="body_entered" from="DaggerPickupTest2/Area2D" to="DaggerPickupTest2" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="PotionPickupTest2/Area2D" to="PotionPickupTest2" method="_on_area_2d_body_entered"]

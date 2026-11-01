@@ -33,7 +33,6 @@ var current_defence: float
 var health: int =base_max_health: set = _on_health_set
 
 func _init() -> void:
-	
 	setup_stats.call_deferred()
 	
 func setup_stats() -> void:
@@ -49,7 +48,10 @@ func setup_stats() -> void:
 	
 func take_damage(dmg:int):
 	_on_health_set(health-dmg)
+
 	
+func heal(hp:int):
+	_on_health_set(health+hp)
 	
 func recalculate_stats() ->void:
 	var max_health_stats_curve_pos: float = (float(max_health_level)/ 100.0 ) - 0.01
@@ -86,3 +88,8 @@ func  _on_defence_level_set(new_value:int) ->void:
 	if not old_level == new_value:
 		defence_level= new_value
 		recalculate_stats()
+
+
+func use_consumable(name:String):
+	match name:
+		"PotionBasic": heal(100)

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://utgymit5yakb"]
+
+[ext_resource type="Texture2D" uid="uid://cmxv5v8fw4580" path="res://assets/img/animation/Sprite-0001.png" id="1_bmoi8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hewf"]
+atlas = ExtResource("1_bmoi8")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b013q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hewf")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="PotionSprite" type="AnimatedSprite2D" unique_id=787908242]
+sprite_frames = SubResource("SpriteFrames_b013q")
+frame_progress = 0.04805823

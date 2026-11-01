@@ -2,13 +2,14 @@ extends Node2D
 
 @onready var Player: CharacterBody2D = $Player
 @onready var UI: CanvasLayer= $GameUi
+@onready var game_ui: CanvasLayer = $GameUi
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Player.stats.health_changed.connect(UI._on_hp_changed)
 	Player.stamina_changed.connect(UI._on_stamina_changed)
 	Player.stats.health_changed.emit(Player.stats.health, Player.stats.current_max_health)
-
+	game_ui.inventory_dialogue.item_selected.connect(Player._on_item_selected)
 
 
 

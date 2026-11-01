@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://bwpwef0ycs4r5"]
 
 [ext_resource type="Texture2D" uid="uid://c1c5b4ikmgcuu" path="res://assets/img/animation/dagger_basic.png" id="1_fgw4y"]
-[ext_resource type="PackedScene" uid="uid://d3238s82eop2t" path="res://scenes/dagger_sprite.tscn" id="2_luexb"]
+[ext_resource type="PackedScene" uid="uid://d3238s82eop2t" path="res://scenes/item_world_sprites/dagger_sprite.tscn" id="2_fgw4y"]
 [ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="3_c25pr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qkby0"]
@@ -11,6 +11,6 @@ region = Rect2(0, 0, 16, 0)
 [resource]
 script = ExtResource("3_c25pr")
 name = "dagger"
-scene = ExtResource("2_luexb")
+scene = ExtResource("2_fgw4y")
 icon = SubResource("AtlasTexture_qkby0")
 metadata/_custom_type_script = "uid://ccvw3e1f6ksos"

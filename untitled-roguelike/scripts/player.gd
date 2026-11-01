@@ -66,7 +66,13 @@ func on_item_picked_up(item: Item):
 	update_inventory.emit()
 	
 	
-	
+func _on_item_selected(item:Item):
+	if item.type == item.ItemType.CONSUMABLE:
+		stats.use_consumable(item.name)
+		inventory.remove_item(item)
+		update_inventory.emit()
+
+
 func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
 	stamina_cooldown.start()
