@@ -26,6 +26,10 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 * 2: Removw 10 hp
 * 3: Toggle fps counter
 
+### How to install:
+
+Download the version for you system from the releases page, extract and run the provided executable. No further setup needed :D
+
 ### Screenshots:
 
 <img width="3770" height="2134" alt="image" src="https://github.com/user-attachments/assets/c805e54a-09d6-47c4-b410-94551809b2b3" />
