@@ -14,5 +14,4 @@ name = "PotionBasic"
 scene = ExtResource("2_tc37n")
 icon = SubResource("AtlasTexture_0xbcx")
 type = 1
-description = "Heals 100 hp"
 metadata/_custom_type_script = "uid://ccvw3e1f6ksos"
