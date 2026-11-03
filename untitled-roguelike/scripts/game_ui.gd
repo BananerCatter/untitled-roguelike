@@ -4,7 +4,7 @@ extends CanvasLayer
 @onready var inventory_dialogue: InventoryDialogue = %InventoryDialogue
 
 func _ready() -> void:
-	player.update_inventory.connect(_on_update_inventory)
+	player.inventory.update_inventory.connect(_on_update_inventory)
 
 func _on_hp_changed(hp_value:float, max_hp_value:float) -> void:
 	%ProgressBar._set_health((hp_value/max_hp_value)*100)

@@ -6,7 +6,7 @@ signal stamina_changed(stamina_value:float)
 signal update_inventory
 
 @export var stats: Stats
-var inventory:Inventory = Inventory.new()
+@export var inventory:Inventory
 
 
 @export var max_speed: float
@@ -60,12 +60,14 @@ func get_input() -> Vector2:
 	
 	
 func on_item_picked_up(item: Item):
-	inventory.add_item(item)
-	update_inventory.emit()
+	print(inventory.add_item(item))
+	for slot in inventory._content:
+		print(slot.item.name)
+
 	
 	
 func _on_item_selected(item:Item):
-	if item.type == item.ItemType.CONSUMABLE:
+	if item.is_class("ConsumableItem"):
 		stats.use_consumable(item.name)
 		inventory.remove_item(item)
 		update_inventory.emit()

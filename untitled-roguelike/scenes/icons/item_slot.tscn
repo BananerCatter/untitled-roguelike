@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://de4juax8udvw7"]
 
-[ext_resource type="Script" uid="uid://66exa3igxogy" path="res://scripts/inventory/item_slot.gd" id="1_b1id1"]
+[ext_resource type="Script" uid="uid://66exa3igxogy" path="res://scripts/inventory/item_icon.gd" id="1_b1id1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b1id1"]
 
@@ -18,5 +18,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_b1id1")
+
+[node name="Label" type="Label" parent="." unique_id=1649400258]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

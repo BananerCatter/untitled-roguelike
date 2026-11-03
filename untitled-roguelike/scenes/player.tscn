@@ -3,12 +3,19 @@
 [ext_resource type="Texture2D" uid="uid://dtacd5ompcr4w" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ctvnrgd2he8u8" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Resource" uid="uid://wvnq8mbo1x63" path="res://resources/player_stats.tres" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://drouf2euekgmt" path="res://scripts/inventory/inventory.gd" id="3_d2wvv"]
+[ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="4_3v2ag"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://cj3ww4hu5c7a6" path="res://scripts/state_machine/player/player_idle_state.gd" id="6_smehm"]
 [ext_resource type="Script" uid="uid://bbco06uu7tguh" path="res://scripts/state_machine/player/player_moving_state.gd" id="7_fjrip"]
 [ext_resource type="Script" uid="uid://citdmimjycefb" path="res://scripts/state_machine/player/player_dash_state.gd" id="8_ur7pv"]
 [ext_resource type="Script" uid="uid://du6gbmxal54yt" path="res://scripts/state_machine/player/player_light_attack.gd" id="9_ur7pv"]
+
+[sub_resource type="Resource" id="Resource_ur7pv"]
+script = ExtResource("3_d2wvv")
+size = 5
+metadata/_custom_type_script = "uid://drouf2euekgmt"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
 radius = 15.0
@@ -34,6 +41,7 @@ radius = 8.0
 motion_mode = 1
 script = ExtResource("1_g2els")
 stats = ExtResource("2_qhqgy")
+inventory = SubResource("Resource_ur7pv")
 max_speed = 200.0
 speed = 200.0
 dash_mult = 4.0
