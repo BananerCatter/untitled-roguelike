@@ -30,5 +30,5 @@ func _on_close_button_pressed() -> void:
 
 
 func on_slot_clicked(item:Item):
-	print(item.name)
+
 	item_selected.emit(item)
