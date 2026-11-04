@@ -28,13 +28,14 @@ var can_dash:bool = true
 
 
 
-
 func _ready() -> void:
+	print(inventory)
 	max_hp=stats.current_max_health
 	@warning_ignore("integer_division")
 	stats.call_deferred("take_damage", 0)
 	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
+	inventory.get_slots()
 
 
 func take_damage(damage:int) -> void:
@@ -60,10 +61,9 @@ func get_input() -> Vector2:
 	
 	
 func on_item_picked_up(item: Item):
+	print(item.name)
 	print(inventory.add_item(item))
-	for slot in inventory._content:
-		print(slot.item.name)
-
+	print(inventory.get_slots())
 	
 	
 func _on_item_selected(item:Item):

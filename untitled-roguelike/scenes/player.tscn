@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://drouf2euekgmt" path="res://scripts/inventory/inventory.gd" id="3_d2wvv"]
 [ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="4_3v2ag"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="4_dqkch"]
+[ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="5_3v2ag"]
 [ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://cj3ww4hu5c7a6" path="res://scripts/state_machine/player/player_idle_state.gd" id="6_smehm"]
 [ext_resource type="Script" uid="uid://bbco06uu7tguh" path="res://scripts/state_machine/player/player_moving_state.gd" id="7_fjrip"]
@@ -14,7 +15,9 @@
 
 [sub_resource type="Resource" id="Resource_ur7pv"]
 script = ExtResource("3_d2wvv")
-size = 5
+start_items = Dictionary[ExtResource("4_3v2ag"), int]({
+ExtResource("5_3v2ag"): 2
+})
 metadata/_custom_type_script = "uid://drouf2euekgmt"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]

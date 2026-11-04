@@ -13,4 +13,5 @@ script = ExtResource("3_fgw4y")
 name = "dagger"
 scene = ExtResource("2_fgw4y")
 icon = SubResource("AtlasTexture_qkby0")
+max_stack_size = 1
 metadata/_custom_type_script = "uid://ccvw3e1f6ksos"

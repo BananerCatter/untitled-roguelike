@@ -6,14 +6,15 @@ var displayed_item:Item
 @onready var texture_rect: TextureRect = $TextureRect
 
 func display(slot:ItemSlot):
-	texture_rect.texture = slot.item.icon
-	displayed_item=slot.item
-	var count:int =slot.amount
-	amount_label.text = str(count)
-	if count >1:
-		amount_label.show()
-	else:
-		amount_label.hide()
+	if slot.item:	
+		texture_rect.texture = slot.item.icon
+		displayed_item=slot.item
+		var count:int =slot.amount
+		amount_label.text = str(count)
+		if count >1:
+			amount_label.show()
+		else:
+			amount_label.hide()
 	
 
 func _on_button_pressed() -> void:
