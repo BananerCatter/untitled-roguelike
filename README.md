@@ -23,7 +23,7 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 
 ### Debug controls:
 * 1: Add 10 hp
-* 2: Removw 10 hp
+* 2: Remove 10 hp
 * 3: Toggle fps counter
 
 ### How to install:
