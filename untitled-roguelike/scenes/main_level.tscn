@@ -9,8 +9,10 @@
 [ext_resource type="Script" uid="uid://ba6yum2ks6yf8" path="res://scripts/items/pickup.gd" id="8_iqu8w"]
 [ext_resource type="PackedScene" uid="uid://ib5t11nrr4fd" path="res://scenes/dungeon_test.tscn" id="8_tipki"]
 [ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="9_iqu8w"]
+[ext_resource type="Script" uid="uid://32bjyox5fcac" path="res://scenes/chest.gd" id="10_5fr2l"]
+[ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="11_2sb77"]
 
-[sub_resource type="Resource" id="Resource_iqu8w"]
+[sub_resource type="Resource" id="Resource_2sb77"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 max_health_level = 3
@@ -29,7 +31,7 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_5fr2l"]
+[sub_resource type="Resource" id="Resource_fkrx8"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 base_max_health = 300
@@ -40,6 +42,20 @@ metadata/_custom_type_script = "uid://cyurnsedhb28p"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b013q"]
 radius = 8.062152
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
+atlas = ExtResource("11_2sb77")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("11_2sb77")
+region = Rect2(48, 0, 16, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lpp5k"]
+size = Vector2(16, 16)
 
 [node name="main" type="Node2D" unique_id=1012450263]
 rotation = -0.0014160064
@@ -54,7 +70,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAI
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
 unique_name_in_owner = true
 position = Vector2(709, 350)
-stats = SubResource("Resource_iqu8w")
+stats = SubResource("Resource_2sb77")
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
 
@@ -63,7 +79,7 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_5fr2l")
+stats = SubResource("Resource_fkrx8")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)
@@ -87,6 +103,24 @@ item = ExtResource("9_iqu8w")
 position = Vector2(-6.112152e-05, 6.0948667e-05)
 shape = SubResource("CircleShape2D_b013q")
 
+[node name="Chest" type="StaticBody2D" parent="." unique_id=804330337]
+position = Vector2(854.2175, 553.21014)
+script = ExtResource("10_5fr2l")
+closed_sprite = SubResource("AtlasTexture_3v2ag")
+open_sprite = SubResource("AtlasTexture_oprun")
+key_item = ExtResource("9_iqu8w")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chest" unique_id=365645656]
+
+[node name="Area2D" type="Area2D" parent="Chest" unique_id=424290227]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chest/Area2D" unique_id=350221281]
+shape = SubResource("CircleShape2D_lpp5k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chest" unique_id=837800467]
+shape = SubResource("RectangleShape2D_lpp5k")
+
 [connection signal="on_death" from="Player" to="." method="_on_player_on_death"]
 [connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="PotionPickupTest2/Area2D" to="PotionPickupTest2" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Chest/Area2D" to="Chest" method="_on_area_2d_body_entered"]

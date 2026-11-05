@@ -1,5 +1,5 @@
 class_name WeaponItem extends Item
 
 @export var damage:int
-func get_type() -> String:
-	return("WeaponItem")
+func _init() -> void:
+	item_type = TYPE.weapon_item

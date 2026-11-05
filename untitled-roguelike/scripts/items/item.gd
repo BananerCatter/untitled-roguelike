@@ -1,9 +1,12 @@
-@abstract class_name Item extends Resource
+class_name Item extends Resource
 
 @export var name: String
 @export var scene: PackedScene
 @export var icon: Texture2D
 @export var max_stack_size: int =1 
 
-@abstract
-func get_type() -> String
+enum TYPE  {
+	consumable_item,
+	weapon_item,
+}
+var item_type:TYPE

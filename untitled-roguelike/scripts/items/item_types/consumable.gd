@@ -1,3 +1,4 @@
 class_name ConsumableItem extends Item
-func get_type() -> String:
-	return("ConsumableItem")
+
+func _init() -> void:
+	item_type = TYPE.consumable_item

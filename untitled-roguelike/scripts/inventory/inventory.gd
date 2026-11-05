@@ -42,7 +42,13 @@ func add_item(item:Item) -> bool:
 	updated_slot.emit(slot)
 	return true
 	
-	
+
+func get_items_from_dict(item_dict:Dictionary[Item,int]):
+	for key in item_dict:
+		for i:int in range(item_dict[key]):
+			add_item(key)
+			print(key.name)
+
 func remove_item(item:Item):
 	if not has_item(item):
 		return

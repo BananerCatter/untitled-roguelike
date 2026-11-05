@@ -6,7 +6,7 @@
 
 [node name="ItemSlot" type="PanelContainer" unique_id=174505351]
 texture_filter = 1
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(64, 64)
 scale = Vector2(2, 2)
 script = ExtResource("1_b1id1")
 
@@ -23,5 +23,6 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_b1id1")
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 32
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

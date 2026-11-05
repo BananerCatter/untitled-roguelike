@@ -4,6 +4,7 @@ signal on_death
 signal hp_changed(hp_value: float)
 signal stamina_changed(stamina_value:float)
 signal update_inventory
+signal open_chest
 
 @export var stats: Stats
 @export var inventory:Inventory
@@ -53,6 +54,10 @@ func _input(event: InputEvent) -> void:
 			heal(10)
 		if event.is_action_pressed("debug_deal_damage"):
 			take_damage(10)
+		if event.is_action_released("interact"):
+			open_chest.emit(inventory)
+			
+
 
 
 func get_input() -> Vector2:
@@ -61,17 +66,17 @@ func get_input() -> Vector2:
 	
 	
 func on_item_picked_up(item: Item):
-	print(item.name)
-	print(inventory.add_item(item))
-	print(inventory.get_slots())
+	inventory.add_item(item)
 	
 	
 func _on_item_selected(item:Item):
-	if item.get_type()=="ConsumableItem":
+	if item.item_type== Item.TYPE.consumable_item:
 		stats.use_consumable(item.name)
 		inventory.remove_item(item)
 		update_inventory.emit()
 
+func get_items_from_chest(item_dict:Dictionary[Item,int]):
+	inventory.get_items_from_dict(item_dict)
 
 func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
