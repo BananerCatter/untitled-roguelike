@@ -13,5 +13,5 @@ script = ExtResource("3_pg54w")
 name = "PotionBasic"
 scene = ExtResource("2_tc37n")
 icon = SubResource("AtlasTexture_0xbcx")
-max_stack_size = 4
+max_stack_size = 10
 metadata/_custom_type_script = "uid://ccvw3e1f6ksos"

@@ -75,7 +75,9 @@ func _on_item_selected(item:Item):
 		inventory.remove_item(item)
 		update_inventory.emit()
 
-func get_items_from_chest(item_dict:Dictionary[Item,int]):
+func get_items_from_chest(item_dict:Dictionary[Item,int], key_item:Item):
+	if inventory.has_item(key_item):
+		inventory.remove_item(key_item)
 	inventory.get_items_from_dict(item_dict)
 
 func lose_stamina(lost_stamina:float):

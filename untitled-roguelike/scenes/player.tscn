@@ -15,6 +15,7 @@
 
 [sub_resource type="Resource" id="Resource_ur7pv"]
 script = ExtResource("3_d2wvv")
+size = 5
 start_items = Dictionary[ExtResource("4_3v2ag"), int]({
 ExtResource("5_3v2ag"): 2
 })

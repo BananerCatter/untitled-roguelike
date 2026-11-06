@@ -8,21 +8,20 @@ signal update_inventory()
 	
 
 var _content: Array[ItemSlot] =[]
-@export var size:int = 5
+@export var size:int
 @export var start_items: Dictionary[Item,int]
 
 
 func _init() -> void:
-	print("inventory")
-	print (start_items)
+	call_deferred("initialize_inventory")
+	
+
+func initialize_inventory ()-> void:
 	for i:int in range(size):
 		var slot:ItemSlot = ItemSlot.new()
 		_content.append(slot)
 		print(slot.amount)
-	for key in start_items:
-		for i:int in range(start_items[key]):
-			add_item(key)
-			print(key.name)
+	get_items_from_dict(start_items)
 
 
 func add_item(item:Item) -> bool:
