@@ -25,6 +25,7 @@ var can_dash:bool = true
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
 @export var hitbox_shape: Shape2D
+var held_item: HeldWeapon
 
 
 
@@ -74,6 +75,12 @@ func _on_item_selected(item:Item):
 		stats.use_consumable(item.name)
 		inventory.remove_item(item)
 		update_inventory.emit()
+	if item.item_type == Item.TYPE.weapon_item:
+		held_item = item.held_weapon
+		add_child(held_item)
+		inventory.remove_item(item)
+		update_inventory.emit()
+	
 
 func get_items_from_chest(item_dict:Dictionary[Item,int], key_item:Item):
 	if inventory.has_item(key_item):

@@ -1,7 +1,4 @@
 class_name Hitbox extends Area2D
-
-# uncomment this when we have actual stats, for now just use an int for damage
-# var attacker_stats: Stats
 var attacker_stats: Stats
 var hitbox_lifetime: float
 var shape: Shape2D
@@ -12,6 +9,8 @@ func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D) -> 
 	attacker_stats=_attacker_stats
 	hitbox_lifetime=_hitbox_lifetime
 	shape=_shape
+
+
 func _ready():
 	monitorable= false
 	area_entered.connect(_on_area_entered)

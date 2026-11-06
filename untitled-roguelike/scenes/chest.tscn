@@ -3,10 +3,6 @@
 [ext_resource type="Script" uid="uid://32bjyox5fcac" path="res://scenes/chest.gd" id="1_sy5e1"]
 [ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="2_gqd3d"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
-atlas = ExtResource("2_gqd3d")
-region = Rect2(0, 0, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
 atlas = ExtResource("2_gqd3d")
 region = Rect2(48, 0, 16, 0)
@@ -19,7 +15,6 @@ size = Vector2(16, 16)
 
 [node name="Chest" type="StaticBody2D" unique_id=1494536464]
 script = ExtResource("1_sy5e1")
-closed_sprite = SubResource("AtlasTexture_3v2ag")
 open_sprite = SubResource("AtlasTexture_oprun")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=840863946]
