@@ -2,33 +2,32 @@
 
 [ext_resource type="Script" uid="uid://bdys774a07pvm" path="res://scenes/weapons_in_hand/melee_weapon.gd" id="1_n2p8t"]
 [ext_resource type="Texture2D" uid="uid://c1c5b4ikmgcuu" path="res://assets/img/animation/dagger_basic.png" id="2_ub7w6"]
-[ext_resource type="Script" uid="uid://jshsp37qkije" path="res://scripts/hitbox.gd" id="3_ub7w6"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lpp5k"]
-atlas = ExtResource("2_ub7w6")
-region = Rect2(0, 0, 16, 0)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b013q"]
 radius = 4.0
 height = 24.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpp5k"]
+atlas = ExtResource("2_ub7w6")
+region = Rect2(0, 0, 16, 0)
+
 [sub_resource type="Animation" id="Animation_ub7w6"]
 resource_name = "LightAttack1"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("PivotPoint:rotation")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23462832, 0.30147135, 0.5107191, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.04946508, 0.08063484, 0.17543705, 0.25932813, 0.5),
+"transitions": PackedFloat32Array(0.24999942, 2.0705273, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -0.71383965, -0.6981317, 0.7853982, 0.0]
+"values": [0.0, -0.8726646259971648, -0.6981317, -0.6981317, 0.8726646259971648, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_72jd1"]
-length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -39,7 +38,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-0.71383965]
+"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g5ps3"]
@@ -48,26 +47,21 @@ _data = {
 &"RESET": SubResource("Animation_72jd1")
 }
 
-[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "hitbox")]
+[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "animation", "sprite")]
 script = ExtResource("1_n2p8t")
 pivot_point = NodePath("PivotPoint")
-hitbox = NodePath("PivotPoint/WeaponSprite/Hitbox")
+hitbox_shape = SubResource("CapsuleShape2D_b013q")
+animation = NodePath("AnimationPlayer")
+sprite = NodePath("PivotPoint/WeaponSprite")
+rotation_speed = 30
+damage = 10
 
 [node name="PivotPoint" type="Marker2D" parent="." unique_id=1162009274]
-rotation = -0.71383965
 
 [node name="WeaponSprite" type="Sprite2D" parent="PivotPoint" unique_id=2108815961]
 position = Vector2(16, 0)
 rotation = 1.5707964
 texture = SubResource("AtlasTexture_lpp5k")
-
-[node name="Hitbox" type="Area2D" parent="PivotPoint/WeaponSprite" unique_id=1482060600]
-script = ExtResource("3_ub7w6")
-metadata/_custom_type_script = "uid://jshsp37qkije"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PivotPoint/WeaponSprite/Hitbox" unique_id=2115667864]
-position = Vector2(-4.3711395e-08, -1)
-shape = SubResource("CapsuleShape2D_b013q")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=555066362]
 libraries/ = SubResource("AnimationLibrary_g5ps3")

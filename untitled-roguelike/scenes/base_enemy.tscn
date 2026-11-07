@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="1_n1jr3"]
 [ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
 [ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
+[ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="3_rfapk"]
 [ext_resource type="Script" uid="uid://cfkxrn82ksxc7" path="res://scripts/enemy_hp.gd" id="4_64ljx"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="5_64ljx"]
 [ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="6_j4o54"]
@@ -98,6 +99,7 @@ max_speed = 100.0
 speed = 80.0
 acceleration = 50.0
 dash_mult = 4.0
+item = ExtResource("3_rfapk")
 hitbox_shape = SubResource("CircleShape2D_64ljx")
 dash_duration = NodePath("DashDuration")
 dash_cooldown = NodePath("DashCooldown")

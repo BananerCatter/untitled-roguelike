@@ -27,7 +27,7 @@ func physics_update(delta:float) -> void:
 
 	#if character.can_dash && character.dash_cooldown.is_stopped():
 		#change_state.emit("dash")
-
+	weapon_follow_path(delta)
 	if character.stop:
 		change_state.emit("idle")
 	if not character.player_found:
@@ -37,9 +37,16 @@ func physics_update(delta:float) -> void:
 		
 func _on_nav_recalc_timer_timeout() -> void:
 	set_target_position(character.player.global_position)
+	
+	
 func actor_setup() ->void:
 	await get_tree().physics_frame
 	set_target_position(character.player.global_position)
 	
 func set_target_position(position:Vector2) -> void:
 	navigation_agent.target_position = position
+
+func weapon_follow_path(delta:float):
+	if not character.held_item.animation.is_playing():
+		var direction = navigation_agent.target_position - character.held_item.global_position
+		character.held_item.global_rotation = lerp_angle(character.held_item.global_rotation, direction.angle(), delta*character.held_item.rotation_speed)

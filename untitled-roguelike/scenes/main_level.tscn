@@ -11,11 +11,11 @@
 [ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="9_iqu8w"]
 [ext_resource type="PackedScene" uid="uid://cq5m7r3f7j3vx" path="res://scenes/chest.tscn" id="10_5fr2l"]
 
-[sub_resource type="Resource" id="Resource_mwgft"]
+[sub_resource type="Resource" id="Resource_5fr2l"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 max_health_level = 3
-damage_level = 3
+damage_level = 1
 defence_level = 3
 base_max_health = 300
 base_damage = 100.0
@@ -30,9 +30,10 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_adxub"]
+[sub_resource type="Resource" id="Resource_2sb77"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
+damage_level = 2
 base_max_health = 300
 base_damage = 20.0
 base_defence = 10.0
@@ -55,7 +56,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAI
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
 unique_name_in_owner = true
 position = Vector2(709, 350)
-stats = SubResource("Resource_mwgft")
+stats = SubResource("Resource_5fr2l")
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
 
@@ -64,7 +65,7 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_adxub")
+stats = SubResource("Resource_2sb77")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)

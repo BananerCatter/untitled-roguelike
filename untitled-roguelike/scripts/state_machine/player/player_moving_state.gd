@@ -16,6 +16,12 @@ func physics_update(delta:float) -> void:
 		change_state.emit("idle")
 	if Input.is_action_just_pressed("dash") && character.can_dash:
 			change_state.emit("dash")
-	if Input.is_action_just_pressed("light_attack") && character.stamina >0:
-			change_state.emit("light_attack")
+
 	character.velocity = character.get_input()*character.speed
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("light_attack")  && character.stamina >0:
+		if character.held_item and not character.held_item.animation.is_playing():
+				change_state.emit("light_attack")
+	

@@ -38,6 +38,7 @@ func _ready() -> void:
 	hp_changed.emit(100)
 	stamina_changed.emit((stamina*100/max_stamina))
 	inventory.get_slots()
+	
 
 
 func take_damage(damage:int) -> void:
@@ -71,15 +72,17 @@ func on_item_picked_up(item: Item):
 	
 	
 func _on_item_selected(item:Item):
-	if item.item_type== Item.TYPE.consumable_item:
-		stats.use_consumable(item.name)
-		inventory.remove_item(item)
-		update_inventory.emit()
-	if item.item_type == Item.TYPE.weapon_item:
-		held_item = item.held_weapon
-		add_child(held_item)
-		inventory.remove_item(item)
-		update_inventory.emit()
+	if item:
+		if item.item_type== Item.TYPE.consumable_item:
+			stats.use_consumable(item.name)
+			inventory.remove_item(item)
+			update_inventory.emit()
+		if item.item_type == Item.TYPE.weapon_item:
+			held_item = item.held_weapon.instantiate()
+			add_child(held_item)
+			inventory.remove_item(item)
+			update_inventory.emit()
+			
 	
 
 func get_items_from_chest(item_dict:Dictionary[Item,int], key_item:Item):
@@ -91,7 +94,12 @@ func lose_stamina(lost_stamina:float):
 	stamina -= lost_stamina
 	stamina_cooldown.start()
 	stamina_changed.emit((stamina*100/max_stamina))
-	
+
+func weapon_orbit_mouse(delta:float):
+	if not held_item.animation.is_playing():
+		var direction = get_global_mouse_position() - held_item.global_position
+		held_item.global_rotation = lerp_angle(held_item.global_rotation, direction.angle(), delta*held_item.rotation_speed)
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -103,6 +111,8 @@ func _physics_process(delta: float) -> void:
 		if(stamina>max_stamina):
 			stamina=max_stamina
 		stamina_changed.emit((stamina*100/max_stamina))
+	if held_item:
+		weapon_orbit_mouse(delta)
 
 	move_and_slide()
 

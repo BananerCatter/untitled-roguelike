@@ -9,6 +9,8 @@ extends CharacterBody2D
 @export var acceleration: float
 @export var dash_mult: float 
 
+var held_item: HeldWeapon
+@export var item:Item
 
 @export var hitbox_shape: Shape2D
 var hitbox: Hitbox
@@ -39,6 +41,9 @@ func _ready() -> void:
 	stats.health_changed.connect(damage_bar._get_value)
 	stats.health_changed.emit(stats.health, stats.current_max_health)
 	#add to state machine when done
+	held_item = item.held_weapon.instantiate()
+	add_child(held_item)
+
 
 
 func _physics_process(delta: float) -> void:
