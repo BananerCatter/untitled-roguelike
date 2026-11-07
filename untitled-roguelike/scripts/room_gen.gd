@@ -9,12 +9,12 @@ extends Node2D
 @export var start_cell: Vector2i = Vector2i(2,8)
 @export var end_cell: Vector2i = Vector2i(6,1)
 
-const empty = 0
-const pathI = 1
-const start = 2
-const end = 3
-const branchI = 4
-
+const empty: int = 0
+const pathI: int = 1
+const start: int = 2
+const end: int = 3
+const branchI:int = 4
+const TILE_SIZE: int = 32
 var grid : Array = []
 
 func _ready() -> void:
@@ -45,48 +45,13 @@ func _ready() -> void:
 
 	var branch_cells: Array[Vector2i]= generate_branches(generated_path)
 	grid_print()
+	generate_rooms()
+	debug_room_collision_data(spawned_rooms[start_cell])
+	print("Start cell: ", start_cell)
+	print("start room exists: ", spawned_rooms.has(start_cell))
+	print("Start room : ", spawned_rooms.get(start_cell))
+	position_rooms()
 	
-	for y in range(grid.size()):
-		for x in range(grid[y].size()):
-			var cell = Vector2i(x,y)
-			if is_room(cell):
-				print(cell, " -> ", get_required_door(cell))
-	
-	var firstRoom = starting_room.instantiate()
-	add_child(firstRoom)
-	var width = firstRoom.room_width
-	
-	var secondRoom = basic_room.instantiate()
-	add_child(secondRoom)
-	var width2 = secondRoom.room_width
-	
-	
-	var first_marker = get_first_marker(
-		Vector2i(5,6),
-		Vector2i(5,5)
-		)
-	var second_marker = get_opposite_marker(first_marker)
-
-	var first_door=firstRoom.get_door(first_marker)
-	var second_door=secondRoom.get_door(second_marker)
-	
-	match first_marker:
-		"EastH":
-			secondRoom.position.x = firstRoom.position.x + width * 32
-			secondRoom.position.y = first_door.global_position.y -second_door.global_position.y
-		"WestH":
-			secondRoom.position.x = firstRoom.position.x - width2 * 32
-			secondRoom.position.y = first_door.global_position.y -second_door.global_position.y
-		"NorthH":
-			secondRoom.position.x = first_door.global_position.x - second_door.global_position.x
-			secondRoom.position.y = firstRoom.position.y - secondRoom.room_height * 32
-		"SouthH":
-			secondRoom.position.x = first_door.global_position.x - second_door.global_position.x
-			secondRoom.position.y = firstRoom.position.y + firstRoom.room_height * 32
-		_: 
-			push_error("No valid marker found")
-
-
 func grid_create() -> void:
 	grid.clear()
 	
@@ -382,6 +347,8 @@ func get_required_door(cell: Vector2i) -> String:
 	return required_doors
 
 var room_connections: Dictionary = {}
+var spawned_rooms: Dictionary = {}
+var spawned_hallways: Array= []
 
 func connect_rooms(a: Vector2i, b: Vector2i) -> void:
 	if not room_connections.has(a):
@@ -390,3 +357,139 @@ func connect_rooms(a: Vector2i, b: Vector2i) -> void:
 		room_connections[b]=[]
 	room_connections[a].append(b)
 	room_connections[b].append(a)
+
+func get_room_path(size: String, doors: String, variation: int) -> String:
+	return "res://scenes/rooms/" + size + "/" + doors + "/room_" + size + "_" + doors + "_" + str(variation)  + ".tscn"
+
+func get_hallway_path(type: String, hallway_name: String) -> String :
+	return "res://scenes/hallways/" + type + "/" + hallway_name + ".tscn"
+
+func load_room(size: String, doors: String, variation: int) -> PackedScene:
+	var path=get_room_path(size,doors,variation)
+	var room_scene = load(path) as PackedScene
+	
+	if room_scene == null:
+		push_error("invalid path")
+		return null
+	return room_scene
+
+func load_hallway(type: String, hallway_name: String) -> PackedScene:
+	var Hpath= get_hallway_path(type,hallway_name)
+	var hallway_scene = load(Hpath) as PackedScene
+	
+	if hallway_scene == null:
+		push_error("invalid hallway path")
+		return null
+	return hallway_scene
+
+func generate_rooms() -> void:
+	for y in range(grid_height):
+		for x in range(grid_width):
+			var cell=Vector2i(x,y)
+			if not is_room(cell):
+				continue
+			var doors = get_required_door(cell)
+			var room_scene = load_room("small", doors, 1)
+			if room_scene == null:
+				continue
+			var room_instance=room_scene.instantiate()
+			add_child(room_instance)
+			spawned_rooms[cell]=room_instance
+
+func position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell) -> void:
+	var direction = neighbor_cell - current_cell
+	var movement = Vector2(direction) * TILE_SIZE
+	var first_marker = get_first_marker(current_cell,neighbor_cell)
+	var second_marker = get_opposite_marker(first_marker)
+	
+	var first_door = current_room.get_door(first_marker)
+	var second_door = neighbor_room.get_door(second_marker)
+	if first_door == null or second_door == null:
+		push_error("marker did NOT load")
+		return 
+	
+	var target_pos = first_door.global_position + movement
+	
+	match first_marker:
+		"EastH":
+			neighbor_room.global_position.x= current_room.global_position.x + current_room.room_width * 32
+			neighbor_room.global_position.y += target_pos.y - second_door.global_position.y
+		"WestH":
+			neighbor_room.global_position.x = current_room.global_position.x - neighbor_room.room_width * 32
+			neighbor_room.global_position.y += target_pos.y - second_door.global_position.y
+		"NorthH":
+			neighbor_room.global_position.y = current_room.global_position.y - neighbor_room.room_height * 32
+			neighbor_room.global_position.x += target_pos.x - second_door.global_position.x
+		"SouthH":
+			neighbor_room.global_position.y = current_room.global_position.y + current_room.room_height * 32
+			neighbor_room.global_position.x += target_pos.x - second_door.global_position.x
+		_:
+			push_error("invalid marker")
+			return
+	
+	var pushes = 0
+	while room_collides_with_placed(neighbor_room,neighbor_cell):
+		neighbor_room.global_position+=movement
+		pushes += 1
+	print("Room ", neighbor_cell, " needed ", pushes, " pushes")
+
+func position_rooms() -> void:
+	var to_visit: Array[Vector2i] = [start_cell]
+	var positioned: Dictionary = {start_cell: true}
+	while not to_visit.is_empty():
+		var current_cell= to_visit.pop_front()
+		var current_room = spawned_rooms[current_cell]
+		var neighbors = room_connections[current_cell]
+		for neighbor_cell in neighbors:
+			if not positioned.has(neighbor_cell):
+				var neighbor_room = spawned_rooms[neighbor_cell]
+				print ("Placing ", neighbor_cell, " from ", current_cell, " | Direction: ", neighbor_cell - current_cell )
+				position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell)
+				positioned[neighbor_cell]= true
+				to_visit.append(neighbor_cell)
+
+func get_room_rect(room) -> Rect2 :
+	var position = room.global_position
+	var size = Vector2(room.room_width, room.room_height) * TILE_SIZE
+	return Rect2(position, size)
+
+func debug_room_collision_data(room) -> Array[PackedVector2Array]:
+	var tilemap=room.get_node("tilemap")
+	var polygons: Array[PackedVector2Array] = []
+	for cell in tilemap.get_used_cells() :
+		var tile_data = tilemap.get_cell_tile_data(cell)
+		if tile_data == null:
+			continue
+		var polygon_count = tile_data.get_collision_polygons_count(0)
+		for polygon_index in range(polygon_count):
+			var points = tile_data.get_collision_polygon_points(0,polygon_index)
+			var cell_position = tilemap.map_to_local(cell)
+			var world_polygon : PackedVector2Array = []
+			
+			for point in points : 
+				world_polygon.append(tilemap.to_global(cell_position+point))
+			polygons.append(world_polygon)
+	return polygons
+
+func polygons_overlap(poly_a: PackedVector2Array, poly_b: PackedVector2Array) -> bool:
+	var intersection = Geometry2D.intersect_polygons(poly_a, poly_b)
+	return not intersection.is_empty()
+	
+func rooms_overlap(room_a,room_b) -> bool:
+	var polygons_a = debug_room_collision_data(room_a)
+	var polygons_b = debug_room_collision_data(room_b)
+	
+	for poly_a in polygons_a:
+		for poly_b in polygons_b:
+			if polygons_overlap(poly_a,poly_b):
+				return true
+	return false
+
+func room_collides_with_placed(candidate_room, ignored_cell: Vector2i) -> bool:
+	for cell in spawned_rooms:
+		if cell== ignored_cell:
+			continue
+		var other_room = spawned_rooms[cell]
+		if rooms_overlap(candidate_room,other_room):
+			return true
+	return false
