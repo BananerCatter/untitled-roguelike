@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ib5t11nrr4fd"]
+
+[ext_resource type="Script" uid="uid://byiq0sw6akv1j" path="res://scripts/room_gen.gd" id="1_bxlfd"]
+
+[node name="DungeonTest" type="Node2D" unique_id=1570567108]
+script = ExtResource("1_bxlfd")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=440840155]
+position = Vector2(1284, -370)
+zoom = Vector2(0.21, 0.21)
