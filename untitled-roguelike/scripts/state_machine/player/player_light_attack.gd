@@ -9,7 +9,7 @@ func enter_state():
 
 func update(delta:float) -> void:
 	if not character.held_item.animation.is_playing():
-		character.held_item.animation.play("LightAttack1")
+		character.held_item.on_light_attack()
 	change_state.emit("idle")
 
 func physics_update(delta:float) -> void:

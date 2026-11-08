@@ -10,7 +10,7 @@ func enter_state() ->void:
 	if not nav_recalc_timer.timeout.is_connected(_on_nav_recalc_timer_timeout):
 		nav_recalc_timer.timeout.connect(_on_nav_recalc_timer_timeout)
 	navigation_agent.path_desired_distance=4.0
-	navigation_agent.target_desired_distance=36.0
+	navigation_agent.target_desired_distance=50.0
 	call_deferred("actor_setup")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

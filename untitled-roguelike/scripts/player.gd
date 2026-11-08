@@ -25,6 +25,7 @@ var can_dash:bool = true
 @export var stamina_cooldown: Timer
 @export var stamina_recovery: float
 @export var hitbox_shape: Shape2D
+
 var held_item: HeldWeapon
 
 
@@ -98,7 +99,8 @@ func lose_stamina(lost_stamina:float):
 func weapon_orbit_mouse(delta:float):
 	if not held_item.animation.is_playing():
 		var direction = get_global_mouse_position() - held_item.global_position
-		held_item.global_rotation = lerp_angle(held_item.global_rotation, direction.angle(), delta*held_item.rotation_speed)
+		if direction.length() >8:
+			held_item.global_rotation = lerp_angle(held_item.global_rotation, direction.angle(), delta*held_item.rotation_speed)
 
 
 func _physics_process(delta: float) -> void:

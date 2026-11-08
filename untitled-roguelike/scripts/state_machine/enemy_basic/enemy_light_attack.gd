@@ -11,7 +11,7 @@ func enter_state() ->void:
 	
 func update(delta:float) -> void:
 	if not character.held_item.animation.is_playing():
-		character.held_item.animation.play("LightAttack1")
+		character.held_item.on_light_attack()
 
 	
 func exit_state() -> void:
