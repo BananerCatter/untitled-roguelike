@@ -20,6 +20,7 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 * Left click to attack
 * Tab to open inventory
 * Left click to use item in inventory
+#### To use your weapon: Open the inventory, select it with left click, left click to attack
 
 ### Debug controls:
 * 1: Add 10 hp
