@@ -30,8 +30,8 @@ func on_light_attack():
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name in animation_array:
 		sprite.texture = base_texture
-		await (get_tree().create_timer(1.0).timeout)
-		if animation.is_playing():
+		await (get_tree().create_timer(0.5).timeout)
+		if not animation.is_playing():
 			current_anim_index=0
 		
 
