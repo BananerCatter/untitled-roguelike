@@ -1,18 +1,20 @@
 # untitled-roguelike
 
 ## A multi-week project for [#terra](terra.hackclub.com)
+## Made by myself and [2shine](https://github.com/2shineman)
 
 A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon crawler roguelike thing, but currently it's more of a proof of concept while we flesh out the concept and mechanics. Well, to be honest, for now it's basically a collection of extensible systems made for us to use in the later weeks, so for now we have:
 
-### Features:
-
-* A basic state machine movement system with acceleration and a dash
-* A basic enemy template with pathfinding
-* A stat and leveling system (latter not fully utilized yet)
-* A dungeon layout generator (that will be finalized on week 3, I hope)
-* Stamina (something something rollslop)
-* Items and inventory, that can theoretically be used by almost anything (for now just the player)
-* A (quite fugly looking 😭) inventory display
+### Features :
+```Bn = Added by bananya; 2s = added by 2shine```
+* A basic state machine movement system with acceleration and a dash ```Bn```
+* A basic enemy template with pathfinding ```Bn```
+* A stat and leveling system (latter not fully utilized yet) ```Bn```
+* A dungeon layout generator ```2s, the size of scripts he made for this scare me ngl```
+* Stamina (something something rollslop) ```Bn```
+* Items and inventory, that can theoretically be used by almost anything (for now just the player) ```Bn```
+* A (quite fugly looking 😭) inventory display ```Bn```
+* Combat ```Bn```
 
 ### Controls:
 * W/A/S/D for movement
@@ -29,7 +31,7 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 
 ### How to install:
 
-Download the version for you system from the releases page, extract and run the provided executable. No further setup needed :D
+Download the version for your system from the releases page, extract and run the provided executable. No further setup needed :D
 
 ### Screenshots:
 
