@@ -33,6 +33,8 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 
 Download the version for your system from the releases page, extract and run the provided executable. No further setup needed :D
 
+### Note: The week 3 version is a tad bit broken, since I do not have time to remake the pathfinding in time for the publishing deadline 
+
 ### Screenshots:
 
 <img width="3770" height="2134" alt="image" src="https://github.com/user-attachments/assets/c805e54a-09d6-47c4-b410-94551809b2b3" />
