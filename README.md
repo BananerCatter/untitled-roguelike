@@ -38,4 +38,6 @@ Download the version for your system from the releases page, extract and run the
 ### Screenshots:
 
 <img width="3770" height="2134" alt="image" src="https://github.com/user-attachments/assets/c805e54a-09d6-47c4-b410-94551809b2b3" />
-<img width="1861" height="1046" alt="image" src="https://github.com/user-attachments/assets/f0014e10-db80-479c-8121-b192f2034a56" />
+<img width="1872" height="1049" alt="Screenshot from 2026-11-09 18-37-54" src="https://github.com/user-attachments/assets/d9575120-95d8-47e6-8b35-f71436118da3" />
+<img width="1848" height="1033" alt="Screenshot from 2026-11-09 18-36-56" src="https://github.com/user-attachments/assets/a914cd0c-63cd-408a-92ad-bb547c7b565c" />
+
