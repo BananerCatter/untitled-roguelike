@@ -2,18 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://bj1pki7ewk2w" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://bhkaoykn4qu24" path="res://scripts/main_level.gd" id="1_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://otbaj7jwrxr1" path="res://scenes/rooms/room_start.tscn" id="3_fkrx8"]
 [ext_resource type="PackedScene" uid="uid://b0hcornef2rji" path="res://scenes/tileground.tscn" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://1mbjqqv607qo" path="res://scenes/game_ui.tscn" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://cqgvaip3278yn" path="res://scenes/rooms/room_basic.tscn" id="4_mwgft"]
 [ext_resource type="PackedScene" uid="uid://fp7f7gtsbfy7" path="res://scenes/base_enemy.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://ba6yum2ks6yf8" path="res://scripts/items/pickup.gd" id="8_iqu8w"]
-[ext_resource type="PackedScene" uid="uid://ib5t11nrr4fd" path="res://scenes/dungeon_test.tscn" id="8_tipki"]
 [ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="9_iqu8w"]
 [ext_resource type="PackedScene" uid="uid://cq5m7r3f7j3vx" path="res://scenes/chest.tscn" id="10_5fr2l"]
 
-[sub_resource type="Resource" id="Resource_adxub"]
+[sub_resource type="Resource" id="Resource_iqu8w"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 max_health_level = 3
@@ -32,7 +29,7 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_ff0s2"]
+[sub_resource type="Resource" id="Resource_5fr2l"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 damage_level = 2
@@ -49,10 +46,6 @@ radius = 8.062152
 rotation = -0.0014160064
 script = ExtResource("1_tbgi4")
 
-[node name="DungeonTest" parent="." unique_id=91884242 instance=ExtResource("8_tipki")]
-starting_room = ExtResource("3_fkrx8")
-basic_room = ExtResource("4_mwgft")
-
 [node name="base" parent="." unique_id=299476916 instance=ExtResource("3_o6xl0")]
 position = Vector2(708.99994, 349.99997)
 tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAIAAAACAAEAAQADAAMAAAACAAIAAQACAAQAAAADAAIAAQAHAAIAAAAEAAIAAQACAAQAAGAFAAMAAQAHAAIAAAAGAAMAAQAHAAIAAAAHAAMAAQAEAAQAADAIAAMAAQAEAAQAAFAIAAIAAQACAAQAAAAIAAEAAQAEAAQAAFAHAAEAAQAHAAIAAAAHAAAAAQAIAAEAAAAGAAAAAQAHAAIAAAAFAAAAAQACAAQAAAAEAAAAAQABAAQAAAADAAAAAQAEAAMAAAACAAAAAQAHAAIAAAAAAAEAAQABAAMAADAAAAIAAQABAAQAAAAAAAMAAQAEAAMAAAABAAMAAQAEAAMAAAACAAMAAQAHAAIAAAADAAMAAQAHAAIAAAAEAAMAAQADAAMAAAABAAIAAQABAAMAAGADAAEAAQAEAAQAAGAEAAEAAQABAAQAAGAFAAEAAQABAAQAAAAGAAEAAQACAAQAADAGAAIAAQACAAQAAGAFAAIAAQAHAAIAAAAHAAIAAQABAAMAAAAIAAAAAQAEAAMAAAAJAAAAAQAEAAQAAAAJAAEAAQACAAMAAGAJAAIAAQAEAAQAAGAJAAMAAQACAAMAAAAKAAIAAQAJAAEAAAAKAAEAAQAJAAEAAAAKAAAAAQAJAAEAAAACAAUAAQACAAQAAAAJAAUAAQADAAQAAFABAAcAAQACAAQAAGAFAAcAAQAEAAQAADAFAAUAAQABAAMAAAAIAAcAAQABAAQAAAAEAAYAAQABAAQAAGAJAAYAAQAEAAQAAFABAAYAAQAIAAEAAAADAAQAAQAHAAIAAAABAAQAAQAEAAQAAFABAAUAAQAHAAIAAAAEAAUAAQACAAQAAAAEAAQAAQAEAAQAAGAFAAQAAQAHAAIAAAAGAAQAAQACAAQAAFAHAAQAAQACAAQAAAAIAAQAAQADAAQAADAJAAQAAQABAAMAAGAKAAQAAQAJAAEAAAAKAAUAAQAJAAEAAAAKAAYAAQAJAAEAAAAKAAcAAQAJAAEAAAAJAAcAAQADAAQAAAAIAAYAAQACAAQAAAAIAAUAAQAEAAQAAFAHAAUAAQAHAAIAAAAHAAYAAQAIAAEAAAAHAAcAAQADAAQAAGAGAAYAAQAHAAIAAAAGAAUAAQAEAAQAADAGAAcAAQACAAQAAAAFAAYAAQADAAQAAFAEAAcAAQADAAQAAAADAAcAAQAEAAQAAAACAAcAAQACAAQAAGACAAYAAQAHAAIAAAADAAYAAQADAAQAAGADAAUAAQABAAQAAAACAAQAAQABAAQAAGAAAAQAAQABAAMAAAAAAAUAAQACAAQAAAAAAAYAAQAEAAQAADAAAAcAAQACAAQAAAABAAgAAQACAAQAAAACAAgAAQACAAQAADADAAgAAQAEAAQAAGAEAAgAAQABAAMAAAAFAAgAAQACAAQAAFAGAAgAAQACAAQAAAAHAAgAAQABAAQAAAAIAAgAAQAEAAQAAFAJAAgAAQABAAMAAAAKAAgAAQAJAAEAAAAAAAgAAQAEAAQAAGD+//3/AQAHAAAAAAD///3/AQAIAAAAAAAAAP3/AQAIAAAAAAABAP3/AQAIAAAAAAACAP3/AQAIAAAAAAADAP3/AQAIAAAAAAAFAP3/AQAIAAAAAAAGAP3/AQAIAAAAAAAHAP3/AQAIAAAAAAAIAP3/AQAIAAAAAAAJAP3/AQAIAAAAAAAKAP3/AQAJAAAAAAAKAP7/AQAJAAEAAAAKAP//AQAJAAEAAAAKAAkAAQAJAAIAAAAJAAkAAQAIAAIAAAAIAAkAAQAIAAIAAAAGAAkAAQAIAAIAAAAHAAkAAQAIAAIAAAAFAAkAAQAIAAIAAAADAAkAAQAIAAIAAAACAAkAAQAIAAIAAAABAAkAAQAIAAIAAAAAAAkAAQAIAAIAAAD//wkAAQAIAAIAAAD+/wkAAQAHAAIAAAD+/wgAAQAHAAEAAAD+/wcAAQAHAAEAAAD+/wYAAQAHAAEAAAD+/wUAAQAHAAEAAAD+/wQAAQAHAAEAAAD+/wIAAQAHAAEAAAD+/wAAAQAHAAEAAAD+/wEAAQAHAAEAAAD+////AQAHAAEAAAD+//7/AQAHAAEAAAD///7/AQACAAQAAAAHAP//AQACAAQAAAACAP7/AQACAAQAAAAFAP7/AQABAAQAAAAJAP//AQABAAMAAAABAP//AQABAAQAAAD//wgAAQABAAQAAAAIAP7/AQABAAQAAAD//wIAAQAEAAMAAAACAP//AQAEAAMAAAAAAP//AQAEAAMAAGAEAP//AQAEAAMAADD//wQAAQABAAQAAGD//wMAAQABAAQAAGD//wYAAQABAAQAAGD//wAAAQABAAQAAGD/////AQABAAQAAGAAAP7/AQABAAQAAGABAP7/AQABAAMAAFADAP7/AQABAAQAAAAEAP7/AQABAAMAAGADAP//AQABAAMAADAGAP7/AQABAAMAAFAHAP7/AQABAAMAAAAIAP//AQABAAMAAGAFAP//AQAEAAQAAAAGAP//AQAEAAQAADD//wEAAQAEAAQAAAD//wUAAQAEAAQAAGD//wcAAQAEAAQAAFAJAP7/AQACAAMAADA=")
@@ -60,16 +53,16 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAI
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
 unique_name_in_owner = true
 position = Vector2(709, 350)
-stats = SubResource("Resource_adxub")
+stats = SubResource("Resource_iqu8w")
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=876383233]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=876383233 groups=["enemy_navigation"]]
 navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_ff0s2")
+stats = SubResource("Resource_5fr2l")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)
