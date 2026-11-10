@@ -9,6 +9,7 @@ func _init() -> void:
 
 func init_hand():
 	held_weapon = weapon_in_hand_scene
+
 	
 
 	

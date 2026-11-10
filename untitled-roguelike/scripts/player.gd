@@ -78,8 +78,17 @@ func _on_item_selected(item:Item):
 			stats.use_consumable(item.name)
 			inventory.remove_item(item)
 			update_inventory.emit()
+			
 		if item.item_type == Item.TYPE.weapon_item:
+			if held_item:
+				inventory.add_item(held_item.item_from)
+				inventory.remove_item(item)
+				update_inventory.emit()
+				held_item.queue_free()
+
+				
 			held_item = item.held_weapon.instantiate()
+			held_item.item_from = item
 			add_child(held_item)
 			inventory.remove_item(item)
 			update_inventory.emit()

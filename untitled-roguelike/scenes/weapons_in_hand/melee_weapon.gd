@@ -11,6 +11,8 @@ class_name HeldWeapon extends Node2D
 @export var animation_array: Array[String] =[]
 var current_anim_index: int =0
 var max_item_index: int 
+var item_from: Item
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for anim:String in animation.get_animation_list():

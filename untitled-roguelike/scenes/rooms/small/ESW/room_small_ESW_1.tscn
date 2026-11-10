@@ -164,7 +164,15 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_gx3a2")
 
-[node name="RoomSmallEsw1" type="Node2D" unique_id=1915835627]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5qsdu"]
+vertices = PackedVector2Array(739, 444, 723.1875, 444, 723.25, 440, 739, 440, 839, 572, 839, 586.4922, 835, 586.4375, 835, 572, 1031, 472, 1046, 472, 1046, 476, 1031, 476, 1031, 572, 739, 572, 739, 376, 1031, 376)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(11, 12, 4), PackedInt32Array(7, 13, 0, 8), PackedInt32Array(3, 14, 15, 8), PackedInt32Array(0, 3, 8), PackedInt32Array(4, 7, 8, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(711, 315, 1060, 315, 1060, 603, 707, 599)])
+source_geometry_mode = 1
+source_geometry_group_name = &"enemy_navigation"
+agent_radius = 14.0
+
+[node name="RoomSmallEsw1" type="Node2D" unique_id=1915835627 groups=["enemy_navigation"]]
 script = ExtResource("1_5qsdu")
 room_width = 11
 
@@ -182,3 +190,7 @@ position = Vector2(48, 144)
 
 [node name="SouthH" type="Marker2D" parent="." unique_id=864293938]
 position = Vector2(144, 272)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=741359737]
+position = Vector2(-693, -298)
+navigation_polygon = SubResource("NavigationPolygon_5qsdu")

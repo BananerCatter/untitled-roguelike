@@ -31,7 +31,6 @@ func add_item(item:Item) -> bool:
 		slot.amount +=1
 	else:
 		slot = get_empty_slot()
-		print(slot.amount)
 		if not slot:
 			return false
 		slot.item=item
