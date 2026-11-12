@@ -11,6 +11,8 @@ func display(slot:ItemSlot):
 		displayed_item=slot.item
 		var count:int =slot.amount
 		amount_label.text = str(count)
+		if amount_label.text.to_int() >slot.amount:
+			amount_label.text = str(count)
 		if count >1:
 			amount_label.show()
 		else:

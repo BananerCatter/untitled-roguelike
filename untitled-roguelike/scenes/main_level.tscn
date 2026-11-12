@@ -8,9 +8,11 @@
 [ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://ba6yum2ks6yf8" path="res://scripts/items/pickup.gd" id="8_iqu8w"]
 [ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="9_iqu8w"]
+[ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="10_2sb77"]
 [ext_resource type="PackedScene" uid="uid://cq5m7r3f7j3vx" path="res://scenes/chest.tscn" id="10_5fr2l"]
+[ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="10_fkrx8"]
 
-[sub_resource type="Resource" id="Resource_iqu8w"]
+[sub_resource type="Resource" id="Resource_2sb77"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 max_health_level = 3
@@ -29,7 +31,7 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_5fr2l"]
+[sub_resource type="Resource" id="Resource_fkrx8"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 damage_level = 2
@@ -53,7 +55,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAI
 [node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
 unique_name_in_owner = true
 position = Vector2(709, 350)
-stats = SubResource("Resource_iqu8w")
+stats = SubResource("Resource_2sb77")
 
 [node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
 
@@ -62,7 +64,7 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_5fr2l")
+stats = SubResource("Resource_fkrx8")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)
@@ -88,6 +90,10 @@ shape = SubResource("CircleShape2D_b013q")
 
 [node name="sChest" parent="." unique_id=1494536464 groups=["enemy_navigation"] instance=ExtResource("10_5fr2l")]
 position = Vector2(854.2175, 553.21014)
+loot_table = Dictionary[ExtResource("10_fkrx8"), int]({
+ExtResource("9_iqu8w"): 5
+})
+key_item = ExtResource("10_2sb77")
 
 [connection signal="on_death" from="Player" to="." method="_on_player_on_death"]
 [connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]

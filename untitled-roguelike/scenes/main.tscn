@@ -2,10 +2,15 @@
 
 [ext_resource type="Script" uid="uid://5cmldlv043iu" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://umjew73r8h5c" path="res://scenes/main_menu.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cbsm4bf3et78v" path="res://scenes/pause_menu.tscn" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://omuvjwg14edu" path="res://scenes/debug_info.tscn" id="3_sugp2"]
 
-[node name="Main" type="Node" unique_id=1774309872]
+[node name="Main" type="Node" unique_id=1774309872 node_paths=PackedStringArray("pause_menu")]
+process_mode = 3
 script = ExtResource("1_0wfyh")
+pause_menu = NodePath("PauseMenu")
+
+[node name="PauseMenu" parent="." unique_id=2067124298 instance=ExtResource("2_jyhfs")]
 
 [node name="DebugInfo" parent="." unique_id=1603574886 instance=ExtResource("3_sugp2")]
 

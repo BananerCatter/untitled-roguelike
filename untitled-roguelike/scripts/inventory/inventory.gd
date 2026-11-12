@@ -20,7 +20,6 @@ func initialize_inventory ()-> void:
 	for i:int in range(size):
 		var slot:ItemSlot = ItemSlot.new()
 		_content.append(slot)
-		print(slot.amount)
 	get_items_from_dict(start_items)
 
 
@@ -34,7 +33,6 @@ func add_item(item:Item) -> bool:
 		if not slot:
 			return false
 		slot.item=item
-		print(slot.item.name)
 		slot.amount+=1
 	update_inventory.emit()
 	updated_slot.emit(slot)

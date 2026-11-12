@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cbsm4bf3et78v"]
+
+[ext_resource type="Script" uid="uid://dgftjw3yvb45v" path="res://scripts/ui/pause_menu.gd" id="1_n87rw"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=2067124298]
+process_mode = 2
+visible = false
+script = ExtResource("1_n87rw")
+
+[node name="PauseContainer" type="Control" parent="." unique_id=1511389560]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="PauseContainer" unique_id=1999455497]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Buttons" type="VBoxContainer" parent="PauseContainer/Panel" unique_id=622148076]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.5
+offset_top = -116.5
+offset_right = 252.5
+offset_bottom = 116.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="Resume" type="Button" parent="PauseContainer/Panel/Buttons" unique_id=263470044]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Resume"
+
+[node name="Quit" type="Button" parent="PauseContainer/Panel/Buttons" unique_id=2035743771]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+
+[node name="QuitToMainMenu" type="Button" parent="PauseContainer/Panel/Buttons" unique_id=676201304]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Return to main menu"
+
+[connection signal="pressed" from="PauseContainer/Panel/Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseContainer/Panel/Buttons/Quit" to="." method="_on_quit_pressed"]

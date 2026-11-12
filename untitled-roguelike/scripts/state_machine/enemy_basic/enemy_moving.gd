@@ -29,7 +29,7 @@ func physics_update(delta:float) -> void:
 		#change_state.emit("dash")
 	weapon_follow_path(delta)
 	if character.stop:
-		change_state.emit("idle")
+		character.speed=0
 	if not character.player_found:
 		change_state.emit("idle")
 	if character.can_attack  && character.dash_cooldown.is_stopped(): 

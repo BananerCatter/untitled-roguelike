@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="4_dqkch"]
 [ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="5_3v2ag"]
 [ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="5_tuyoq"]
+[ext_resource type="Resource" uid="uid://c1eqq4ck0lhrw" path="res://resources/items/axe.tres" id="6_jej6c"]
 [ext_resource type="Script" uid="uid://cj3ww4hu5c7a6" path="res://scripts/state_machine/player/player_idle_state.gd" id="6_smehm"]
 [ext_resource type="Script" uid="uid://bbco06uu7tguh" path="res://scripts/state_machine/player/player_moving_state.gd" id="7_fjrip"]
 [ext_resource type="Script" uid="uid://citdmimjycefb" path="res://scripts/state_machine/player/player_dash_state.gd" id="8_ur7pv"]
@@ -17,7 +18,8 @@
 script = ExtResource("3_d2wvv")
 size = 5
 start_items = Dictionary[ExtResource("4_3v2ag"), int]({
-ExtResource("5_3v2ag"): 2
+ExtResource("5_3v2ag"): 1,
+ExtResource("6_jej6c"): 1
 })
 metadata/_custom_type_script = "uid://drouf2euekgmt"
 
@@ -41,7 +43,7 @@ radius = 7.5
 [sub_resource type="CircleShape2D" id="CircleShape2D_qlg0r"]
 radius = 8.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("timer", "dash_cooldown", "stamina_cooldown")]
+[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("timer", "dash_cooldown", "stamina_cooldown") groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_g2els")
 stats = ExtResource("2_qhqgy")
