@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cbsm4bf3et78v"]
+
+[ext_resource type="Script" uid="uid://dgftjw3yvb45v" path="res://scripts/ui/pause_menu.gd" id="1_n87rw"]
+
+[node name="PauseMenu" type="Control" unique_id=1650544948]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_n87rw")
+
+[node name="Panel" type="Panel" parent="." unique_id=1999455497]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
