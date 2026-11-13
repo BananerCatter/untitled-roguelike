@@ -59,8 +59,12 @@ func _ready() -> void:
 	print("start room exists: ", spawned_rooms.has(start_cell))
 	print("Start room : ", spawned_rooms.get(start_cell))
 	position_rooms()
+	retry_failed_room_placements()
+	fix_failed_connections()
 	
-	test_one_hallway()
+	var failed_connections = test_one_hallway()
+	print("\nTotal failed connections: ", failed_connections.size())
+	print("Failed connection data: ", failed_connections)
 	
 func grid_create() -> void:
 	grid.clear()
@@ -360,6 +364,7 @@ var room_connections: Dictionary = {}
 var spawned_rooms: Dictionary = {}
 var spawned_hallways: Array= []
 var positioned_rooms: Dictionary = {}
+var room_parents: Dictionary = {}
 
 func connect_rooms(a: Vector2i, b: Vector2i) -> void:
 	if not room_connections.has(a):
@@ -407,7 +412,7 @@ func generate_rooms() -> void:
 			add_child(room_instance)
 			spawned_rooms[cell]=room_instance
 
-func position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell) -> bool:
+func position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell, extra_offset: Vector2i = Vector2i.ZERO) -> bool:
 	var direction = neighbor_cell - current_cell
 	var movement = Vector2(direction) * TILE_SIZE
 	var first_marker = get_first_marker(current_cell,neighbor_cell)
@@ -438,7 +443,7 @@ func position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell)
 			push_error("invalid marker")
 			return false
 
-	var base_position = neighbor_room.global_position
+	var base_position = neighbor_room.global_position + Vector2(extra_offset) * TILE_SIZE
 	var axis_direction: int
 	match first_marker:
 		"EastH":
@@ -499,13 +504,22 @@ func position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell)
 
 			neighbor_room.global_position = base_position + Vector2(offset) * TILE_SIZE
 			if not room_collides_with_placed(neighbor_room, neighbor_cell):
-				print("Room placed with offset: ", offset)
+				print(
+					"Placed Room ", neighbor_cell,
+					" relative to", current_cell,
+					" with offset: ", offset
+				)
 				return true
 
+	print("Failed to place room: ", neighbor_cell)
+	print("Parent room: ", current_cell)
+	print("Parent position: ", current_room.global_position)
+	print("Last attemped position: ", neighbor_room.global_position)
 	push_error("No valid position for room: " + str(neighbor_cell))
 	return false
 func position_rooms() -> void:
 	positioned_rooms.clear()
+	room_parents.clear()
 	
 	var to_visit: Array[Vector2i] = [start_cell]
 	positioned_rooms[start_cell]= true
@@ -516,9 +530,63 @@ func position_rooms() -> void:
 		for neighbor_cell in neighbors:
 			if not positioned_rooms.has(neighbor_cell):
 				var neighbor_room = spawned_rooms[neighbor_cell]
+				room_parents[neighbor_cell]= current_cell
 				if position_neighbor(current_room, neighbor_room, current_cell, neighbor_cell):
 					positioned_rooms[neighbor_cell]= true
 					to_visit.append(neighbor_cell)
+
+func retry_failed_room_placements() -> void:
+	var retry_offsets: Array[Vector2i] = []
+
+	for distance in range(1, 4):
+		retry_offsets.append(Vector2i(distance, 0))
+		retry_offsets.append(Vector2i(-distance, 0))
+		retry_offsets.append(Vector2i(0, distance))
+		retry_offsets.append(Vector2i(0, -distance))
+
+	var made_progress = true
+
+	while made_progress:
+		made_progress = false
+		var positioned_cells = positioned_rooms.keys()
+
+		for parent_cell in positioned_cells:
+			for neighbor_cell in room_connections[parent_cell]:
+				if positioned_rooms.has(neighbor_cell):
+					continue
+
+				if not room_parents.has(neighbor_cell):
+					room_parents[neighbor_cell] = parent_cell
+
+				if room_parents[neighbor_cell] != parent_cell:
+					continue
+
+				var parent_room = spawned_rooms[parent_cell]
+				var neighbor_room = spawned_rooms[neighbor_cell]
+
+				for offset in retry_offsets:
+					neighbor_room.global_position = Vector2.ZERO
+
+					if position_neighbor(
+						parent_room,
+						neighbor_room,
+						parent_cell,
+						neighbor_cell,
+						offset
+					):
+						positioned_rooms[neighbor_cell] = true
+						made_progress = true
+
+						print(
+							"Retry placed room ",
+							neighbor_cell,
+							" relative to ",
+							parent_cell,
+							" with extra offset: ",
+							offset
+						)
+
+						break
 
 func get_room_rect(room) -> Rect2 :
 	var position = room.global_position
@@ -563,45 +631,118 @@ func room_collides_with_placed(candidate_room, ignored_cell: Vector2i) -> bool:
 			continue
 		var other_room = spawned_rooms[cell]
 		if rooms_overlap(candidate_room,other_room):
-			if ignored_cell == Vector2i(3,7):
+			if ignored_cell == Vector2i(4,5):
 				print(
-					"Room (3,7) at ", candidate_room.global_position,
+					"Room (4,5) at ", candidate_room.global_position,
 					" overlaps room", cell,
 					" at ", other_room.global_position
 				)
 			return true
 	return false
 
-func test_one_hallway() -> void:
+func test_one_hallway() -> Array[Dictionary]:
+	var failed_connections: Array[Dictionary] = []
+
 	for cell in room_connections:
 		for neighbor_cell in room_connections[cell]:
-			if not positioned_rooms.has(cell) or not positioned_rooms.has(neighbor_cell):
+
+			if cell >= neighbor_cell:
 				continue
-			if cell< neighbor_cell :
-				var room_a = spawned_rooms[cell]
-				var room_b = spawned_rooms[neighbor_cell]
-				
-				var door_a_name= get_first_marker(cell,neighbor_cell)
-				var door_b_name = get_opposite_marker(door_a_name)
-				
-				var door_a = room_a.get_door(door_a_name)
-				var door_b = room_b.get_door(door_b_name)
-				
-				var start = generated_hallways.local_to_map(
-					generated_hallways.to_local(door_a.global_position)
+
+			if not positioned_rooms.has(cell) or not positioned_rooms.has(neighbor_cell):
+				failed_connections.append({
+					"a": cell,
+					"b": neighbor_cell,
+					"reason": "room_not_placed"
+				})
+
+				push_warning(
+					"Connection " + str(cell) + " -> " + str(neighbor_cell)
+					+ " skipped: one or both rooms were not placed."
 				)
-				var finish = generated_hallways.local_to_map(
-					generated_hallways.to_local(door_b.global_position)
-				)
-				print("Start door: ", door_a_name)
-				print("End door: ", door_b_name)
-				var path = find_hallway_path(start, finish, door_a_name, door_b_name)
-				if path.is_empty():
-					push_warning("No path found between " + str(cell) + " and " + str(neighbor_cell))
-				print ("\nTesting connection: ", cell, " -> ", neighbor_cell)
-				print ("Start: ", start, " Finish: ", finish)
-				print("Path: ", path)
+				continue
+
+			var room_a = spawned_rooms[cell]
+			var room_b = spawned_rooms[neighbor_cell]
+
+			var door_a_name = get_first_marker(cell, neighbor_cell)
+			var door_b_name = get_opposite_marker(door_a_name)
+
+			var door_a = room_a.get_door(door_a_name)
+			var door_b = room_b.get_door(door_b_name)
+			
+
+			var start = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_a.global_position)
+			)
+
+			var finish = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_b.global_position)
+			)
+
+			print("\nTesting connection: ", cell, " -> ", neighbor_cell)
+			print("Start door: ", door_a_name)
+			print("End door: ", door_b_name)
+
+			var path = find_hallway_path(
+				start,
+				finish,
+				door_a_name,
+				door_b_name
+			)
+			
+			if not path.is_empty() and path.size() > abs(start.x-finish.x) + abs(start.y-finish.y) + 12:
+				print ("\n--- LONG PATH DIAGNOSTIC ---")
+				print("Connection: ", cell, " -> ", neighbor_cell)
+				print("Start door: ", get_first_marker(cell, neighbor_cell))
+				print("End door: ", get_opposite_marker(get_first_marker(cell, neighbor_cell)))
+				print("Room A position: ", room_a.global_position)
+				print("Room B position: ", room_b.global_position)
+				print("Door A position: ", door_a.global_position)
+				print("Door B position: ", door_b.global_position)
+				print("Start tile: ", start)
+				print("Finish tile: ", finish)
 				print("Path length: ", path.size())
+
+			var distance = (
+				abs(start.x - finish.x)
+				+ abs(start.y - finish.y)
+			)
+
+			var max_path_length = distance + 12
+
+			var failure_reason = ""
+
+			if path.is_empty():
+				failure_reason = "no_path_found"
+			elif path.size() > max_path_length:
+				failure_reason = "path_too_long"
+
+			if failure_reason != "":
+				failed_connections.append({
+					"a": cell,
+					"b": neighbor_cell,
+					"door_a": door_a_name,
+					"door_b": door_b_name,
+					"start": start,
+					"finish": finish,
+					"path_length": path.size(),
+					"max_path_length": max_path_length,
+					"reason": failure_reason
+				})
+
+				push_warning(
+					"Invalid hallway: " + str(cell) + " -> "
+					+ str(neighbor_cell) + " | Reason: "
+					+ failure_reason
+				)
+
+			print("Start: ", start, " Finish: ", finish)
+			print("Path: ", path)
+			print("Path length: ", path.size())
+			print("Maximum allowed length: ", max_path_length)
+
+	return failed_connections
 				
 func find_hallway_path(
 	start_cell: Vector2i,
@@ -729,3 +870,195 @@ func polygon_intersects_tile(polygon: PackedVector2Array, tile_center: Vector2) 
 	]
 
 	return not Geometry2D.intersect_polygons(polygon, tile_polygon).is_empty()
+
+
+func get_room_descendants(parent_cell: Vector2i) -> Array[Vector2i]:
+	var descendants: Array[Vector2i] = []
+	var to_check: Array[Vector2i] = [parent_cell]
+
+	while not to_check.is_empty():
+		var current_cell= to_check.pop_front()
+
+		for child_cell in room_parents:
+			if room_parents[child_cell]== current_cell:
+				descendants.append(child_cell)
+				to_check.append(child_cell)
+
+	return descendants
+
+
+func room_group_collides(moving_cells: Array[Vector2i]) -> bool:
+	for cell in moving_cells:
+		var room = spawned_rooms[cell]
+
+		for other_cell in positioned_rooms:
+			if moving_cells.has(other_cell):
+				continue
+
+			var other_room = spawned_rooms[other_cell]
+
+			if rooms_overlap(room, other_room):
+				return true
+
+	return false
+
+
+func move_room_subtree(parent_cell: Vector2i, direction: Vector2i) -> bool:
+	var moving_cells: Array[Vector2i] = [parent_cell]
+	moving_cells.append_array(get_room_descendants(parent_cell))
+
+	for cell in moving_cells:
+		spawned_rooms[cell].global_position += Vector2(direction) * TILE_SIZE
+
+	if room_group_collides(moving_cells):
+		for cell in moving_cells:
+			spawned_rooms[cell].global_position -= Vector2(direction) * TILE_SIZE
+
+		return false
+
+	return true
+
+
+func try_fix_connection(cell: Vector2i, neighbor_cell: Vector2i) -> bool:
+	var room_a = spawned_rooms[cell]
+	var room_b = spawned_rooms[neighbor_cell]
+
+	var door_a_name = get_first_marker(cell, neighbor_cell)
+	var door_b_name = get_opposite_marker(door_a_name)
+
+	var door_a = room_a.get_door(door_a_name)
+	var door_b = room_b.get_door(door_b_name)
+
+	var start = generated_hallways.local_to_map(
+		generated_hallways.to_local(door_a.global_position)
+	)
+
+	var finish= generated_hallways.local_to_map(
+		generated_hallways.to_local(door_b.global_position)
+	)
+	var distance = abs(start.x - finish.x) + abs(start.y - finish.y)
+	var max_path_length = distance + 12
+	var path = find_hallway_path(start, finish, door_a_name, door_b_name)
+
+	if not path.is_empty() and path.size() <= max_path_length:
+		return true
+
+	var direction = neighbor_cell - cell
+	var moving_cell = neighbor_cell
+	var movement_direction = direction
+	
+	if room_parents.has(cell) and room_parents[cell] == neighbor_cell:
+		moving_cell = cell
+		movement_direction = -direction
+	
+	var moving_room = spawned_rooms[moving_cell]
+	var moving_door
+	var fixed_door
+	
+	if moving_cell == neighbor_cell:
+		moving_door = room_b.get_door(door_b_name)
+		fixed_door = room_a.get_door(door_a_name)
+	else:
+		moving_door = room_a.get_door(door_a_name)
+		fixed_door = room_b.get_door(door_b_name)
+		
+	var alignment_direction = Vector2i.ZERO
+	var alignment_difference: float
+	
+	if door_a_name == "EastH" or door_a_name == "WestH":
+		alignment_difference = fixed_door.global_position.y - moving_door.global_position.y
+		alignment_direction = Vector2i(0, signi(alignment_difference))
+	else:
+		alignment_difference = fixed_door.global_position.x - moving_door.global_position.x
+		alignment_direction = Vector2i(signi(alignment_difference), 0)
+	
+	var alignment_steps = min(
+		roundi(abs(alignment_difference) / TILE_SIZE),
+		MAX_ROOM_DISPLACEMENT
+	)
+	
+	var perpendicular_directions: Array[Vector2i] = []
+	
+	if alignment_direction != Vector2i.ZERO:
+		perpendicular_directions.append(alignment_direction)
+		perpendicular_directions.append(-alignment_direction)
+	else:
+		perpendicular_directions.append(Vector2i.ZERO)
+	
+	for perpendicular_direction in perpendicular_directions:
+		var moves_made: Array[Vector2i]= []
+		var perpendicular_steps = alignment_steps
+		
+		if perpendicular_direction == -alignment_direction and alignment_direction != Vector2i.ZERO:
+			perpendicular_steps = MAX_ROOM_DISPLACEMENT
+		
+		for attempt in range(perpendicular_steps):
+			if not move_room_subtree(moving_cell, perpendicular_direction):
+				print("PERPENDICULAR MOVE BLOCKED: ", perpendicular_direction)
+				break
+			
+			moves_made.append(perpendicular_direction)
+
+			door_a = room_a.get_door(door_a_name)
+			door_b = room_b.get_door(door_b_name)
+
+			start = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_a.global_position)
+			)
+			finish = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_b.global_position)
+			)
+
+			distance = abs(start.x - finish.x) + abs(start.y - finish.y)
+			max_path_length = distance + 12
+			path = find_hallway_path(start, finish, door_a_name, door_b_name)
+
+			if not path.is_empty() and path.size() <= max_path_length:
+				print("Fixed connection: ", cell, " -> ", neighbor_cell)
+				return true
+
+		for attempt in range(MAX_ROOM_DISPLACEMENT):
+			if not move_room_subtree(moving_cell, movement_direction):
+				print("CONNECTION MOVE BLOCKED: ", movement_direction)
+				break
+
+			moves_made.append(movement_direction)
+
+			door_a = room_a.get_door(door_a_name)
+			door_b = room_b.get_door(door_b_name)
+
+			start = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_a.global_position)
+			)
+			finish = generated_hallways.local_to_map(
+				generated_hallways.to_local(door_b.global_position)
+			)
+
+			distance = abs(start.x - finish.x) + abs(start.y - finish.y)
+			max_path_length = distance + 12
+			path = find_hallway_path(start, finish, door_a_name, door_b_name)
+
+			if not path.is_empty() and path.size() <= max_path_length:
+				print("Fixed connection: ", cell, " -> ", neighbor_cell)
+				return true
+
+		for i in range(moves_made.size() - 1, -1, -1):
+			move_room_subtree(moving_cell, -moves_made[i])
+
+	return false
+
+
+func fix_failed_connections() -> void:
+	for cell in room_connections:
+		for neighbor_cell in room_connections[cell]:
+			if cell >= neighbor_cell:
+				continue
+
+			if not positioned_rooms.has(cell) or not positioned_rooms.has(neighbor_cell):
+				continue
+
+			if not try_fix_connection(cell, neighbor_cell):
+				push_warning(
+					"Could not fix connection: "
+					+ str(cell) + " -> " + str(neighbor_cell)
+				)
