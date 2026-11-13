@@ -45,7 +45,6 @@ metadata/_custom_type_script = "uid://cyurnsedhb28p"
 radius = 8.062152
 
 [node name="main" type="Node2D" unique_id=1012450263]
-rotation = -0.0014160064
 script = ExtResource("1_tbgi4")
 
 [node name="base" parent="." unique_id=299476916 instance=ExtResource("3_o6xl0")]

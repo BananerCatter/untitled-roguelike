@@ -1,5 +1,5 @@
 extends CanvasLayer
-
+signal restart_game
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,3 +17,7 @@ func _on_resume_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit() 
+
+
+func _on_quit_to_main_menu_pressed() -> void:
+	restart_game.emit()

@@ -5,9 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://cbsm4bf3et78v" path="res://scenes/pause_menu.tscn" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://omuvjwg14edu" path="res://scenes/debug_info.tscn" id="3_sugp2"]
 
-[node name="Main" type="Node" unique_id=1774309872 node_paths=PackedStringArray("pause_menu")]
+[node name="Main" type="Node" unique_id=1774309872 node_paths=PackedStringArray("main_menu", "pause_menu")]
 process_mode = 3
 script = ExtResource("1_0wfyh")
+main_menu = NodePath("MainMenu")
 pause_menu = NodePath("PauseMenu")
 
 [node name="PauseMenu" parent="." unique_id=2067124298 instance=ExtResource("2_jyhfs")]
@@ -17,4 +18,5 @@ pause_menu = NodePath("PauseMenu")
 [node name="MainMenu" parent="." unique_id=582311429 instance=ExtResource("1_o5qli")]
 unique_name_in_owner = true
 
+[connection signal="restart_game" from="PauseMenu" to="." method="_on_pause_menu_restart_game"]
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]
