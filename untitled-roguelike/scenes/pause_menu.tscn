@@ -2,26 +2,23 @@
 
 [ext_resource type="Script" uid="uid://dgftjw3yvb45v" path="res://scripts/ui/pause_menu.gd" id="1_n87rw"]
 [ext_resource type="Shader" uid="uid://dblmf54djknc6" path="res://resources/shaders/pause_menu.gdshader" id="2_myx47"]
-[ext_resource type="Shader" uid="uid://0xg1ly5fopo1" path="res://resources/shaders/pause_menu_noise.gdshader" id="3_kukqi"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5d2l8"]
+noise_type = 3
+frequency = 0.8318
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kukqi"]
+width = 1920
+height = 1920
+noise = SubResource("FastNoiseLite_5d2l8")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n87rw"]
 shader = ExtResource("2_myx47")
-shader_parameter/blur_strength = 1.0000000149012
+shader_parameter/blur_strength = 2.0000000298024
+shader_parameter/NOISE_TEXTURE = SubResource("NoiseTexture2D_kukqi")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b013q"]
 bg_color = Color(0.5529551, 0.5529559, 0.5529549, 0.16862746)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b013q"]
-shader = ExtResource("3_kukqi")
-shader_parameter/blur_strength = 2.0
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_kukqi"]
-noise_type = 4
-frequency = 1.0
-fractal_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_myx47"]
-noise = SubResource("FastNoiseLite_kukqi")
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=2067124298]
 process_mode = 2
@@ -36,6 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="PauseContainer" unique_id=1999455497]
+z_index = 1
 material = SubResource("ShaderMaterial_n87rw")
 layout_mode = 1
 anchors_preset = 15
@@ -77,7 +75,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "Return to main menu"
 
-[node name="GlassPanel" type="Panel" parent="PauseContainer" unique_id=1230824614]
+[node name="GlassPanel" type="Panel" parent="PauseContainer/Panel" unique_id=1230824614]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,17 +84,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b013q")
-
-[node name="TextureRect" type="TextureRect" parent="PauseContainer/GlassPanel" unique_id=209946805]
-material = SubResource("ShaderMaterial_b013q")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = SubResource("NoiseTexture2D_myx47")
 
 [connection signal="pressed" from="PauseContainer/Panel/Buttons/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PauseContainer/Panel/Buttons/Quit" to="." method="_on_quit_pressed"]
