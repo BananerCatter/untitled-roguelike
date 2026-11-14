@@ -5,7 +5,7 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5d2l8"]
 noise_type = 3
-frequency = 0.8318
+frequency = 0.427
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kukqi"]
 width = 1920

@@ -10,8 +10,9 @@ varying vec2 pos;
 void fragment() {
 	float noise_color = texture(NOISE_TEXTURE, SCREEN_UV).r;
 	vec4 color2= textureLod(SCREEN_TEXTURE, SCREEN_UV, 1.3);
+	
 	vec4 color1 = textureLod(SCREEN_TEXTURE, SCREEN_UV, blur_strength*(1.0-noise_color)*3.0);
-
+	color1 += vec4(0.1,0.1,0.1,0.01);
 	
 	
 	COLOR = mix(color1, color2, 0.5);

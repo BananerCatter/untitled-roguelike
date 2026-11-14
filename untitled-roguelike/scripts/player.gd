@@ -75,7 +75,7 @@ func on_item_picked_up(item: Item):
 func _on_item_selected(item:Item):
 	if item:
 		if item.item_type== Item.TYPE.consumable_item:
-			stats.use_consumable(item.name)
+			stats.use_consumable(item._on_use())
 			inventory.remove_item(item)
 			update_inventory.emit()
 			

@@ -90,6 +90,7 @@ func  _on_defence_level_set(new_value:int) ->void:
 		recalculate_stats()
 
 
-func use_consumable(name:String):
-	match name:
-		"PotionBasic": heal(100)
+func use_consumable(consumable_func:Dictionary[String,Array]) -> void:
+		for key in consumable_func:
+			for i in consumable_func[key]:
+				call(key, i) 
