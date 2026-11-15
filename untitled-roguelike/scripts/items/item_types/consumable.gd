@@ -1,8 +1,8 @@
 class_name ConsumableItem extends Item
 @export var _stats_function: String
-@export var _stats_function_amount: Array
+@export var _stats_function_args: Array
 var stats_function:String 
-var stats_function_amount: Array
+var stats_function_args: Array
 
 
 
@@ -13,11 +13,11 @@ func _init() -> void:
 
 func init_on_use() -> void:
 	stats_function = _stats_function
-	stats_function_amount = _stats_function_amount
+	stats_function_args = _stats_function_args
 	
 
 func _on_use() -> Dictionary[String,Array]:
 	if stats_function != '':
-		return {stats_function:stats_function_amount}
-	return {"pass":[0]}
+		return {stats_function:stats_function_args}
+	return {"pass":[]}
 	

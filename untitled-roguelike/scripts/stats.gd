@@ -92,5 +92,4 @@ func  _on_defence_level_set(new_value:int) ->void:
 
 func use_consumable(consumable_func:Dictionary[String,Array]) -> void:
 		for key in consumable_func:
-			for i in consumable_func[key]:
-				call(key, i) 
+				callv(key, consumable_func[key]) 

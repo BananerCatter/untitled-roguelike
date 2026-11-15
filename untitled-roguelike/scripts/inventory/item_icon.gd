@@ -1,7 +1,7 @@
-extends PanelContainer
-signal item_clicked(item:Item)
+class_name HotbarIcon extends PanelContainer
+signal item_clicked(item:Item, index:int)
 var displayed_item:Item
-
+var index: int =0
 @onready var amount_label: Label = $Label
 @onready var texture_rect: TextureRect = $TextureRect
 
@@ -20,4 +20,4 @@ func display(slot:ItemSlot):
 	
 
 func _on_button_pressed() -> void:
-	item_clicked.emit(displayed_item)
+	item_clicked.emit(displayed_item, index)
