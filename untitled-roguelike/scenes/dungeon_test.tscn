@@ -167,15 +167,11 @@ sources/0 = SubResource("TileSetAtlasSource_bxlfd")
 [node name="DungeonTest" type="Node2D" unique_id=1570567108]
 script = ExtResource("1_bxlfd")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=440840155]
-position = Vector2(1241, -760)
-zoom = Vector2(0.21, 0.21)
-
 [node name="GeneratedHallways" type="TileMapLayer" parent="." unique_id=1692071806]
 tile_set = SubResource("TileSet_wu2nr")
 rendering_quadrant_size = 32
 physics_quadrant_size = 32
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1244585072]
-position = Vector2(2344, -738)
-zoom = Vector2(0.2, 0.2)
+[node name="Camera2D2" type="Camera2D" parent="." unique_id=1244585072]
+position = Vector2(1006, -1608)
+zoom = Vector2(0.245, 0.245)
