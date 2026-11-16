@@ -16,7 +16,7 @@ func _on_stamina_changed(stamina_value:float) ->void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("inventory"):
-		inventory_dialogue.open(player.inventory)
+		inventory_dialogue.toggle(player.inventory)
 
 func _on_update_inventory():
 	inventory_dialogue._on_update_inventory(player.inventory)

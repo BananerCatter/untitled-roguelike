@@ -10,6 +10,8 @@ region = Rect2(0, 0, 16, 0)
 
 [resource]
 script = ExtResource("3_pg54w")
+_stats_function = "heal"
+_stats_function_amount = [100]
 name = "PotionBasic"
 scene = ExtResource("2_tc37n")
 icon = SubResource("AtlasTexture_0xbcx")

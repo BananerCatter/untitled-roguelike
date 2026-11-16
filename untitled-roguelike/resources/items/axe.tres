@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponItem" format=3 uid="uid://c1eqq4ck0lhrw"]
+
+[ext_resource type="Texture2D" uid="uid://b0i5niqq1xgug" path="res://assets/img/animation/battleaxe1.png" id="1_0wg6r"]
+[ext_resource type="PackedScene" uid="uid://d3238s82eop2t" path="res://scenes/item_world_sprites/dagger_sprite.tscn" id="2_n168a"]
+[ext_resource type="Script" uid="uid://doxsi2griyy8n" path="res://scripts/items/item_types/weapon.gd" id="3_g4ab7"]
+[ext_resource type="PackedScene" uid="uid://1cn7vmspy0ng" path="res://scenes/weapons_in_hand/axe.tscn" id="4_n168a"]
+
+[resource]
+script = ExtResource("3_g4ab7")
+damage = 10
+weapon_in_hand_scene = ExtResource("4_n168a")
+name = "axe"
+scene = ExtResource("2_n168a")
+icon = ExtResource("1_0wg6r")
+metadata/_custom_type_script = "uid://ccvw3e1f6ksos"

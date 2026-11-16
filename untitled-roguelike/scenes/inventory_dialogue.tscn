@@ -1,9 +1,26 @@
 [gd_scene format=3 uid="uid://5k73nvky5g5v"]
 
+[ext_resource type="Shader" uid="uid://dblmf54djknc6" path="res://resources/shaders/pause_menu.gdshader" id="1_4iqti"]
 [ext_resource type="Script" uid="uid://osesn3438fq5" path="res://scripts/inventory/inventory_dialogue.gd" id="1_52gng"]
 [ext_resource type="PackedScene" uid="uid://de4juax8udvw7" path="res://scenes/icons/item_slot.tscn" id="2_ka0ok"]
+[ext_resource type="Texture2D" uid="uid://biewx38eb30uk" path="res://assets/img/ui/selector.png" id="4_67pi5"]
 
-[node name="InventoryDialogue" type="PanelContainer" unique_id=1827396229]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m7doj"]
+frequency = 0.88
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_af02y"]
+noise = SubResource("FastNoiseLite_m7doj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff0s2"]
+shader = ExtResource("1_4iqti")
+shader_parameter/blur_strength = 2.0
+shader_parameter/NOISE_TEXTURE = SubResource("NoiseTexture2D_af02y")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4iqti"]
+bg_color = Color(0.17254902, 0.17254902, 0.17254902, 0.56078434)
+
+[node name="InventoryDialogue" type="PanelContainer" unique_id=1827396229 node_paths=PackedStringArray("selector")]
+material = SubResource("ShaderMaterial_ff0s2")
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -14,32 +31,22 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_4iqti")
 script = ExtResource("1_52gng")
 item_icon = ExtResource("2_ka0ok")
+selector = NodePath("Sprite2D")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1845507053]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1964085832]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1901125302]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 30
-text = "Inventory"
-horizontal_alignment = 1
-
-[node name="CloseButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1766890067]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "<"
-
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=2088639553]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+theme_override_constants/v_separation = 16
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1973731039]
+scale = Vector2(2, 2)
+texture = ExtResource("4_67pi5")
+centered = false

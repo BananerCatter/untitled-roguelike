@@ -24,6 +24,8 @@ shadow_size = 1
 shadow_offset = Vector2(0, 1)
 
 [node name="GameUi" type="CanvasLayer" unique_id=1748888889]
+process_mode = 1
+layer = 0
 script = ExtResource("1_yubou")
 
 [node name="HUD" type="Control" parent="." unique_id=1928020135]
@@ -33,7 +35,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=991519412]
 custom_minimum_size = Vector2(50, 0)
