@@ -11,9 +11,8 @@
 [ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="10_2sb77"]
 [ext_resource type="PackedScene" uid="uid://cq5m7r3f7j3vx" path="res://scenes/chest.tscn" id="10_5fr2l"]
 [ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="10_fkrx8"]
-[ext_resource type="PackedScene" uid="uid://ib5t11nrr4fd" path="res://scenes/dungeon_test.tscn" id="12_fkrx8"]
 
-[sub_resource type="Resource" id="Resource_mwgft"]
+[sub_resource type="Resource" id="Resource_fkrx8"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 max_health_level = 3
@@ -32,7 +31,7 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_fkrx8"]
+[sub_resource type="Resource" id="Resource_mwgft"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 damage_level = 2
@@ -52,7 +51,7 @@ script = ExtResource("1_tbgi4")
 unique_name_in_owner = true
 top_level = true
 position = Vector2(709, 350)
-stats = SubResource("Resource_mwgft")
+stats = SubResource("Resource_fkrx8")
 
 [node name="base" parent="." unique_id=299476916 instance=ExtResource("3_o6xl0")]
 position = Vector2(708.99994, 349.99997)
@@ -65,7 +64,7 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_fkrx8")
+stats = SubResource("Resource_mwgft")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)
@@ -96,8 +95,5 @@ ExtResource("9_iqu8w"): 5
 })
 key_item = ExtResource("10_2sb77")
 
-[node name="DungeonTest" parent="." unique_id=1570567108 instance=ExtResource("12_fkrx8")]
-
 [connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="PotionPickupTest2/Area2D" to="PotionPickupTest2" method="_on_area_2d_body_entered"]
-[connection signal="move_player" from="DungeonTest" to="." method="_on_dungeon_test_move_player" flags=3]

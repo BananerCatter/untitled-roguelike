@@ -82,15 +82,15 @@ text = "START"
 [node name="Options" type="MenuButton" parent="Buttons" unique_id=268916442]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/icon_hover_color = Color(0.99999994, 0.12457112, 0.08649365, 1)
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_b013q")
 theme_override_styles/hover = SubResource("StyleBoxFlat_bqqt6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
-item_count = 1
-popup/item_0/text = "Spawn In Dungeon"
-popup/item_0/id = 0
+text = "OPTIONS"
+flat = false
 
 [node name="Quit" type="Button" parent="Buttons" unique_id=1621200511]
 layout_mode = 2

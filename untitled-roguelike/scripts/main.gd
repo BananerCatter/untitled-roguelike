@@ -24,8 +24,12 @@ func _ready() -> void:
 
 func _on_main_menu_game_start() -> void:
 	print("start")
+	var dungeon_start: bool = %MainMenu.start_in_dungeon
+	print (dungeon_start)
 	%MainMenu.queue_free()
+	main_level.start_in_dungeon = dungeon_start
 	add_pausable_child(main_level)
+	
 	can_pause = true
 
 func toggle_pause() -> void:
@@ -33,7 +37,7 @@ func toggle_pause() -> void:
 	pause_menu.visible = get_tree().paused
 	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause") and can_pause:
 		toggle_pause()
 

@@ -3,15 +3,24 @@ extends Node2D
 var dungeon_test: Node2D
 @onready var UI: CanvasLayer= $GameUi
 @onready var game_ui: CanvasLayer = $GameUi
+const DUNGEON_TEST = preload("uid://ib5t11nrr4fd")
+
 var player:Player
-var spawn_in_dungeon: bool = true
+var start_in_dungeon: bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
+	if start_in_dungeon:
+		dungeon_test = DUNGEON_TEST.instantiate()
 
+	if dungeon_test:
+		print("dungeon test")
+		dungeon_test.move_player.connect(_on_dungeon_test_move_player)
+		add_child(dungeon_test)
 	call_deferred("init_player")
 
 func init_player() -> void:
+
 	game_ui.player = player
 	player.stamina_changed.connect(UI._on_stamina_changed)
 	player.stats.health_changed.connect(UI._on_hp_changed)
