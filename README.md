@@ -7,22 +7,27 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 
 ### Features :
 ```Bn = Added by bananya; 2s = added by 2shine```
+```Most assets made by 2shine, a few sprites by me```
 * A basic state machine movement system with acceleration and a dash ```Bn```
 * A basic enemy template with pathfinding ```Bn```
 * A stat and leveling system (latter not fully utilized yet) ```Bn```
-* A dungeon layout generator ```2s, the size of scripts he made for this scare me ngl```
+* A **working** dungeon layout generator ```2s, the size of scripts he made for this scare me ngl```
 * Stamina (something something rollslop) ```Bn```
 * Items and inventory, that can theoretically be used by almost anything (for now just the player) ```Bn```
 * A (quite fugly looking 😭) inventory display ```Bn```
 * Combat ```Bn```
+* An option to switch between the test room and the dungeon (Options/ Spawn in dungeon)
 
 ### Controls:
 * W/A/S/D for movement
 * Shift to dash
 * Left click to attack
-* Tab to open inventory
-* Left click to use item in inventory
-#### To use your weapon: Open the inventory, select it with left click, left click to attack
+* Tab to toggle inventory
+* Left click to select item in inventory
+* Q to use item / hold weapon from inventory
+* ESC to pause/unpause
+  
+#### To use your weapon: Open the inventory, select it with left click, take it from the inventory with Q, left click to attack
 
 ### Debug controls:
 * 1: Add 10 hp
@@ -33,11 +38,13 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 
 Download the version for your system from the releases page, extract and run the provided executable. No further setup needed :D
 
-### Note: The week 3 version is a tad bit broken, since I do not have time to remake the pathfinding in time for the publishing deadline; The generated rooms may jut into the test room, if that happens, just restart the game :/
+
 
 ### Screenshots:
+<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-00" src="https://github.com/user-attachments/assets/240bf673-f5f4-4aab-bbc6-ecdf38943ebd" />
+<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-08" src="https://github.com/user-attachments/assets/bbe4ce1b-9d2a-409a-a30c-a872aed04a1c" />
+<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-15" src="https://github.com/user-attachments/assets/5ff2451b-d937-4797-ab0f-0b2295be6ce3" />
+<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-19" src="https://github.com/user-attachments/assets/7cd2b269-a312-4601-af04-98d9ac9aa89f" />
 
-<img width="3770" height="2134" alt="image" src="https://github.com/user-attachments/assets/c805e54a-09d6-47c4-b410-94551809b2b3" />
-<img width="1872" height="1049" alt="Screenshot from 2026-11-09 18-37-54" src="https://github.com/user-attachments/assets/d9575120-95d8-47e6-8b35-f71436118da3" />
-<img width="1848" height="1033" alt="Screenshot from 2026-11-09 18-36-56" src="https://github.com/user-attachments/assets/a914cd0c-63cd-408a-92ad-bb547c7b565c" />
+
 
