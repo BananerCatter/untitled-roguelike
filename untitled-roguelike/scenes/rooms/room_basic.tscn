@@ -177,13 +177,13 @@ rendering_quadrant_size = 32
 physics_quadrant_size = 32
 
 [node name="EastH" type="Marker2D" parent="." unique_id=1649214923]
-position = Vector2(336, 80)
+position = Vector2(337, 80)
 
 [node name="NorthH" type="Marker2D" parent="." unique_id=956651293]
-position = Vector2(112, 48)
+position = Vector2(113, 48)
 
 [node name="WestH" type="Marker2D" parent="." unique_id=1196623072]
-position = Vector2(48, 208)
+position = Vector2(49, 208)
 
 [node name="SouthH" type="Marker2D" parent="." unique_id=1671881286]
 position = Vector2(272, 240)

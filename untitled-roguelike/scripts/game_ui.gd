@@ -1,9 +1,10 @@
 extends CanvasLayer
 
-@onready var player: CharacterBody2D = %Player
+@onready var player: CharacterBody2D 
 @onready var inventory_dialogue: InventoryDialogue = %InventoryDialogue
 
-func _ready() -> void:
+func init_player(current_player:Player) -> void:
+	player = current_player
 	player.inventory.update_inventory.connect(_on_update_inventory)
 
 func _on_hp_changed(hp_value:float, max_hp_value:float) -> void:

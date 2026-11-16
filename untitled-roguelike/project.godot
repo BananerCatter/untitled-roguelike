@@ -36,6 +36,7 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
 enemy_navigation=""
 player="Used when generating the dungeon, so that signals connect properly regardless of where in the node tree the player wnds up in"
+dungeon_test=""
 
 [input]
 
