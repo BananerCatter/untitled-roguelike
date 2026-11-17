@@ -37,7 +37,7 @@ func _ready() -> void:
 	@warning_ignore("integer_division")
 	stats.call_deferred("take_damage", 0)
 	hp_changed.emit(100)
-	stamina_changed.emit((stamina*100/max_stamina))
+	stamina_changed.emit((stats.stamina*100/stats.current_stamina))
 	inventory.get_slots()
 	
 
@@ -117,11 +117,11 @@ func _physics_process(delta: float) -> void:
 	if(stats.health<=0):
 		on_death.emit()
 	
-	if stamina_cooldown.is_stopped() && stamina<max_stamina:
-		stamina+=(stamina_recovery*delta)
-		if(stamina>max_stamina):
-			stamina=max_stamina
-		stamina_changed.emit((stamina*100/max_stamina))
+	if stamina_cooldown.is_stopped():
+		stats.stamina+=(stamina_recovery*delta)
+		if(stats.stamina>stats.current_stamina):
+			stats.stamina=stats.current_stamina
+		stamina_changed.emit((stats.stamina*100/stats.current_stamina))
 	if held_item:
 		weapon_orbit_mouse(delta)
 

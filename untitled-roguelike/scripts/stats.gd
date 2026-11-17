@@ -3,6 +3,7 @@ extends Resource
 class_name Stats
 signal  on_death()
 signal  health_changed(current_health: int, max_health: int)
+signal stamina_changed(stamina:int, max_stamina:int)
 enum buffable_stats{
 	MAX_HEALTH,
 	DAMAGE,
@@ -16,7 +17,7 @@ const StatCurves: Dictionary[buffable_stats, Curve] = {
 @export var max_health_level: int: set =_on_max_health_level_set
 @export var damage_level: int: set =_on_damage_level_set
 @export var defence_level: int: set =_on_defence_level_set
-
+@export var current_stamina: int 
 @export var base_max_health: int
 @export var base_damage: float
 @export var base_defence: float
@@ -31,6 +32,7 @@ var current_damage: float
 var current_defence: float
 
 var health: int =base_max_health: set = _on_health_set
+var stamina: int: set = _on_stamina_set
 
 func _init() -> void:
 	setup_stats.call_deferred()
@@ -68,6 +70,10 @@ func _on_health_set(new_value:int):
 	if health <= 0:
 		on_death.emit()
 	health_changed.emit(health,current_max_health)
+	
+func _on_stamina_set(new_value:int):
+	stamina = clampi(new_value,0,current_stamina)
+	stamina_changed.emit(stamina, current_stamina)
 
 func  _on_max_health_level_set(new_value:int) ->void:
 	var old_level = max_health_level 

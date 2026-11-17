@@ -20,12 +20,12 @@ func _ready() -> void:
 	call_deferred("init_player")
 
 func init_player() -> void:
-
-	game_ui.player = player
 	player.stamina_changed.connect(UI._on_stamina_changed)
 	player.stats.health_changed.connect(UI._on_hp_changed)
 	player.stats.health_changed.emit(player.stats.health, player.stats.current_max_health)
+	
 	game_ui.inventory_dialogue.item_selected.connect(player._on_item_selected)
+	game_ui.init_player(player)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _process(_delta: float) -> void:
