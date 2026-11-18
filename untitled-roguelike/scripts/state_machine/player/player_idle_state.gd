@@ -11,7 +11,7 @@ func update(delta:float) -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_released("light_attack")  && character.stamina >0:
+	if event.is_action_released("light_attack")  && character.stats.stamina >0:
 		
 		if character.held_item and not character.held_item.animation.is_playing():
 				change_state.emit("light_attack")

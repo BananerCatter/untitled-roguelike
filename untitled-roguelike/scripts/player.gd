@@ -20,14 +20,12 @@ var hitbox: Hitbox
 @export var timer: Timer 
 @export var dash_cooldown: Timer
 var can_dash:bool = true
-@export var stamina: float 
-@export var max_stamina: float 
-@export var stamina_cooldown: Timer
-@export var stamina_recovery: float
+
+
 @export var hitbox_shape: Shape2D
 
 var held_item: HeldWeapon
-
+@export var stamina_timer: Timer 
 
 
 
@@ -37,8 +35,13 @@ func _ready() -> void:
 	@warning_ignore("integer_division")
 	stats.call_deferred("take_damage", 0)
 	hp_changed.emit(100)
+	@warning_ignore("integer_division")
 	stamina_changed.emit((stats.stamina*100/stats.current_stamina))
+	stats.start_stamina_timer.connect(_start_stamina_timer)
 	inventory.get_slots()
+	stamina_timer.set_wait_time(stats.stamina_cooldown)
+	stamina_timer.one_shot = true
+	print(stamina_timer.wait_time)
 	
 
 
@@ -100,10 +103,8 @@ func get_items_from_chest(item_dict:Dictionary[Item,int], key_item:Item):
 		inventory.remove_item(key_item)
 	inventory.get_items_from_dict(item_dict)
 
-func lose_stamina(lost_stamina:float):
-	stamina -= lost_stamina
-	stamina_cooldown.start()
-	stamina_changed.emit((stamina*100/max_stamina))
+func lose_stamina(lost_stamina:int):
+	stats.lose_stamina(lost_stamina)
 
 func weapon_orbit_mouse(delta:float):
 	if not held_item.animation.is_playing():
@@ -117,11 +118,12 @@ func _physics_process(delta: float) -> void:
 	if(stats.health<=0):
 		on_death.emit()
 	
-	if stamina_cooldown.is_stopped():
-		stats.stamina+=(stamina_recovery*delta)
-		if(stats.stamina>stats.current_stamina):
-			stats.stamina=stats.current_stamina
-		stamina_changed.emit((stats.stamina*100/stats.current_stamina))
+	if stats.stamina_cooldown_over && stats.stamina <= stats.current_stamina:
+		stats.recover_stamina(delta)
+		
+
+
+	
 	if held_item:
 		weapon_orbit_mouse(delta)
 
@@ -130,3 +132,10 @@ func _physics_process(delta: float) -> void:
 
 func _on_dash_cooldown_timeout() -> void:
 	can_dash = true
+	
+func _start_stamina_timer() -> void:
+	stats.stamina_cooldown_over = false
+	stamina_timer.start()
+	await(stamina_timer.timeout)
+	stats.stamina_cooldown_over = true
+	

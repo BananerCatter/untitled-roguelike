@@ -8,6 +8,7 @@ script = ExtResource("1_wld0n")
 max_health_level = 3
 damage_level = 3
 defence_level = 3
+current_stamina = 100
 base_max_health = 300
 base_damage = 100.0
 base_defence = 10.0
