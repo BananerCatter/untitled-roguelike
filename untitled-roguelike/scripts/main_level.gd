@@ -22,8 +22,9 @@ func _ready() -> void:
 
 
 func init_player() -> void:
-	player.stamina_changed.connect(UI._on_stamina_changed)
+	
 	player.stats.health_changed.connect(UI._on_hp_changed)
+	player.stats.stamina_changed.connect(UI._on_stamina_changed)
 	player.stats.health_changed.emit(player.stats.health, player.stats.current_max_health)
 	player.stats.stamina_changed.emit(player.stats.stamina, player.stats.current_stamina)
 	game_ui.inventory_dialogue.item_selected.connect(player._on_item_selected)
