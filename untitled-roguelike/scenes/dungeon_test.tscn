@@ -171,7 +171,3 @@ script = ExtResource("1_bxlfd")
 tile_set = SubResource("TileSet_wu2nr")
 rendering_quadrant_size = 32
 physics_quadrant_size = 32
-
-[node name="Camera2D2" type="Camera2D" parent="." unique_id=1244585072]
-position = Vector2(1006, -1608)
-zoom = Vector2(0.245, 0.245)

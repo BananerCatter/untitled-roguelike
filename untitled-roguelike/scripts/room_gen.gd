@@ -59,6 +59,8 @@ const CORNER_TURN_UP_LEFT : Array[Vector2i] = [
 
 var grid : Array = []
 
+var minimap: Control
+
 func _ready() -> void:
 	room_connections.clear()
 	grid_create()
@@ -101,6 +103,8 @@ func _ready() -> void:
 	print("Failed connection data: ", failed_connections)
 	if failed_connections.is_empty():
 		generate_hallway_floors()
+		create_minimap()
+		spawn_player()
 	
 func grid_create() -> void:
 	grid.clear()
@@ -836,6 +840,22 @@ func generate_hallway_floors() -> void:
 			var finish = generated_hallways.local_to_map(
 				generated_hallways.to_local(door_b.global_position)
 			)
+			
+			var start_local = generated_hallways.to_local(door_a.global_position)
+			var finish_local = generated_hallways.to_local(door_b.global_position)
+			print("START DOOR: ", door_a.global_position)
+			print("START OFFSET: ", start_local - generated_hallways.map_to_local(start))
+			
+			print ("END DOOR: ", door_b.global_position)
+			print("END OFFSET: ", finish_local - generated_hallways.map_to_local(finish))
+			
+			print("START MARKER LOCAL: ", door_a.position)
+			print("END MARKER LOCAL: ", door_b.position)
+			print("START ROOM: ", door_a.get_parent().name)
+			print("END ROOM: ", door_b.get_parent().name)
+			
+			print("START ROOM GLOBAL: ", door_a.get_parent().global_position)
+			print("END ROOM GLOBAL: ", door_b.get_parent().global_position)
 
 			var path = find_hallway_path(
 				start,
@@ -843,6 +863,10 @@ func generate_hallway_floors() -> void:
 				door_a_name,
 				door_b_name
 			)
+			
+			if not path.is_empty():
+				for i in range(path.size()):
+					print("Path[",i,"]: ", path[i])
 
 			if path.is_empty():
 				push_error("Cannot generate hallway: path not found")
@@ -1480,3 +1504,31 @@ func fix_failed_connections() -> void:
 					"Could not fix connection: "
 					+ str(cell) + " -> " + str(neighbor_cell)
 				)
+
+func create_minimap() -> void:
+	var minimap_scene = preload("res://scenes/minimap.tscn")
+	minimap = minimap_scene.instantiate()
+	
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer=10
+	get_tree().current_scene.add_child(canvas_layer)
+	canvas_layer.add_child(minimap)
+	
+	minimap.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	minimap.size = Vector2(320,320)
+	minimap.set_dungeon_data(spawned_rooms,room_connections)
+	print("Minimap position: ",minimap.position)
+	print("Minimap size: ", minimap.size)
+	print("canvas Layer: ", canvas_layer)
+
+func spawn_player() -> void:
+	var start_room = spawned_rooms[start_cell]
+	var player = preload("res://scenes/player.tscn").instantiate()
+	get_tree().current_scene.add_child(player)
+	
+	var tilemap = start_room.get_node("tilemap")
+	var room_center = tilemap.get_used_rect().get_center()
+	
+	player.global_position = tilemap.to_global(
+		tilemap.map_to_local(Vector2i(room_center))
+	)
