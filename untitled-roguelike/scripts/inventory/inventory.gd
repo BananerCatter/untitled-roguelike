@@ -25,7 +25,6 @@ func initialize_inventory ()-> void:
 
 func add_item(item:Item) -> bool:
 	var slot: ItemSlot = get_item_slot(item)
-
 	if slot and slot.amount < item.max_stack_size:
 		slot.amount +=1
 	else:
@@ -33,7 +32,8 @@ func add_item(item:Item) -> bool:
 		if not slot:
 			return false
 		slot.item=item
-		slot.amount+=1
+		slot.amount=1
+		
 	update_inventory.emit()
 	updated_slot.emit(slot)
 	return true

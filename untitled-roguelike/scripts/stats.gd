@@ -72,7 +72,6 @@ func lose_stamina(stm:float) -> void:
 
 
 func recover_stamina(delta:float) -> void:
-	@warning_ignore("narrowing_conversion")
 	stamina+=stamina_recovery*delta
 
 	

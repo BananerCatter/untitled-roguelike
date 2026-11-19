@@ -31,7 +31,6 @@ func _on_update_inventory(inventory:Inventory):
 		var icon:HotbarIcon = item_icon.instantiate()
 		if icon:
 			icon.index = index
-			print(icon.index)
 			grid_container.add_child(icon)
 			icon.display(slot)
 			icon.connect("item_clicked", on_slot_clicked)
@@ -43,7 +42,6 @@ func _move_selector(index:int) ->void:
 	currently_selected = index
 	if hotbar_icons[currently_selected]:
 		selector.global_position = hotbar_icons[currently_selected].global_position
-		print(hotbar_icons[currently_selected].index)
 	else :
 		pass
 	

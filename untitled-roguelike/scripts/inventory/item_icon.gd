@@ -17,6 +17,9 @@ func display(slot:ItemSlot):
 			amount_label.show()
 		else:
 			amount_label.hide()
+	if !slot.item:
+		displayed_item = null
+		amount_label.hide()
 	
 
 func _on_button_pressed() -> void:
