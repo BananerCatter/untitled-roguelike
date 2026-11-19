@@ -40,6 +40,19 @@ var health: int =base_max_health: set = _on_health_set
 var stamina: float: set = _on_stamina_set
 var stamina_cooldown_over: bool = true
 
+var stat_buffs: Array[StatBuff] = []
+
+
+func add_buff(buff: StatBuff) -> void:
+	stat_buffs.append(buff)
+	recalculate_stats.call_deferred()
+	
+
+func remove_buff(buff: StatBuff) -> void:
+	stat_buffs.erase(buff)
+	recalculate_stats.call_deferred()
+
+
 func _init() -> void:
 	setup_stats.call_deferred()
 	
@@ -76,6 +89,23 @@ func recover_stamina(delta:float) -> void:
 
 	
 func recalculate_stats() ->void:
+	
+	var stat_mults: Dictionary = {} # All multiplicative buffs
+	var stat_adds: Dictionary = {} # All additive buffs
+	for buff:StatBuff in stat_buffs:
+		var stat_name: String = buffable_stats.keys()[buff.stat].to_lower
+		match buff.buff_type:
+			StatBuff.BuffType.ADD:
+				if not stat_adds.has(stat_name):
+					stat_adds[stat_name] = 0.0
+				stat_adds[stat_name] += buff.buff_amount
+			StatBuff.BuffType.MULTIPLY:
+				if not stat_mults.has(stat_name):
+					stat_mults[stat_name] = 1.0
+				stat_mults[stat_name] *= buff.buff_amount
+				
+				
+	
 	var max_health_stats_curve_pos: float = (float(max_health_level)/ 100.0 ) - 0.01
 	var damage_stats_curve_pos: float = (float(damage_level)/ 100.0) - 0.01
 	var defence_stats_curve_pos: float = (float(defence_level)/ 100.0 ) - 0.01
