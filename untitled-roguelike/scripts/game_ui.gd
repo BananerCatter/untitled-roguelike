@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var player: CharacterBody2D 
 @onready var inventory_dialogue: InventoryDialogue = %InventoryDialogue
 
+@onready var label: Label = $Label
+
 func init_player(current_player:Player) -> void:
 	player = current_player
 	player.inventory.update_inventory.connect(_on_update_inventory)
@@ -21,3 +23,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_update_inventory():
 	inventory_dialogue._on_update_inventory(player.inventory)
+
+func _process(_delta: float) -> void:
+	label.text = ("current damage: " +  str(player.stats.current_damage))

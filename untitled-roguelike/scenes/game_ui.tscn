@@ -108,4 +108,9 @@ offset_top = 40.0
 offset_right = -1636.0
 offset_bottom = -97.0
 
+[node name="Label" type="Label" parent="." unique_id=1035105155]
+offset_right = 40.0
+offset_bottom = 23.0
+metadata/_edit_use_anchors_ = true
+
 [connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

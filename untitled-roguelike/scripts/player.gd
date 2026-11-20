@@ -42,6 +42,8 @@ func _ready() -> void:
 	stamina_timer.set_wait_time(stats.stamina_cooldown)
 	stamina_timer.one_shot = true
 	print(stamina_timer.wait_time)
+
+
 	
 
 

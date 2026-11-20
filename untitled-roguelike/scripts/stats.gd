@@ -41,6 +41,7 @@ var stamina: float: set = _on_stamina_set
 var stamina_cooldown_over: bool = true
 
 var stat_buffs: Array[StatBuff] = []
+var status_effects: Array[StatusEffect] =[]
 
 
 func add_buff(buff: StatBuff) -> void:
@@ -51,6 +52,17 @@ func add_buff(buff: StatBuff) -> void:
 func remove_buff(buff: StatBuff) -> void:
 	stat_buffs.erase(buff)
 	recalculate_stats.call_deferred()
+
+
+func add_status_effect(status:StatusEffect) ->void:
+	status_effects.append(status)
+	recalculate_stats.call_deferred()
+	
+
+func remove_status_effect(status:StatusEffect) ->void:
+	status_effects.erase(status)
+	recalculate_stats.call_deferred()
+
 
 
 func _init() -> void:
@@ -93,7 +105,7 @@ func recalculate_stats() ->void:
 	var stat_mults: Dictionary = {} # All multiplicative buffs
 	var stat_adds: Dictionary = {} # All additive buffs
 	for buff:StatBuff in stat_buffs:
-		var stat_name: String = buffable_stats.keys()[buff.stat].to_lower
+		var stat_name: String = buffable_stats.keys()[buff.stat].to_lower()
 		match buff.buff_type:
 			StatBuff.BuffType.ADD:
 				if not stat_adds.has(stat_name):
@@ -104,15 +116,24 @@ func recalculate_stats() ->void:
 					stat_mults[stat_name] = 1.0
 				stat_mults[stat_name] *= buff.buff_amount
 				
-				
+				if stat_mults[stat_name] <0.0:
+					stat_mults[stat_name] = 0.0
 	
 	var max_health_stats_curve_pos: float = (float(max_health_level)/ 100.0 ) - 0.01
 	var damage_stats_curve_pos: float = (float(damage_level)/ 100.0) - 0.01
 	var defence_stats_curve_pos: float = (float(defence_level)/ 100.0 ) - 0.01
 	@warning_ignore("narrowing_conversion")
-	current_max_health = base_max_health * StatCurves[buffable_stats.MAX_HEALTH].sample(max_health_stats_curve_pos)
-	current_damage = base_damage * StatCurves[buffable_stats.DAMAGE].sample(damage_stats_curve_pos)
-	current_defence = base_defence * StatCurves[buffable_stats.DEFENCE].sample( defence_stats_curve_pos)
+	current_max_health = floor(base_max_health * StatCurves[buffable_stats.MAX_HEALTH].sample(max_health_stats_curve_pos))
+	current_damage = floor(base_damage * StatCurves[buffable_stats.DAMAGE].sample(damage_stats_curve_pos))
+	current_defence = floor(base_defence * StatCurves[buffable_stats.DEFENCE].sample( defence_stats_curve_pos))
+
+		
+	for stat_name:String in stat_mults:
+		var current_property_name: String = str("current_"+stat_name)
+		set(current_property_name, get(current_property_name) * stat_mults[stat_name]) 
+	for stat_name:String in stat_adds:
+		var current_property_name: String = str("current_"+stat_name)
+		set(current_property_name, get(current_property_name) + stat_mults[stat_name]) 
 
 	
 func _on_health_set(new_value:int) -> void:

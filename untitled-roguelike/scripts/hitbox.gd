@@ -3,13 +3,13 @@ var attacker_stats: Stats
 var hitbox_lifetime: float
 var shape: Shape2D
 var hitlog: Hitlog
-
+var weapon_damage: float
 
 func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D, _weapon_damage: int, _hitlog:Hitlog) -> void:
 	attacker_stats=_attacker_stats
 	hitbox_lifetime=_hitbox_lifetime
 	shape=_shape
-	attacker_stats.current_damage+=_weapon_damage
+	weapon_damage = _weapon_damage
 	hitlog = _hitlog
 
 func _ready():
@@ -47,4 +47,4 @@ func _on_area_entered(area: Area2D):
 			hitlog.log_hit(hurbox_owner)
 	
 	
-	area.receive_hit(attacker_stats.current_damage)
+	area.receive_hit(attacker_stats.current_damage+weapon_damage)
