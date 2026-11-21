@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cmqs5ppk6jh7q"]
+
+[ext_resource type="Script" uid="uid://bcn7okub3dep" path="res://scripts/ui/status_effects.gd" id="1_hj78y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b013q"]
+
+[node name="StatusEffects" type="PanelContainer" unique_id=2119364735]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_b013q")
+script = ExtResource("1_hj78y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1992802581]
+layout_mode = 2

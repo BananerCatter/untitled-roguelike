@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var player: CharacterBody2D 
 @onready var inventory_dialogue: InventoryDialogue = %InventoryDialogue
-
+@onready var status_effects: =%StatusEffects
 @onready var label: Label = $Label
 
 func init_player(current_player:Player) -> void:

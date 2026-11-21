@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://nq43bmotyqy5" path="res://scenes/progress_bar.tscn" id="2_rns2u"]
 [ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_u001w"]
 [ext_resource type="PackedScene" uid="uid://5k73nvky5g5v" path="res://scenes/inventory_dialogue.tscn" id="4_u2dgd"]
+[ext_resource type="PackedScene" uid="uid://cmqs5ppk6jh7q" path="res://scenes/ui/status_effects.tscn" id="5_bt76a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
 
@@ -112,5 +113,8 @@ offset_bottom = -97.0
 offset_right = 40.0
 offset_bottom = 23.0
 metadata/_edit_use_anchors_ = true
+
+[node name="StatusEffects" parent="." unique_id=2119364735 instance=ExtResource("5_bt76a")]
+unique_name_in_owner = true
 
 [connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

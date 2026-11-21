@@ -4,6 +4,8 @@ class_name Stats
 signal  on_death()
 signal  health_changed(current_health: int, max_health: int)
 signal  stamina_changed(new_stamina:float, max_stamina:float)
+signal  _add_status_effect(status_effect: StatusEffect)
+
 signal  start_stamina_timer()
 enum  buffable_stats{
 	MAX_HEALTH,
@@ -52,10 +54,6 @@ func add_buff(buff: StatBuff) -> void:
 func remove_buff(buff: StatBuff) -> void:
 	stat_buffs.erase(buff)
 	recalculate_stats.call_deferred()
-
-
-
-
 
 
 func _init() -> void:

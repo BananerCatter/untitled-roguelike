@@ -20,7 +20,7 @@ source_geometry_mode = 1
 source_geometry_group_name = &"enemy_navigation"
 agent_radius = 14.0
 
-[sub_resource type="Resource" id="Resource_fkrx8"]
+[sub_resource type="Resource" id="Resource_2sb77"]
 resource_local_to_scene = true
 script = ExtResource("7_o6xl0")
 damage_level = 2
@@ -52,7 +52,7 @@ navigation_polygon = SubResource("NavigationPolygon_b013q")
 
 [node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("6_tefeu")]
 position = Vector2(852.4016, 423.20743)
-stats = SubResource("Resource_fkrx8")
+stats = SubResource("Resource_2sb77")
 
 [node name="PotionPickupTest" type="Node2D" parent="." unique_id=1973899873]
 position = Vector2(811.1893, 573.1492)

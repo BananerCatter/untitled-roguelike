@@ -19,6 +19,7 @@ var hitbox: Hitbox
 @export var acceleration: float
 @export var timer: Timer 
 @export var dash_cooldown: Timer
+@export var status_handler: StatusHandler
 var can_dash:bool = true
 
 
@@ -26,6 +27,7 @@ var can_dash:bool = true
 
 var held_item: HeldWeapon
 @export var stamina_timer: Timer 
+@export var debug_status: PackedScene
 
 
 
@@ -42,7 +44,7 @@ func _ready() -> void:
 	stamina_timer.set_wait_time(stats.stamina_cooldown)
 	stamina_timer.one_shot = true
 	print(stamina_timer.wait_time)
-
+	stats._add_status_effect.emit(debug_status.instantiate())
 
 	
 

@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://c2y1qgolv7e5e"]
 
+[ext_resource type="Script" uid="uid://bqfkk0vldkqum" path="res://scripts/status_icon.gd" id="1_lvx4l"]
+
 [node name="StatusIcon" type="PanelContainer" unique_id=1677028471]
+script = ExtResource("1_lvx4l")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1938416404]
 layout_mode = 2

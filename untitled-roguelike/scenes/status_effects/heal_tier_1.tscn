@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dlflepmut8m13"]
+
+[ext_resource type="Script" uid="uid://bfnuenk4vjoql" path="res://scripts/status_effects/heal_status_effect.gd" id="1_rh5dw"]
+[ext_resource type="Script" uid="uid://dvouaa2xbulum" path="res://scripts/status_effects/status_effect_data.gd" id="2_2isl5"]
+[ext_resource type="Texture2D" uid="uid://bok1adxi1vloj" path="res://assets/img/ui/status_icons/Healing_Status_Icon.png" id="2_rt217"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("2_rt217")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_oprun"]
+script = ExtResource("2_2isl5")
+icon = SubResource("AtlasTexture_oprun")
+tier = 2
+duration = 10.0
+tick_speed = 2.0
+status_effect_name = "heal"
+function = "heal"
+args = 50.0
+metadata/_custom_type_script = "uid://dvouaa2xbulum"
+
+[node name="Heal" type="Node" unique_id=1988280286]
+script = ExtResource("1_rh5dw")
+status_effect_data = SubResource("Resource_oprun")
+metadata/_custom_type_script = "uid://cti0cmoxhtxjm"

@@ -22,7 +22,8 @@ func _ready() -> void:
 
 
 func init_player() -> void:
-	
+	player.status_handler.add_icon.connect(UI.status_effects._add_status_icon)
+	player.status_handler.remove_icon.connect(UI.status_effects._remove_status_icon)	
 	player.stats.health_changed.connect(UI._on_hp_changed)
 	player.stats.stamina_changed.connect(UI._on_stamina_changed)
 	player.stats.health_changed.emit(player.stats.health, player.stats.current_max_health)
