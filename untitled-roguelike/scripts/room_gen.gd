@@ -11,6 +11,8 @@ extends Node2D
 
 @onready var generated_hallways: TileMapLayer = $GeneratedHallways
 
+var player: CharacterBody2D
+
 const empty: int = 0
 const pathI: int = 1
 const start: int = 2
@@ -103,9 +105,9 @@ func _ready() -> void:
 	print("Failed connection data: ", failed_connections)
 	if failed_connections.is_empty():
 		generate_hallway_floors()
-		create_minimap()
 		spawn_player()
-	
+		create_minimap()
+
 func grid_create() -> void:
 	grid.clear()
 	
@@ -811,7 +813,6 @@ func test_one_hallway() -> Array[Dictionary]:
 	return failed_connections
 				
 
-
 func generate_hallway_floors() -> void:
 	var hallway_paths: Array = []
 
@@ -1514,16 +1515,28 @@ func create_minimap() -> void:
 	get_tree().current_scene.add_child(canvas_layer)
 	canvas_layer.add_child(minimap)
 	
+	var minimap_button = Button.new()
+	minimap_button.text = "Hide Map"
+	canvas_layer.add_child(minimap_button)
+	
+	minimap_button.pressed.connect(func():
+		minimap.visible = not minimap.visible
+		if minimap.visible:
+			minimap_button.text = "Hide Map"
+		else:
+			minimap_button.text = "Show Map"
+	)
 	minimap.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	minimap.size = Vector2(320,320)
-	minimap.set_dungeon_data(spawned_rooms,room_connections)
+	minimap.position.x-=8
+	minimap.set_dungeon_data(spawned_rooms,room_connections, player)
 	print("Minimap position: ",minimap.position)
 	print("Minimap size: ", minimap.size)
 	print("canvas Layer: ", canvas_layer)
 
 func spawn_player() -> void:
 	var start_room = spawned_rooms[start_cell]
-	var player = preload("res://scenes/player.tscn").instantiate()
+	player = preload("res://scenes/player.tscn").instantiate()
 	get_tree().current_scene.add_child(player)
 	
 	var tilemap = start_room.get_node("tilemap")
