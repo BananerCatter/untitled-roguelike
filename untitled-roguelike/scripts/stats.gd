@@ -54,14 +54,7 @@ func remove_buff(buff: StatBuff) -> void:
 	recalculate_stats.call_deferred()
 
 
-func add_status_effect(status:StatusEffect) ->void:
-	status_effects.append(status)
-	recalculate_stats.call_deferred()
-	
 
-func remove_status_effect(status:StatusEffect) ->void:
-	status_effects.erase(status)
-	recalculate_stats.call_deferred()
 
 
 
@@ -104,6 +97,7 @@ func recalculate_stats() ->void:
 	
 	var stat_mults: Dictionary = {} # All multiplicative buffs
 	var stat_adds: Dictionary = {} # All additive buffs
+	
 	for buff:StatBuff in stat_buffs:
 		var stat_name: String = buffable_stats.keys()[buff.stat].to_lower()
 		match buff.buff_type:
@@ -118,6 +112,8 @@ func recalculate_stats() ->void:
 				
 				if stat_mults[stat_name] <0.0:
 					stat_mults[stat_name] = 0.0
+	
+	
 	
 	var max_health_stats_curve_pos: float = (float(max_health_level)/ 100.0 ) - 0.01
 	var damage_stats_curve_pos: float = (float(damage_level)/ 100.0) - 0.01

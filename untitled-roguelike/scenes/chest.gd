@@ -27,7 +27,7 @@ func _on_chest_opened(inventory:Inventory):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_signal("open_chest") and not open:
 		body.open_chest.connect(_on_chest_opened)
-	if open:
+	if open :
 		if body.has_method("get_items_from_chest"):
 			give_items.disconnect(body.get_items_from_chest)
 		if body.has_signal("open_chest") and not open:
@@ -40,7 +40,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 
 	if open:
-		pass
-	
+		return
 	if body.has_method("get_items_from_chest"):
 		give_items.disconnect(body.get_items_from_chest)
+	if body.has_signal("open_chest") and not open:
+			body.open_chest.disconnect(_on_chest_opened)

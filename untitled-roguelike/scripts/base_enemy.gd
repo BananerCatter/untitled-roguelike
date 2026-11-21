@@ -28,7 +28,7 @@ var can_dash:bool = true
 @export var enter_area: Area2D
 @export var exit_area: Area2D
 
-@onready var damage_bar: ProgressBar = %ProgressBar
+@onready var damage_bar: ProgressBar = %EnemyInfo/ProgressBar
 
 
 var direction: Vector2

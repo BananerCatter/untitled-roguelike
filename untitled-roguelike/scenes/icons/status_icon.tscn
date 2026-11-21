@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2y1qgolv7e5e"]
+
+[node name="StatusIcon" type="PanelContainer" unique_id=1677028471]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1938416404]
+layout_mode = 2

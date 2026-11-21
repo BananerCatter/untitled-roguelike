@@ -9,7 +9,8 @@ var health = value
 func _get_value(hp:int, max_health:int) -> void:
 	max_value=max_health
 	value=hp
-	#timer.start()
+
+	timer.start()
 func init_health(_health):
 	health= _health	
 	max_value = _health
@@ -19,7 +20,7 @@ func init_health(_health):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	init_health.call_deferred(max_value)
 	damage_bar.value=value
 
 

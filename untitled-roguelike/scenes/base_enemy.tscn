@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
 [ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
 [ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="3_rfapk"]
-[ext_resource type="Script" uid="uid://cfkxrn82ksxc7" path="res://scripts/enemy_hp.gd" id="4_64ljx"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="5_64ljx"]
+[ext_resource type="PackedScene" uid="uid://dh6nb4tly5ld2" path="res://scenes/enemy_info_control.tscn" id="5_rfapk"]
 [ext_resource type="Script" uid="uid://dvvx7oyset3k2" path="res://scripts/state_machine/state_machine.gd" id="6_j4o54"]
 [ext_resource type="Script" uid="uid://7sj83wb6pg0r" path="res://scripts/state_machine/enemy_basic/enemy_idle.gd" id="7_rffmh"]
 [ext_resource type="Script" uid="uid://bwjyoh3onktui" path="res://scripts/state_machine/enemy_basic/enemy_moving.gd" id="8_rffmh"]
@@ -65,24 +65,6 @@ radius = 180.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2kb2m"]
 radius = 20.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rns2u"]
-content_margin_left = 1.0
-content_margin_top = 1.0
-content_margin_right = 1.0
-content_margin_bottom = 1.0
-bg_color = Color(0.6375204, 0.08052311, 0.059664413, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlg0r"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2dgd"]
-bg_color = Color(0.9981839, 0.84958, 0.83507156, 1)
-shadow_color = Color(0, 0, 0, 0.27450982)
-shadow_size = 1
-shadow_offset = Vector2(0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
 radius = 25.0
@@ -144,53 +126,8 @@ one_shot = true
 [node name="DashBrake" type="Timer" parent="." unique_id=1738423556]
 one_shot = true
 
-[node name="Control" type="Control" parent="." unique_id=203371573]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=463072556]
+[node name="EnemyInfo" parent="." unique_id=1269603442 instance=ExtResource("5_rfapk")]
 unique_name_in_owner = true
-z_index = 1
-custom_minimum_size = Vector2(30, 5)
-layout_mode = 0
-offset_left = -15.0
-offset_top = -17.0
-offset_right = 15.0
-offset_bottom = -12.0
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxEmpty_yubou")
-theme_override_styles/fill = SubResource("StyleBoxFlat_rns2u")
-value = 60.0
-show_percentage = false
-script = ExtResource("4_64ljx")
-
-[node name="Timer" type="Timer" parent="Control/ProgressBar" unique_id=982392409]
-wait_time = 0.5
-one_shot = true
-autostart = true
-
-[node name="DamageBar" type="ProgressBar" parent="Control/ProgressBar" unique_id=2132570570]
-z_index = -1
-custom_minimum_size = Vector2(30, 5)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -2.5
-offset_right = 15.0
-offset_bottom = 2.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_qlg0r")
-theme_override_styles/fill = SubResource("StyleBoxFlat_u2dgd")
-value = 100.0
-show_percentage = false
 
 [node name="AttackRange" type="Area2D" parent="." unique_id=1648761200]
 
@@ -244,6 +181,5 @@ autostart = true
 [connection signal="body_exited" from="EnterArea" to="." method="_on_enter_area_body_exited"]
 [connection signal="body_exited" from="ExitArea" to="." method="_on_exit_area_body_exited"]
 [connection signal="body_exited" from="StopArea" to="." method="_on_exit_area_body_exited"]
-[connection signal="timeout" from="Control/ProgressBar/Timer" to="Control/ProgressBar" method="_on_timer_timeout"]
 [connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]
