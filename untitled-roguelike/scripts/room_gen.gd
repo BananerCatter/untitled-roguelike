@@ -63,6 +63,9 @@ var grid : Array = []
 
 var minimap: Control
 
+var encounter_button: Button
+var active_encounter_room: Node2D
+
 func _ready() -> void:
 	room_connections.clear()
 	grid_create()
@@ -89,7 +92,7 @@ func _ready() -> void:
 	for i in range (generated_path.size()-1):
 		connect_rooms(generated_path[i], generated_path[i+1])
 
-	var branch_cells: Array[Vector2i]= generate_branches(generated_path)
+	generate_branches(generated_path)
 	grid_print()
 	generate_rooms()
 	debug_room_collision_data(spawned_rooms[start_cell])
@@ -107,6 +110,7 @@ func _ready() -> void:
 		generate_hallway_floors()
 		spawn_player()
 		create_minimap()
+		_on_room_entered(spawned_rooms[start_cell])
 
 func grid_create() -> void:
 	grid.clear()
@@ -404,7 +408,6 @@ func get_required_door(cell: Vector2i) -> String:
 
 var room_connections: Dictionary = {}
 var spawned_rooms: Dictionary = {}
-var spawned_hallways: Array= []
 var positioned_rooms: Dictionary = {}
 var room_parents: Dictionary = {}
 var room_collision_cache: Dictionary = {}
@@ -632,12 +635,6 @@ func retry_failed_room_placements() -> void:
 						)
 
 						break
-
-func get_room_rect(room) -> Rect2 :
-	var position = room.global_position
-	var size = Vector2(room.room_width, room.room_height) * TILE_SIZE
-	return Rect2(position, size)
-
 
 func debug_room_collision_data(room) -> Array[PackedVector2Array]:
 	if not room_collision_cache.has(room):
@@ -1038,13 +1035,6 @@ func place_hallway_corner(cell:Vector2i, corner_tiles: Array[Vector2i]) -> void:
 		corner
 	)
 
-func place_normal_corner(cell: Vector2i, corner: Vector2i) -> void:
-	generated_hallways.set_cell(
-		cell,
-		HALLWAY_SOURCE_ID,
-		corner
-	)
-
 func find_hallway_path(
 	start_cell: Vector2i,
 	end_cell: Vector2i,
@@ -1305,22 +1295,6 @@ func room_group_collides(moving_cells: Array[Vector2i]) -> bool:
 
 	return false
 
-
-func move_room_subtree(parent_cell: Vector2i, direction: Vector2i) -> bool:
-	var moving_cells: Array[Vector2i] = [parent_cell]
-	moving_cells.append_array(get_room_descendants(parent_cell))
-
-	for cell in moving_cells:
-		spawned_rooms[cell].global_position += Vector2(direction) * TILE_SIZE
-
-	if room_group_collides(moving_cells):
-		for cell in moving_cells:
-			spawned_rooms[cell].global_position -= Vector2(direction) * TILE_SIZE
-
-		return false
-
-	return true
-
 func try_fix_connection(cell: Vector2i, neighbor_cell: Vector2i) -> bool:
 	var room_a = spawned_rooms[cell]
 	var room_b = spawned_rooms[neighbor_cell]
@@ -1519,6 +1493,12 @@ func create_minimap() -> void:
 	minimap_button.text = "Hide Map"
 	canvas_layer.add_child(minimap_button)
 	
+	encounter_button = Button.new()
+	encounter_button.text = "Open Room"
+	encounter_button.visible = false
+	encounter_button.position = minimap_button.position + Vector2(0, minimap_button.size.y + 8)
+	canvas_layer.add_child(encounter_button)
+	
 	minimap_button.pressed.connect(func():
 		minimap.visible = not minimap.visible
 		if minimap.visible:
@@ -1530,6 +1510,10 @@ func create_minimap() -> void:
 	minimap.size = Vector2(320,320)
 	minimap.position.x-=8
 	minimap.set_dungeon_data(spawned_rooms,room_connections, player)
+	minimap.room_discovered.connect(_on_room_discovered)
+	for room in spawned_rooms.values():
+		room.room_entered.connect(_on_room_entered)
+	encounter_button.pressed.connect(_on_encounter_button_pressed)
 	print("Minimap position: ",minimap.position)
 	print("Minimap size: ", minimap.size)
 	print("canvas Layer: ", canvas_layer)
@@ -1545,3 +1529,24 @@ func spawn_player() -> void:
 	player.global_position = tilemap.to_global(
 		tilemap.map_to_local(Vector2i(room_center))
 	)
+
+func _on_room_discovered(cell: Vector2i) -> void:
+	var room=spawned_rooms.get(cell)
+	if room:
+		room.reveal()
+
+func _on_room_entered(room: Node2D) -> void:
+	if room.encounter_active:
+		return
+
+	active_encounter_room = room
+	room.start_encounter()
+	encounter_button.visible = true
+
+func _on_encounter_button_pressed() -> void:
+	if active_encounter_room == null:
+		return
+
+	active_encounter_room.open_doors()
+	active_encounter_room = null
+	encounter_button.hide()

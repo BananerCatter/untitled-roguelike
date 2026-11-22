@@ -17,7 +17,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpp5k"]
 radius = 7.2111025
 
-[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox")]
+[node name="Player" type="CharacterBody2D" unique_id=1112876604 node_paths=PackedStringArray("hitbox") groups=["player"]]
 script = ExtResource("1_g2els")
 max_hp = 300
 hitbox = NodePath("hitbox")

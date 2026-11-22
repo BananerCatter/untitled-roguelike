@@ -17,7 +17,6 @@ var map_pan: Vector2 = Vector2.ZERO
 
 var dragging: bool = false
 
-var last_draw_scale: float = 1.0
 var last_draw_offset: Vector2 = Vector2.ZERO
 var last_fit_scale: float = 1.0
 
@@ -26,6 +25,9 @@ enum RoomVisibility {
 	UNDISCOVERED,
 	DISCOVERED
 }
+
+signal room_discovered(cell: Vector2i)
+
 var room_visibility: Dictionary = {}
 
 func _ready() -> void:
@@ -80,7 +82,6 @@ func _draw() -> void:
 	if expanded:
 		map_offset += map_pan
 	
-	last_draw_scale = scale_factor
 	last_draw_offset = map_offset
 
 	for cell in room_data:
@@ -147,16 +148,6 @@ func _draw() -> void:
 			
 			if door_a == null or door_b == null:
 				continue
-			
-			var room_a_rect = Rect2(
-				room_a.global_position,
-				Vector2(room_a.room_width, room_a.room_height) * TILE_SIZE
-			)
-			
-			var room_b_rect = Rect2(
-				room_b.global_position,
-				Vector2(room_b.room_width, room_b.room_height) * TILE_SIZE
-			)
 			
 			var point_a_world: Vector2
 			var point_b_world: Vector2
@@ -230,7 +221,7 @@ func _draw() -> void:
 	
 	draw_rect(Rect2(Vector2(1.0,1.0), size-Vector2(2.0,2.0)), Color("#c9c9c9"), false, 2.0)
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	update_room_visibility()
 	queue_redraw()
 
@@ -342,7 +333,9 @@ func update_room_visibility() -> void:
 		)
 		
 		if room_rect.has_point(player.global_position):
-			room_visibility[cell] = RoomVisibility.DISCOVERED
+			if room_visibility[cell] != RoomVisibility.DISCOVERED:
+				room_visibility[cell] = RoomVisibility.DISCOVERED
+				room_discovered.emit(cell)
 			
 			for neighbor_cell in connection_data[cell]:
 				if room_visibility[neighbor_cell] == RoomVisibility.HIDDEN:
