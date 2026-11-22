@@ -2,7 +2,6 @@ extends Control
 
 const TILE_SIZE: int = 32
 const MAP_PADDING : float = 12.0
-
 const VIEW_SIZE: Vector2 = Vector2(1200,1200)
 
 @export var background_color: Color=("#1c1c1c")
@@ -22,6 +21,13 @@ var last_draw_scale: float = 1.0
 var last_draw_offset: Vector2 = Vector2.ZERO
 var last_fit_scale: float = 1.0
 
+enum RoomVisibility {
+	HIDDEN,
+	UNDISCOVERED,
+	DISCOVERED
+}
+var room_visibility: Dictionary = {}
+
 func _ready() -> void:
 	custom_minimum_size = Vector2(320,320)
 	clip_contents = true
@@ -30,9 +36,11 @@ func _ready() -> void:
 func set_dungeon_data(rooms: Dictionary, connections: Dictionary, player_ref: Node2D) -> void:
 	room_data = rooms
 	connection_data = connections
+	room_visibility.clear()
+	for cell in room_data:
+		room_visibility[cell] = RoomVisibility.HIDDEN
 	player = player_ref
 	queue_redraw()
-	
 
 func _draw() -> void:
 	var bg_color = background_color
@@ -42,7 +50,8 @@ func _draw() -> void:
 		return
 	if player == null:
 		return
-
+	
+	
 	var map_bounds : Rect2
 	
 	if expanded:
@@ -90,18 +99,40 @@ func _draw() -> void:
 			top_left,
 			room_rect.size * scale_factor
 		)
-
-		draw_rect(drawn_rect,Color("#52647A"), true)
-		draw_rect(drawn_rect,Color("#C3D0DF"), false, 1.5)
+		
+		var visibility = room_visibility[cell]
+		
+		if visibility == RoomVisibility.HIDDEN:
+			continue
+			
+		var is_current_room = visibility == RoomVisibility.DISCOVERED and room_rect.has_point(player.global_position)
+		
+		var room_color: Color
+		var border_color: Color
+		
+		match visibility:
+			RoomVisibility.UNDISCOVERED:
+				room_color = Color("#252B35")
+				border_color = Color("#596575")
+			
+			RoomVisibility.DISCOVERED:
+				room_color = Color("#718EAD") if is_current_room else Color("#52647A")
+				border_color = Color("#FFFFFF") if is_current_room else Color("#C3D0DF")
+		
+		draw_rect(drawn_rect, room_color, true)
+		draw_rect(drawn_rect, border_color, false, 1.5)
 
 	for cell in connection_data:
 		for neighbor_cell in connection_data[cell]:
 			if cell >= neighbor_cell :
 				continue
-
+			
 			if not room_data.has(cell) or not room_data.has(neighbor_cell):
 				continue
-
+			
+			if room_visibility[cell] != RoomVisibility.DISCOVERED and room_visibility[neighbor_cell] != RoomVisibility.DISCOVERED:
+				continue
+			
 			var room_a = room_data[cell]
 			var room_b = room_data[neighbor_cell]
 
@@ -184,13 +215,24 @@ func _draw() -> void:
 		scale_factor,
 		map_offset
 	)
+	
+	var facing_direction: Vector2= player.facing_direction.normalized()
+	var perpendicular := Vector2(-facing_direction.y, facing_direction.x)
+	
+	var triangle:= PackedVector2Array([
+		player_position,
+		player_position + facing_direction * 12.0 + perpendicular * 6.0,
+		player_position + facing_direction * 12.0 - perpendicular * 6.0
+	])
+	
+	draw_colored_polygon(triangle, Color("#A0C8FF"))
 	draw_circle(player_position, 4.0, Color("#FFFFFF"))
+	
 	draw_rect(Rect2(Vector2(1.0,1.0), size-Vector2(2.0,2.0)), Color("#c9c9c9"), false, 2.0)
 	
-	
 func _process(delta: float) -> void:
-	if player!= null:
-		queue_redraw()
+	update_room_visibility()
+	queue_redraw()
 
 func get_door_name(direction: Vector2i) -> String:
 	match direction:
@@ -287,3 +329,21 @@ func get_map_bounds() -> Rect2:
 	bounds.size.y += TILE_SIZE * 2
 	
 	return bounds
+
+func update_room_visibility() -> void:
+	if player == null:
+		return
+	for cell in room_data:
+		var room = room_data[cell]
+		
+		var room_rect = Rect2(
+			room.global_position,
+			Vector2(room.room_width, room.room_height) * TILE_SIZE
+		)
+		
+		if room_rect.has_point(player.global_position):
+			room_visibility[cell] = RoomVisibility.DISCOVERED
+			
+			for neighbor_cell in connection_data[cell]:
+				if room_visibility[neighbor_cell] == RoomVisibility.HIDDEN:
+					room_visibility[neighbor_cell] = RoomVisibility.UNDISCOVERED

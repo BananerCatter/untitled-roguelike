@@ -8,6 +8,8 @@ signal hp_changed(hp_value: float)
 @export var max_hp: int
 @export var hitbox: CollisionShape2D
 
+var facing_direction : Vector2 = Vector2.DOWN
+
 func _ready() -> void:
 	max_hp=hp
 	hp_changed.emit((hp*100)/max_hp)
@@ -33,10 +35,12 @@ func get_input() -> void:
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	
+	if direction!= Vector2.ZERO:
+		facing_direction = direction
+	
 	velocity = direction*speed
 
 
-	
 func _physics_process(_delta: float) -> void:
 	# Add the gravity.
 	if(hp<=0):
