@@ -11,15 +11,15 @@ region = Rect2(0, 0, 32, 32)
 [sub_resource type="Resource" id="Resource_oprun"]
 script = ExtResource("2_2isl5")
 icon = SubResource("AtlasTexture_oprun")
-tier = 2
+tier = 1
 duration = 10.0
-tick_speed = 2.0
+tick_speed = 0.5
 status_effect_name = "heal"
 function = "heal"
-args = 50.0
+args = [5]
 metadata/_custom_type_script = "uid://dvouaa2xbulum"
 
-[node name="Heal" type="Node" unique_id=1988280286]
+[node name="Heal1" type="Node" unique_id=1988280286]
 script = ExtResource("1_rh5dw")
 status_effect_data = SubResource("Resource_oprun")
 metadata/_custom_type_script = "uid://cti0cmoxhtxjm"

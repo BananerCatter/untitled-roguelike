@@ -1,9 +1,19 @@
 [gd_scene format=3 uid="uid://c2y1qgolv7e5e"]
 
+[ext_resource type="Shader" uid="uid://dblmf54djknc6" path="res://resources/shaders/pause_menu.gdshader" id="1_gcqeh"]
 [ext_resource type="Script" uid="uid://bqfkk0vldkqum" path="res://scripts/status_icon.gd" id="1_lvx4l"]
+[ext_resource type="Texture2D" uid="uid://biewx38eb30uk" path="res://assets/img/ui/selector.png" id="2_hlgd1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m53vu"]
+shader = ExtResource("1_gcqeh")
+shader_parameter/blur_strength = 2.0
 
 [node name="StatusIcon" type="PanelContainer" unique_id=1677028471]
+material = SubResource("ShaderMaterial_m53vu")
+custom_minimum_size = Vector2(64, 64)
 script = ExtResource("1_lvx4l")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1938416404]
+unique_name_in_owner = true
 layout_mode = 2
+texture = ExtResource("2_hlgd1")

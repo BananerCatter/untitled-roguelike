@@ -10,11 +10,12 @@ script = ExtResource("1_0e4su")
 
 [node name="InfoContainer" type="BoxContainer" parent="." unique_id=36967455]
 anchors_preset = -1
-anchor_right = 0.12552084
-anchor_bottom = 0.08148148
-offset_left = 35.60228
-offset_top = 13.0
-offset_right = -1.5258789e-05
+anchor_right = 0.13100001
+anchor_bottom = 0.098000005
+offset_left = 46.0
+offset_top = 28.0
+offset_right = -0.122299194
+offset_bottom = -2.840004
 vertical = true
 
 [node name="FPSLabel" type="Label" parent="InfoContainer" unique_id=1066696109]

@@ -29,6 +29,7 @@ func _on_main_menu_game_start() -> void:
 	%MainMenu.queue_free()
 	main_level.start_in_dungeon = dungeon_start
 	add_pausable_child(main_level)
+	main_level._on_player_death.connect(get_tree().reload_current_scene)
 	
 	can_pause = true
 

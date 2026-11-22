@@ -1,10 +1,6 @@
 extends Resource
 class_name StatusEffectData
 
-enum EFFECT_TYPE{
-	TRIGGER_ONCE,
-	TRIGGER_ON_TIMER,
-}
 
 
 
@@ -14,7 +10,7 @@ enum EFFECT_TYPE{
 @export var tick_speed: float
 @export var status_effect_name : String
 @export var function : String
-@export var args : float
+@export var args : Array 
 
 
 

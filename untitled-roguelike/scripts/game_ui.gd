@@ -2,12 +2,13 @@ extends CanvasLayer
 
 @onready var player: CharacterBody2D 
 @onready var inventory_dialogue: InventoryDialogue = %InventoryDialogue
-@onready var status_effects: =%StatusEffects
+@onready var status_effects: StatusDialogue =%StatusEffects
 @onready var label: Label = $Label
 
 func init_player(current_player:Player) -> void:
 	player = current_player
 	player.inventory.update_inventory.connect(_on_update_inventory)
+	player.status_handler.update.connect(status_effects._update_icons)
 
 func _on_hp_changed(hp_value:float, max_hp_value:float) -> void:
 	%ProgressBar._set_health((hp_value/max_hp_value)*100)

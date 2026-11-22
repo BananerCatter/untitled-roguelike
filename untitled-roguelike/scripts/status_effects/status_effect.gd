@@ -4,9 +4,9 @@ class_name StatusEffect extends Node
 var timer:Timer =Timer.new()
 var tick_timer:Timer =Timer.new()
 
-signal _on_apply(function:String, argument:float)
-signal _on_remove(function:String, argument:float)
-signal _on_tick(function:String, argument:float)
+signal _on_apply(function:String, argument:Array)
+signal _on_remove(function:String, argument:Array)
+signal _on_tick(function:String, argument:Array)
 signal remove(status:StatusEffect)
 
 

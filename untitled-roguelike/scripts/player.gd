@@ -44,6 +44,7 @@ func _ready() -> void:
 	stamina_timer.set_wait_time(stats.stamina_cooldown)
 	stamina_timer.one_shot = true
 	print(stamina_timer.wait_time)
+	await (get_tree().physics_frame)
 	stats._add_status_effect.emit(debug_status.instantiate())
 
 	

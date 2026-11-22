@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://cmqs5ppk6jh7q"]
 
 [ext_resource type="Script" uid="uid://bcn7okub3dep" path="res://scripts/ui/status_effects.gd" id="1_hj78y"]
+[ext_resource type="PackedScene" uid="uid://c2y1qgolv7e5e" path="res://scenes/icons/status_icon.tscn" id="2_771n4"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b013q"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hj78y"]
 
 [node name="StatusEffects" type="PanelContainer" unique_id=2119364735]
 anchors_preset = 7
@@ -15,8 +16,10 @@ offset_top = -40.0
 offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxEmpty_b013q")
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hj78y")
 script = ExtResource("1_hj78y")
+status_icon_scene = ExtResource("2_771n4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1992802581]
 layout_mode = 2

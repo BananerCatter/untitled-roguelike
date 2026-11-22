@@ -1,6 +1,5 @@
 class_name StatusHandler extends Node
-signal add_icon(status:StatusEffect)
-signal remove_icon(status:StatusEffect)
+signal update(dict:Dictionary)
 
 var status_dict: Dictionary[String,StatusEffect] ={}
 
@@ -16,7 +15,7 @@ func add_status_effect(status:StatusEffect) ->void:
 	if status:
 
 		check_status(status)
-		add_icon.emit(status)
+		update.emit(status_dict)
 		status._on_apply.connect(_run_status_function)
 		status._on_tick.connect(_run_status_function)
 		status._on_remove.connect(_run_status_function)
@@ -26,7 +25,7 @@ func remove_status_effect(status:StatusEffect) ->void:
 	if status:
 		status.queue_free()
 		status_dict.erase(status.status_effect_data.status_effect_name.to_lower())
-		remove_icon.emit(status)
+		update.emit(status_dict)
 
 
 func check_status(status:StatusEffect) -> void:
@@ -48,10 +47,10 @@ func check_status(status:StatusEffect) -> void:
 			status_dict[status_name].apply_status()
 
 		
-func _run_status_function(function_name:String, function_argument:float):
+func _run_status_function(function_name:String, function_argument:Array):
 	if character.stats:  
 		if function_argument and function_name:
-			character.stats.call(function_name, function_argument)
+			character.stats.callv(function_name, function_argument)
 		
 		
 func _physics_process(delta: float) -> void:

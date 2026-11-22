@@ -83,5 +83,6 @@ ExtResource("9_iqu8w"): 5
 })
 key_item = ExtResource("10_2sb77")
 
+[connection signal="on_death" from="Player" to="." method="_on_player_on_death"]
 [connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="PotionPickupTest2/Area2D" to="PotionPickupTest2" method="_on_area_2d_body_entered"]

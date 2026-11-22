@@ -75,10 +75,20 @@ func setup_stats() -> void:
 	
 func take_damage(dmg:int) -> void:
 	_on_health_set(health-dmg)
+	
+	
+func take_damage_fractional(fraction:float) -> void:
+	var to_damage:int = fraction*current_max_health
+	_on_health_set(health-to_damage)
+
 
 	
 func heal(hp:int) -> void:
 	_on_health_set(health+hp)
+	
+func heal_fractional(fraction:float) -> void:
+	var to_heal:int = fraction*current_max_health
+	_on_health_set(health+to_heal)
 
 func lose_stamina(stm:float) -> void:
 	stamina -= stm
@@ -88,7 +98,7 @@ func lose_stamina(stm:float) -> void:
 
 
 func recover_stamina(delta:float) -> void:
-	stamina+=stamina_recovery*delta
+	_on_stamina_set(stamina+stamina_recovery*delta)
 
 	
 func recalculate_stats() ->void:
@@ -131,10 +141,11 @@ func recalculate_stats() ->void:
 
 	
 func _on_health_set(new_value:int) -> void:
-	health=clampi(new_value,0,current_max_health)
+	health=clampi(new_value,-1,current_max_health)
 	if health <= 0:
 		on_death.emit()
 	health_changed.emit(health,current_max_health)
+	
 	
 func _on_stamina_set(new_value:float) -> void:
 	stamina = clamp(new_value,-current_stamina,current_stamina)

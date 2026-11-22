@@ -1,5 +1,5 @@
 extends Node2D
-
+signal _on_player_death
 var dungeon_test: Node2D
 @onready var UI: CanvasLayer= $GameUi
 @onready var game_ui: CanvasLayer = $GameUi
@@ -22,8 +22,7 @@ func _ready() -> void:
 
 
 func init_player() -> void:
-	player.status_handler.add_icon.connect(UI.status_effects._add_status_icon)
-	player.status_handler.remove_icon.connect(UI.status_effects._remove_status_icon)	
+
 	player.stats.health_changed.connect(UI._on_hp_changed)
 	player.stats.stamina_changed.connect(UI._on_stamina_changed)
 	player.stats.health_changed.emit(player.stats.health, player.stats.current_max_health)
@@ -39,8 +38,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_player_on_death() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
-	queue_free()
+	_on_player_death.emit()
 
 
 func _on_dungeon_test_move_player(pos: Vector2) -> void:

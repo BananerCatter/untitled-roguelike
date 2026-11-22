@@ -1,34 +1,17 @@
-extends PanelContainer
-@onready var StatusContainer: HBoxContainer = $HBoxContainer
+class_name StatusDialogue extends PanelContainer
+@onready var status_container: HBoxContainer = $HBoxContainer
+@export var status_icon_scene: PackedScene
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _update_icons(dict:Dictionary[String,StatusEffect]):
+	for child in status_container.get_children():
+		child.queue_free()
+	for key:String in dict:
+		var icon: StatusIcon = status_icon_scene.instantiate()
+		if icon:
+			status_container.add_child(icon)
+			icon.texture_rect.texture = dict[key].status_effect_data.icon
 
-func _add_status_icon(status:StatusEffect) -> void:
-	var status_icon:StatusIcon
-	status_icon.initialize(status)
-	for child:StatusIcon in get_children():
-		if child.status_name == status.status_effect_data.status_effect_name:
-			if child.tier < status.status_effect_data.tier:
-				child.queue_free()
-				add_child(status_icon)
-			else:
-				return
-		else:
-			add_child(status_icon)
-				
-
-func _remove_status_icon(status:StatusEffect) ->void:
-	for child:StatusIcon in StatusContainer.get_children():
-		if child.status_name == status.status_effect_data.status_effect_name:
-			child.queue_free()
-					
-				
 			

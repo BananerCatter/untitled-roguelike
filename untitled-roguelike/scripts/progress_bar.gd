@@ -1,5 +1,4 @@
 extends ProgressBar
-
 @onready var timer =$Timer
 @onready var damage_bar =$DamageBar
 var health = value
@@ -7,33 +6,29 @@ var health = value
 func _set_health(new_health):
 	var prev = health
 	health=min(max_value, new_health)
-	value=health
-#	if(new_health<=0):
-#		queue_free()
+	var tween :Tween = get_tree().create_tween()
+	tween.tween_property(self, "value", health, 0.3).set_trans(Tween.TRANS_CUBIC)
+
 	if prev > new_health:
 		timer.start()
-	if prev < new_health:
-		damage_bar.value=new_health
+	if damage_bar.value < value:
+		
+		damage_bar.value= value
+
 
 func init_health(_health):
 	health= _health	
 	max_value = _health
-	value=health
-	damage_bar.max_value=health
-	damage_bar.value=health
+	value=100
+	damage_bar.max_value=100
+	damage_bar.value=100
 	
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	health=100
 	damage_bar.value=value
 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-
-
-
 func _on_timer_timeout() -> void:
-
-	damage_bar.value=health
-		
+	var tween :Tween = get_tree().create_tween()
+	tween.tween_property(damage_bar, "value", value, 0.4).set_trans(Tween.TRANS_LINEAR)
