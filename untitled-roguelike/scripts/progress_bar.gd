@@ -6,8 +6,9 @@ var health = value
 func _set_health(new_health):
 	var prev = health
 	health=min(max_value, new_health)
-	var tween :Tween = get_tree().create_tween()
-	tween.tween_property(self, "value", health, 0.3).set_trans(Tween.TRANS_CUBIC)
+	if get_tree() != null:
+		var tween :Tween = get_tree().create_tween()
+		tween.tween_property(self, "value", health, 0.3).set_trans(Tween.TRANS_CUBIC)
 
 	if prev > new_health:
 		timer.start()

@@ -1,0 +1,77 @@
+[gd_scene format=4 uid="uid://wswnwq5ypg4o"]
+
+[ext_resource type="PackedScene" uid="uid://b0hcornef2rji" path="res://scenes/tileground.tscn" id="1_pw728"]
+[ext_resource type="PackedScene" uid="uid://fp7f7gtsbfy7" path="res://scenes/base_enemy.tscn" id="2_6gsqv"]
+[ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="3_u56q5"]
+[ext_resource type="PackedScene" uid="uid://cq5m7r3f7j3vx" path="res://scenes/chest.tscn" id="4_4mr4y"]
+[ext_resource type="Script" uid="uid://ccvw3e1f6ksos" path="res://scripts/items/item.gd" id="5_36mki"]
+[ext_resource type="Resource" uid="uid://bj6axf72wwwpp" path="res://resources/items/basic_potion.tres" id="6_6751p"]
+[ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="7_o5gif"]
+[ext_resource type="Script" uid="uid://ba6yum2ks6yf8" path="res://scripts/items/pickup.gd" id="8_uutrq"]
+
+[sub_resource type="Resource" id="Resource_pw728"]
+resource_local_to_scene = true
+script = ExtResource("3_u56q5")
+damage_level = 2
+base_max_health = 300
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b013q"]
+radius = 8.062152
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_6gsqv"]
+vertices = PackedVector2Array(947, 492, 979, 496, 919, 496, 915, 492, 887, 528, 887, 588, 876.21875, 575.21094, 876.21875, 531.21094, 1015, 464, 1015, 624, 979, 588, 915, 524, 919, 528, 855, 524, 851, 524, 832.21875, 531.21094, 819, 528, 855, 624, 1015, 300, 1015, 460, 979, 428, 979, 336, 855, 300, 887, 336, 851, 624, 819, 588, 832.21875, 575.21094, 851, 300, 851, 265.6875, 855, 265.71094, 691, 464, 656.84375, 464, 656.8594, 460, 691, 460, 1047.8438, 460, 1047.8516, 464, 855, 658.7031, 851, 658.71094, 691, 624, 727, 588, 727, 496, 887, 396, 855, 400, 851, 400, 819, 396, 819, 336, 691, 300, 727, 336, 727, 428, 947, 432, 919, 428, 915, 432, 915, 400, 919, 396, 791, 400, 787, 396, 787, 428, 791, 432, 759, 432, 759, 492, 787, 496, 791, 492, 791, 524, 787, 528)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 1), PackedInt32Array(11, 3, 2, 12), PackedInt32Array(11, 12, 4, 13), PackedInt32Array(14, 13, 4, 7, 15, 16), PackedInt32Array(10, 9, 17, 5), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 18, 21, 23), PackedInt32Array(6, 5, 17, 24, 25, 26), PackedInt32Array(26, 25, 16, 15), PackedInt32Array(27, 28, 29, 22), PackedInt32Array(30, 31, 32, 33), PackedInt32Array(34, 35, 8, 19), PackedInt32Array(36, 37, 24, 17), PackedInt32Array(25, 24, 38, 39), PackedInt32Array(39, 38, 30, 40), PackedInt32Array(22, 23, 41, 42, 43, 44, 45, 27), PackedInt32Array(46, 27, 45, 47), PackedInt32Array(33, 46, 47, 48), PackedInt32Array(42, 13, 14, 43), PackedInt32Array(19, 8, 1, 0, 49, 20), PackedInt32Array(50, 20, 49, 51), PackedInt32Array(50, 51, 52, 53), PackedInt32Array(41, 53, 52, 42), PackedInt32Array(44, 43, 54, 55), PackedInt32Array(56, 55, 54, 57), PackedInt32Array(56, 57, 58, 48), PackedInt32Array(30, 33, 48, 58, 59, 40), PackedInt32Array(60, 40, 59, 61), PackedInt32Array(60, 61, 62, 63), PackedInt32Array(16, 63, 62, 14)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(643.6453, 250.91165, 1061.6434, 252.50354, 1062.0487, 672.5045, 642.0478, 672.9098)])
+source_geometry_mode = 1
+source_geometry_group_name = &"enemy_navigation"
+agent_radius = 14.0
+
+[node name="TestMap" type="Node2D" unique_id=1769787894]
+
+[node name="BaseEnemy" parent="." unique_id=1743834607 instance=ExtResource("2_6gsqv")]
+top_level = true
+position = Vector2(852.4016, 423.20743)
+stats = SubResource("Resource_pw728")
+
+[node name="base" parent="." unique_id=299476916 instance=ExtResource("1_pw728")]
+position = Vector2(708.99994, 349.99997)
+tile_map_data = PackedByteArray("AAAAAAAAAQABAAMAAAABAAAAAQAIAAEAAAABAAEAAQAHAAIAAAACAAEAAQADAAMAAAACAAIAAQACAAQAAAADAAIAAQAHAAIAAAAEAAIAAQACAAQAAGAFAAMAAQAHAAIAAAAGAAMAAQAHAAIAAAAHAAMAAQAEAAQAADAIAAMAAQAEAAQAAFAIAAIAAQACAAQAAAAIAAEAAQAEAAQAAFAHAAEAAQAHAAIAAAAHAAAAAQAIAAEAAAAGAAAAAQAHAAIAAAAFAAAAAQACAAQAAAAEAAAAAQABAAQAAAADAAAAAQAEAAMAAAACAAAAAQAHAAIAAAAAAAEAAQABAAMAADAAAAIAAQABAAQAAAAAAAMAAQAEAAMAAAABAAMAAQAEAAMAAAACAAMAAQAHAAIAAAADAAMAAQAHAAIAAAAEAAMAAQADAAMAAAABAAIAAQABAAMAAGADAAEAAQAEAAQAAGAEAAEAAQABAAQAAGAFAAEAAQABAAQAAAAGAAEAAQACAAQAADAGAAIAAQACAAQAAGAFAAIAAQAHAAIAAAAHAAIAAQABAAMAAAAIAAAAAQAEAAMAAAAJAAAAAQAEAAQAAAAJAAEAAQACAAMAAGAJAAIAAQAEAAQAAGAJAAMAAQACAAMAAAAKAAIAAQAJAAEAAAAKAAEAAQAJAAEAAAAKAAAAAQAJAAEAAAACAAUAAQACAAQAAAAJAAUAAQADAAQAAFABAAcAAQACAAQAAGAFAAcAAQAEAAQAADAFAAUAAQABAAMAAAAIAAcAAQABAAQAAAAEAAYAAQABAAQAAGAJAAYAAQAEAAQAAFABAAYAAQAIAAEAAAADAAQAAQAHAAIAAAABAAQAAQAEAAQAAFABAAUAAQAHAAIAAAAEAAUAAQACAAQAAAAEAAQAAQAEAAQAAGAFAAQAAQAHAAIAAAAGAAQAAQACAAQAAFAHAAQAAQACAAQAAAAIAAQAAQADAAQAADAJAAQAAQABAAMAAGAKAAQAAQAJAAEAAAAKAAUAAQAJAAEAAAAKAAYAAQAJAAEAAAAKAAcAAQAJAAEAAAAJAAcAAQADAAQAAAAIAAYAAQACAAQAAAAIAAUAAQAEAAQAAFAHAAUAAQAHAAIAAAAHAAYAAQAIAAEAAAAHAAcAAQADAAQAAGAGAAYAAQAHAAIAAAAGAAUAAQAEAAQAADAGAAcAAQACAAQAAAAFAAYAAQADAAQAAFAEAAcAAQADAAQAAAADAAcAAQAEAAQAAAACAAcAAQACAAQAAGACAAYAAQAHAAIAAAADAAYAAQADAAQAAGADAAUAAQABAAQAAAACAAQAAQABAAQAAGAAAAQAAQABAAMAAAAAAAUAAQACAAQAAAAAAAYAAQAEAAQAADAAAAcAAQACAAQAAAABAAgAAQACAAQAAAACAAgAAQACAAQAADADAAgAAQAEAAQAAGAEAAgAAQABAAMAAAAFAAgAAQACAAQAAFAGAAgAAQACAAQAAAAHAAgAAQABAAQAAAAIAAgAAQAEAAQAAFAJAAgAAQABAAMAAAAKAAgAAQAJAAEAAAAAAAgAAQAEAAQAAGD+//3/AQAHAAAAAAD///3/AQAIAAAAAAAAAP3/AQAIAAAAAAABAP3/AQAIAAAAAAACAP3/AQAIAAAAAAADAP3/AQAIAAAAAAAFAP3/AQAIAAAAAAAGAP3/AQAIAAAAAAAHAP3/AQAIAAAAAAAIAP3/AQAIAAAAAAAJAP3/AQAIAAAAAAAKAP3/AQAJAAAAAAAKAP7/AQAJAAEAAAAKAP//AQAJAAEAAAAKAAkAAQAJAAIAAAAJAAkAAQAIAAIAAAAIAAkAAQAIAAIAAAAGAAkAAQAIAAIAAAAHAAkAAQAIAAIAAAAFAAkAAQAIAAIAAAADAAkAAQAIAAIAAAACAAkAAQAIAAIAAAABAAkAAQAIAAIAAAAAAAkAAQAIAAIAAAD//wkAAQAIAAIAAAD+/wkAAQAHAAIAAAD+/wgAAQAHAAEAAAD+/wcAAQAHAAEAAAD+/wYAAQAHAAEAAAD+/wUAAQAHAAEAAAD+/wQAAQAHAAEAAAD+/wIAAQAHAAEAAAD+/wAAAQAHAAEAAAD+/wEAAQAHAAEAAAD+////AQAHAAEAAAD+//7/AQAHAAEAAAD///7/AQACAAQAAAAHAP//AQACAAQAAAACAP7/AQACAAQAAAAFAP7/AQABAAQAAAAJAP//AQABAAMAAAABAP//AQABAAQAAAD//wgAAQABAAQAAAAIAP7/AQABAAQAAAD//wIAAQAEAAMAAAACAP//AQAEAAMAAAAAAP//AQAEAAMAAGAEAP//AQAEAAMAADD//wQAAQABAAQAAGD//wMAAQABAAQAAGD//wYAAQABAAQAAGD//wAAAQABAAQAAGD/////AQABAAQAAGAAAP7/AQABAAQAAGABAP7/AQABAAMAAFADAP7/AQABAAQAAAAEAP7/AQABAAMAAGADAP//AQABAAMAADAGAP7/AQABAAMAAFAHAP7/AQABAAMAAAAIAP//AQABAAMAAGAFAP//AQAEAAQAAAAGAP//AQAEAAQAADD//wEAAQAEAAQAAAD//wUAAQAEAAQAAGD//wcAAQAEAAQAAFAJAP7/AQACAAMAADA=")
+
+[node name="sChest" parent="." unique_id=1494536464 groups=["enemy_navigation"] instance=ExtResource("4_4mr4y")]
+position = Vector2(854.2175, 553.21014)
+loot_table = Dictionary[ExtResource("5_36mki"), int]({
+ExtResource("6_6751p"): 5
+})
+key_item = ExtResource("7_o5gif")
+
+[node name="PotionPickupTest" type="Node2D" parent="." unique_id=208764771]
+position = Vector2(811.1893, 573.1492)
+script = ExtResource("8_uutrq")
+item = ExtResource("6_6751p")
+
+[node name="Area2D" type="Area2D" parent="PotionPickupTest" unique_id=919810364]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PotionPickupTest/Area2D" unique_id=886880584]
+position = Vector2(-6.112152e-05, 6.0948667e-05)
+shape = SubResource("CircleShape2D_b013q")
+
+[node name="PotionPickupTest2" type="Node2D" parent="." unique_id=169918251]
+position = Vector2(889.18207, 578.2597)
+script = ExtResource("8_uutrq")
+item = ExtResource("6_6751p")
+
+[node name="Area2D" type="Area2D" parent="PotionPickupTest2" unique_id=1011981442]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PotionPickupTest2/Area2D" unique_id=1644934562]
+position = Vector2(-6.112152e-05, 6.0948667e-05)
+shape = SubResource("CircleShape2D_b013q")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=339495014 groups=["enemy_navigation"]]
+navigation_polygon = SubResource("NavigationPolygon_6gsqv")
+
+[connection signal="body_entered" from="PotionPickupTest/Area2D" to="PotionPickupTest" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="PotionPickupTest2/Area2D" to="PotionPickupTest2" method="_on_area_2d_body_entered"]

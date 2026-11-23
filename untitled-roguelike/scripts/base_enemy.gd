@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var stats: Stats
 
-@onready var player: CharacterBody2D = get_parent().get_node("Player")
+@onready var player: CharacterBody2D = owner.get_tree().get_first_node_in_group("player")
 @export var sprite: AnimatedSprite2D
 @export var max_speed: float
 @export var speed: float
@@ -38,6 +38,7 @@ var stop: bool = false
 var can_attack: bool = false
 
 func _ready() -> void:
+	print("Enemy exists")
 	stats.health_changed.connect(damage_bar._get_value)
 	stats.health_changed.emit(stats.health, stats.current_max_health)
 	#add to state machine when done

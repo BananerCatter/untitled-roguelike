@@ -8,7 +8,7 @@ signal open_chest
 
 @export var stats: Stats
 @export var inventory:Inventory
-
+var facing_direction : Vector2 = Vector2.DOWN
 
 @export var max_speed: float
 @export var speed: float
@@ -73,6 +73,8 @@ func _input(event: InputEvent) -> void:
 
 func get_input() -> Vector2:
 	var direction = Input.get_vector("left", "right", "up", "down")
+	if direction!= Vector2.ZERO:
+		facing_direction = direction
 	return direction
 	
 	

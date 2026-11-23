@@ -179,7 +179,7 @@ physics_quadrant_size = 32
 position = Vector2(112, -16)
 
 [node name="EastH" type="Marker2D" parent="." unique_id=1462021786]
-position = Vector2(368, 145)
+position = Vector2(368, 144)
 
 [node name="SouthH" type="Marker2D" parent="." unique_id=105547869]
 position = Vector2(112, 304)

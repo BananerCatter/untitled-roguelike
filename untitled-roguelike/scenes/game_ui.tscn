@@ -116,7 +116,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="StatusEffects" parent="." unique_id=2119364735 instance=ExtResource("5_bt76a")]
 unique_name_in_owner = true
-offset_top = -61.0
-offset_bottom = -21.0
+offset_left = -2.0
+offset_top = -54.21997
+offset_right = 0.0
+offset_bottom = -52.21997
 
 [connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

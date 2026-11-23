@@ -1,5 +1,6 @@
 extends Node2D
-signal move_player(pos:Vector2)
+
+signal move_player
 
 @export var starting_room: PackedScene
 @export var basic_room: PackedScene
@@ -11,6 +12,8 @@ signal move_player(pos:Vector2)
 @export var end_cell: Vector2i = Vector2i(6,1)
 
 @onready var generated_hallways: TileMapLayer = $GeneratedHallways
+
+var player: CharacterBody2D
 
 const empty: int = 0
 const pathI: int = 1
@@ -60,6 +63,11 @@ const CORNER_TURN_UP_LEFT : Array[Vector2i] = [
 
 var grid : Array = []
 
+var minimap: Control
+
+var encounter_button: Button
+var active_encounter_room: Node2D
+
 func _ready() -> void:
 	room_connections.clear()
 	grid_create()
@@ -86,7 +94,7 @@ func _ready() -> void:
 	for i in range (generated_path.size()-1):
 		connect_rooms(generated_path[i], generated_path[i+1])
 
-	var branch_cells: Array[Vector2i]= generate_branches(generated_path)
+	generate_branches(generated_path)
 	grid_print()
 	generate_rooms()
 	debug_room_collision_data(spawned_rooms[start_cell])
@@ -102,8 +110,10 @@ func _ready() -> void:
 	print("Failed connection data: ", failed_connections)
 	if failed_connections.is_empty():
 		generate_hallway_floors()
-	
-	spawn_player()
+		spawn_player()
+		create_minimap()
+		_on_room_entered(spawned_rooms[start_cell])
+
 func grid_create() -> void:
 	grid.clear()
 	
@@ -400,7 +410,6 @@ func get_required_door(cell: Vector2i) -> String:
 
 var room_connections: Dictionary = {}
 var spawned_rooms: Dictionary = {}
-var spawned_hallways: Array= []
 var positioned_rooms: Dictionary = {}
 var room_parents: Dictionary = {}
 var room_collision_cache: Dictionary = {}
@@ -629,12 +638,6 @@ func retry_failed_room_placements() -> void:
 
 						break
 
-func get_room_rect(room) -> Rect2 :
-	var position = room.global_position
-	var size = Vector2(room.room_width, room.room_height) * TILE_SIZE
-	return Rect2(position, size)
-
-
 func debug_room_collision_data(room) -> Array[PackedVector2Array]:
 	if not room_collision_cache.has(room):
 		var tilemap = room.get_node("tilemap")
@@ -809,7 +812,6 @@ func test_one_hallway() -> Array[Dictionary]:
 	return failed_connections
 				
 
-
 func generate_hallway_floors() -> void:
 	var hallway_paths: Array = []
 
@@ -838,6 +840,22 @@ func generate_hallway_floors() -> void:
 			var finish = generated_hallways.local_to_map(
 				generated_hallways.to_local(door_b.global_position)
 			)
+			
+			var start_local = generated_hallways.to_local(door_a.global_position)
+			var finish_local = generated_hallways.to_local(door_b.global_position)
+			print("START DOOR: ", door_a.global_position)
+			print("START OFFSET: ", start_local - generated_hallways.map_to_local(start))
+			
+			print ("END DOOR: ", door_b.global_position)
+			print("END OFFSET: ", finish_local - generated_hallways.map_to_local(finish))
+			
+			print("START MARKER LOCAL: ", door_a.position)
+			print("END MARKER LOCAL: ", door_b.position)
+			print("START ROOM: ", door_a.get_parent().name)
+			print("END ROOM: ", door_b.get_parent().name)
+			
+			print("START ROOM GLOBAL: ", door_a.get_parent().global_position)
+			print("END ROOM GLOBAL: ", door_b.get_parent().global_position)
 
 			var path = find_hallway_path(
 				start,
@@ -845,6 +863,10 @@ func generate_hallway_floors() -> void:
 				door_a_name,
 				door_b_name
 			)
+			
+			if not path.is_empty():
+				for i in range(path.size()):
+					print("Path[",i,"]: ", path[i])
 
 			if path.is_empty():
 				push_error("Cannot generate hallway: path not found")
@@ -1009,13 +1031,6 @@ func place_hallway_wall(cell:Vector2i, direction: Vector2i) -> void:
 func place_hallway_corner(cell:Vector2i, corner_tiles: Array[Vector2i]) -> void:
 	var corner = corner_tiles.pick_random()
 	
-	generated_hallways.set_cell(
-		cell,
-		HALLWAY_SOURCE_ID,
-		corner
-	)
-
-func place_normal_corner(cell: Vector2i, corner: Vector2i) -> void:
 	generated_hallways.set_cell(
 		cell,
 		HALLWAY_SOURCE_ID,
@@ -1282,22 +1297,6 @@ func room_group_collides(moving_cells: Array[Vector2i]) -> bool:
 
 	return false
 
-
-func move_room_subtree(parent_cell: Vector2i, direction: Vector2i) -> bool:
-	var moving_cells: Array[Vector2i] = [parent_cell]
-	moving_cells.append_array(get_room_descendants(parent_cell))
-
-	for cell in moving_cells:
-		spawned_rooms[cell].global_position += Vector2(direction) * TILE_SIZE
-
-	if room_group_collides(moving_cells):
-		for cell in moving_cells:
-			spawned_rooms[cell].global_position -= Vector2(direction) * TILE_SIZE
-
-		return false
-
-	return true
-
 func try_fix_connection(cell: Vector2i, neighbor_cell: Vector2i) -> bool:
 	var room_a = spawned_rooms[cell]
 	var room_b = spawned_rooms[neighbor_cell]
@@ -1483,10 +1482,73 @@ func fix_failed_connections() -> void:
 					+ str(cell) + " -> " + str(neighbor_cell)
 				)
 
+func create_minimap() -> void:
+	var minimap_scene = preload("res://scenes/minimap.tscn")
+	minimap = minimap_scene.instantiate()
+	
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer=10
+	get_tree().current_scene.add_child(canvas_layer)
+	canvas_layer.add_child(minimap)
+	
+	var minimap_button = Button.new()
+	minimap_button.text = "Hide Map"
+	canvas_layer.add_child(minimap_button)
+	
+	encounter_button = Button.new()
+	encounter_button.text = "Open Room"
+	encounter_button.visible = false
+	encounter_button.position = minimap_button.position + Vector2(0, minimap_button.size.y + 8)
+	canvas_layer.add_child(encounter_button)
+	
+	minimap_button.pressed.connect(func():
+		minimap.visible = not minimap.visible
+		if minimap.visible:
+			minimap_button.text = "Hide Map"
+		else:
+			minimap_button.text = "Show Map"
+	)
+	minimap.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	minimap.size = Vector2(320,320)
+	minimap.position.x-=8
+	minimap.set_dungeon_data(spawned_rooms,room_connections, player)
+	minimap.room_discovered.connect(_on_room_discovered)
+	for room in spawned_rooms.values():
+		room.room_entered.connect(_on_room_entered)
+	encounter_button.pressed.connect(_on_encounter_button_pressed)
+	print("Minimap position: ",minimap.position)
+	print("Minimap size: ", minimap.size)
+	print("canvas Layer: ", canvas_layer)
+
 func spawn_player() -> void:
 	var start_room = spawned_rooms[start_cell]
-	var tilemap: TileMapLayer=start_room.get_node("tilemap")
-	var center: Vector2 = tilemap.get_used_rect().get_center()
-	var player_position:Vector2 =tilemap.to_global(tilemap.map_to_local(Vector2i(center)))
-	print("SHOULD MOVE")
-	move_player.emit(player_position)
+	#player = preload("res://scenes/player.tscn").instantiate()
+	#get_tree().current_scene.add_child(player)
+	
+	var tilemap = start_room.get_node("tilemap")
+	var room_center = tilemap.get_used_rect().get_center()
+	
+	player.global_position = tilemap.to_global(
+		tilemap.map_to_local(Vector2i(room_center))
+	)
+
+func _on_room_discovered(cell: Vector2i) -> void:
+	var room=spawned_rooms.get(cell)
+	if room:
+		room.reveal()
+
+func _on_room_entered(room: Node2D) -> void:
+	if room.encounter_active:
+		return
+
+	active_encounter_room = room
+	room.start_encounter()
+	encounter_button.visible = true
+
+func _on_encounter_button_pressed() -> void:
+	if active_encounter_room == null:
+		return
+
+	active_encounter_room.open_doors()
+	active_encounter_room = null
+	encounter_button.hide()
