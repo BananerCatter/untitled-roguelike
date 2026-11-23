@@ -12,11 +12,15 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 * A basic enemy template with pathfinding ```Bn```
 * A stat and leveling system (latter not fully utilized yet) ```Bn```
 * A **working** dungeon layout generator ```2s, the size of scripts he made for this scare me ngl```
+* A minimap and rooms which close off when entered ```2s```
 * Stamina (something something rollslop) ```Bn```
 * Items and inventory, that can theoretically be used by almost anything (for now just the player) ```Bn```
 * A (quite fugly looking 😭) inventory display ```Bn```
 * Combat ```Bn```
-* An option to switch between the test room and the dungeon (Options/ Spawn in dungeon)
+* An option to switch between the test room and the dungeon (Options/ Spawn in dungeon) ```Bn```
+* Buffs and status effects (Currently the only one in use is a tier 3 heal which gets applied when loading the level) ```Bn```
+
+```Week 5 does not have that much to show for, as most of the changes I made are mostly internal (such as turning the test level into a level manager, fixing week 4 bugs) / are not fully utilized yet (the buff and status effect systems)```
 
 ### Controls:
 * W/A/S/D for movement
@@ -26,6 +30,7 @@ A 2d game made in godot, for Linux and Windows. We're planning to make a dungeon
 * Left click to select item in inventory
 * Q to use item / hold weapon from inventory
 * ESC to pause/unpause
+* M to toggle fullscreen minimap (if loaded in dungeon)
   
 #### To use your weapon: Open the inventory, select it with left click, take it from the inventory with Q, left click to attack
 
@@ -43,8 +48,8 @@ Download the version for your system from the releases page, extract and run the
 ### Screenshots:
 <img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-00" src="https://github.com/user-attachments/assets/240bf673-f5f4-4aab-bbc6-ecdf38943ebd" />
 <img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-08" src="https://github.com/user-attachments/assets/bbe4ce1b-9d2a-409a-a30c-a872aed04a1c" />
-<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-15" src="https://github.com/user-attachments/assets/5ff2451b-d937-4797-ab0f-0b2295be6ce3" />
-<img width="1753" height="986" alt="Screenshot from 2026-11-16 19-31-19" src="https://github.com/user-attachments/assets/7cd2b269-a312-4601-af04-98d9ac9aa89f" />
+<img width="1860" height="1032" alt="Screenshot from 2026-11-23 17-41-51" src="https://github.com/user-attachments/assets/c6b673a7-74fd-4606-9501-aa6b0c02f6b7" />
+
 
 
 
