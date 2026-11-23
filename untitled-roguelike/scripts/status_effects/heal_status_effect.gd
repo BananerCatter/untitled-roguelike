@@ -15,7 +15,7 @@ func physics_update(delta:float) -> void:
 	pass
 	
 func trigger_status() -> void:
-	print("should heal!")
+
 	_on_tick.emit(status_effect_data.function,status_effect_data.args)
 
 func _remove_status():

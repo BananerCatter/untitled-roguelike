@@ -110,6 +110,7 @@ offset_right = -1636.0
 offset_bottom = -97.0
 
 [node name="Label" type="Label" parent="." unique_id=1035105155]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 metadata/_edit_use_anchors_ = true

@@ -14,7 +14,7 @@ func physics_update(delta:float) -> void:
 	character.speed= move_toward(character.speed, character.max_speed, character.acceleration*delta)
 	if character.get_input() == Vector2.ZERO:
 		change_state.emit("idle")
-	if Input.is_action_just_pressed("dash") && character.can_dash:
+	if Input.is_action_just_pressed("dash") && character.can_dash && character.stats.stamina >0:
 			change_state.emit("dash")
 
 	character.velocity = character.get_input()*character.speed
