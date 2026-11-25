@@ -35,12 +35,9 @@ func on_light_attack():
 
 
 func _physics_process(_delta: float) -> void:
-	if animation.is_playing():
-		if trail.get_point_count()>=max_trail_size:
-			trail.remove_point(0)
-		trail.add_point(trail.global_position)
-	else:
-		trail.clear_points()
+	
+	pass
+		
 		
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name in animation_array:
@@ -57,8 +54,9 @@ func _on_animation_player_animation_started(anim_name: StringName) -> void:
 
 func update_trail()->void:
 	if animation.is_playing():
-		if trail.get_point_count()>=max_trail_size:
+		if trail.points.size()>=max_trail_size:
 			trail.remove_point(0)
-		trail.add_point(trail.global_position)
+		trail.add_point(sprite.global_position)
+		print(sprite.global_position, global_position)
 	else:
 		trail.clear_points()

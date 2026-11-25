@@ -42,7 +42,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.04946508, 0.08063484, 0.17543705, 0.25932813, 0.5),
 "transitions": PackedFloat32Array(0.24999942, 2.0705273, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -0.8726646259971648, -0.6981317, -0.6981317, 0.8726646259971648, 0.0]
+"values": [-0.7853981633974483, -0.8726646259971648, -0.6981317, -0.6981317, 0.8726646259971648, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -70,7 +70,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.04803956, 0.08063484, 0.17543705, 0.25932813, 0.5),
 "transitions": PackedFloat32Array(0.24999942, 2.0705273, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.8726646259971648, 0.6981317007977318, 0.6981317007977318, -0.8726646259971648, 0.0]
+"values": [0.7853981633974483, 0.8726646259971648, 0.6981317007977318, 0.6981317007977318, -0.8726646259971648, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -171,7 +171,7 @@ base_texture = SubResource("AtlasTexture_c258t")
 swing_texture = SubResource("AtlasTexture_ub7w6")
 trail = NodePath("PivotPoint/WeaponSprite/Line2D")
 trail_timer = NodePath("TrailTimer")
-max_trail_size = 200
+max_trail_size = 5
 
 [node name="PivotPoint" type="Marker2D" parent="." unique_id=1162009274]
 
@@ -182,7 +182,7 @@ texture = SubResource("AtlasTexture_n2p8t")
 
 [node name="Line2D" type="Line2D" parent="PivotPoint/WeaponSprite" unique_id=284816884]
 top_level = true
-position = Vector2(-8.742278e-08, -2)
+position = Vector2(17, 0)
 rotation = -1.5707964
 width_curve = SubResource("Curve_b013q")
 gradient = SubResource("Gradient_n2p8t")
