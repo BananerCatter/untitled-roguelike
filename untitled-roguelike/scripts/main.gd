@@ -19,6 +19,7 @@ func add_pausable_child(child:Node) ->void:
 
 func _ready() -> void:
 	pause_menu.hide()
+	SignalBus.game_over.connect(_on_game_over)
 	main_level=main_lvl_scene.instantiate()
 
 
@@ -45,5 +46,9 @@ func _process(_delta: float) -> void:
 
 func _on_pause_menu_restart_game() -> void:
 	# Add the save feature here once it uhh, exists
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+	
+func _on_game_over() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()

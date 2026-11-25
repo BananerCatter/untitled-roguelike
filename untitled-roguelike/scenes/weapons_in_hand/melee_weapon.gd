@@ -8,7 +8,11 @@ class_name HeldWeapon extends Node2D
 @export var damage: int
 @export var base_texture: Texture2D
 @export var swing_texture: Texture2D
-@export var animation_array: Array[String] =[]
+var animation_array: Array[String] =[]
+@export var trail: Line2D
+@export var trail_timer: Timer
+@export var max_trail_size: int
+
 var current_anim_index: int =0
 var max_item_index: int 
 var item_from: Item
@@ -19,7 +23,10 @@ func _ready() -> void:
 		if anim.begins_with("LightAttack"):
 			animation_array.append(anim)
 			max_item_index+=1
-
+	trail_timer.timeout.connect(update_trail)
+	trail_timer.start()
+			
+	
 func on_light_attack():
 	animation.play(animation_array[current_anim_index])
 	current_anim_index +=1
@@ -27,8 +34,14 @@ func on_light_attack():
 		current_anim_index =0
 
 
-	
-	
+func _physics_process(_delta: float) -> void:
+	if animation.is_playing():
+		if trail.get_point_count()>=max_trail_size:
+			trail.remove_point(0)
+		trail.add_point(trail.global_position)
+	else:
+		trail.clear_points()
+		
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name in animation_array:
 		sprite.texture = base_texture
@@ -41,3 +54,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name in animation_array:
 		sprite.texture = swing_texture
+
+func update_trail()->void:
+	if animation.is_playing():
+		if trail.get_point_count()>=max_trail_size:
+			trail.remove_point(0)
+		trail.add_point(trail.global_position)
+	else:
+		trail.clear_points()

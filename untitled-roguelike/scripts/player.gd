@@ -123,7 +123,7 @@ func weapon_orbit_mouse(delta:float):
 func _physics_process(delta: float) -> void:
 	
 	if(stats.health<=0):
-		on_death.emit()
+		SignalBus.game_over.emit()
 	
 	if stats.stamina_cooldown_over && stats.stamina <= stats.current_stamina:
 		stats.recover_stamina(delta)

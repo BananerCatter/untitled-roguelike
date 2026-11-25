@@ -84,6 +84,7 @@ func take_damage_fractional(fraction:float) -> void:
 
 	
 func heal(hp:int) -> void:
+	
 	_on_health_set(health+hp)
 	
 func heal_fractional(fraction:float) -> void:
