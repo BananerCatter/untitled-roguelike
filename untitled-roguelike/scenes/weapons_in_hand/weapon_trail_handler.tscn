@@ -10,14 +10,11 @@ point_count = 5
 colors = PackedColorArray(0.9208699, 0.95836776, 0.9999688, 1, 1, 1, 1, 1)
 
 [node name="WeaponTrailHandler" type="Node2D" unique_id=151786550 node_paths=PackedStringArray("trail", "trail_timer")]
-rotation = 0.3490659
 script = ExtResource("1_fma50")
 trail = NodePath("Line2D")
 trail_timer = NodePath("TrailTimer")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1535332619]
-position = Vector2(17.85416, 17.543245)
-rotation = -0.34906587
 scale = Vector2(0.99999994, 0.99999994)
 width_curve = SubResource("Curve_b013q")
 gradient = SubResource("Gradient_n2p8t")

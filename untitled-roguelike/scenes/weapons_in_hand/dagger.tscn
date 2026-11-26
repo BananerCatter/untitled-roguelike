@@ -205,6 +205,18 @@ tracks/5/keys = {
 "update": 0,
 "values": [1.5707964]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("WeaponTrailHandler:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g5ps3"]
 _data = {
@@ -235,9 +247,11 @@ rotation = 1.5707964
 texture = SubResource("AtlasTexture_n2p8t")
 
 [node name="TrailSpawnPoint" type="Marker2D" parent="PivotPoint/WeaponSprite" unique_id=628229960]
-position = Vector2(0.093794346, -6.803316)
+position = Vector2(-3.059797e-07, -7)
 
 [node name="WeaponTrailHandler" parent="." unique_id=151786550 instance=ExtResource("3_ub7w6")]
+rotation = 0.0
+max_trail_size = 300
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=156080567]
 libraries/ = SubResource("AnimationLibrary_g5ps3")

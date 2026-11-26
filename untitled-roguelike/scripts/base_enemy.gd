@@ -40,6 +40,7 @@ var can_attack: bool = false
 func _ready() -> void:
 	stats._init()
 	stats.health_changed.connect(damage_bar._get_value)
+	stats.on_death.connect(queue_free)
 	stats.health_changed.emit(stats.health, stats.current_damage)
 	#add to state machine when done
 	held_item = item.held_weapon.instantiate()
@@ -48,7 +49,6 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 		if stats.health <=0 && stats.current_damage>0:
-			queue_free()
 			print("Enemy died")
 		move_and_slide()
 
