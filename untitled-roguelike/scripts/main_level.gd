@@ -16,6 +16,9 @@ func _ready() -> void:
 	if start_in_dungeon:
 		dungeon_test = DUNGEON_TEST.instantiate()
 	else:
+		for child in get_children():
+			if child == test_room:
+				child.queue_free()
 		test_room = TEST_MAP.instantiate()
 		add_child(test_room)
 		

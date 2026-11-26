@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bhp2st6ykjigg" path="res://assets/img/animation/Sprite-0001-Sheet.png" id="1_n1jr3"]
 [ext_resource type="Script" uid="uid://d0oqb5705hvbv" path="res://scripts/base_enemy.gd" id="1_sw3va"]
-[ext_resource type="Resource" uid="uid://baheirlcclwxy" path="res://resources/base_enemy_stats.tres" id="2_kegi0"]
+[ext_resource type="Script" uid="uid://cyurnsedhb28p" path="res://scripts/stats.gd" id="2_rfapk"]
 [ext_resource type="Resource" uid="uid://bwpwef0ycs4r5" path="res://resources/items/dagger.tres" id="3_rfapk"]
 [ext_resource type="Script" uid="uid://c2qaivfsi7ncn" path="res://scripts/hurtbox.gd" id="5_64ljx"]
 [ext_resource type="PackedScene" uid="uid://dh6nb4tly5ld2" path="res://scenes/enemy_info_control.tscn" id="5_rfapk"]
@@ -11,6 +11,16 @@
 [ext_resource type="Script" uid="uid://bwjyoh3onktui" path="res://scripts/state_machine/enemy_basic/enemy_moving.gd" id="8_rffmh"]
 [ext_resource type="Script" uid="uid://bm7mv4e8r1i1i" path="res://scripts/state_machine/enemy_basic/enemy_dash.gd" id="9_rffmh"]
 [ext_resource type="Script" uid="uid://c07kl2176lxfm" path="res://scripts/state_machine/enemy_basic/enemy_light_attack.gd" id="10_hf87f"]
+
+[sub_resource type="Resource" id="Resource_2rhgx"]
+resource_local_to_scene = true
+script = ExtResource("2_rfapk")
+max_health_level = 100
+base_max_health = 100
+base_damage = 20.0
+base_defence = 10.0
+faction = 1
+metadata/_custom_type_script = "uid://cyurnsedhb28p"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_64ljx"]
 radius = 20.0
@@ -75,7 +85,7 @@ radius = 12.0
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1743834607 node_paths=PackedStringArray("sprite", "dash_duration", "dash_cooldown", "dash_brake", "enter_area", "exit_area")]
 motion_mode = 1
 script = ExtResource("1_sw3va")
-stats = ExtResource("2_kegi0")
+stats = SubResource("Resource_2rhgx")
 sprite = NodePath("AnimatedSprite2D")
 max_speed = 100.0
 speed = 80.0

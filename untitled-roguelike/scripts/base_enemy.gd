@@ -38,18 +38,18 @@ var stop: bool = false
 var can_attack: bool = false
 
 func _ready() -> void:
-	print("Enemy exists")
+	stats._init()
 	stats.health_changed.connect(damage_bar._get_value)
-	stats.health_changed.emit(stats.health, stats.current_max_health)
+	stats.health_changed.emit(stats.health, stats.current_damage)
 	#add to state machine when done
 	held_item = item.held_weapon.instantiate()
 	add_child(held_item)
 
 
-
-func _physics_process(delta: float) -> void:
-		if stats.health <=0:
+func _physics_process(_delta: float) -> void:
+		if stats.health <=0 && stats.current_damage>0:
 			queue_free()
+			print("Enemy died")
 		move_and_slide()
 
 #--------------------------------------------------------------

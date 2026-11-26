@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bdys774a07pvm" path="res://scenes/weapons_in_hand/melee_weapon.gd" id="1_n2p8t"]
 [ext_resource type="Texture2D" uid="uid://c1c5b4ikmgcuu" path="res://assets/img/animation/dagger_basic.png" id="2_ub7w6"]
+[ext_resource type="PackedScene" uid="uid://hj8j1jpm28pc" path="res://scenes/weapons_in_hand/weapon_trail_handler.tscn" id="3_ub7w6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b013q"]
 radius = 4.0
@@ -22,13 +23,6 @@ load_path = "res://.godot/imported/dagger_basic.png-b70e3360f3a54e7f07211d2bb2fb
 atlas = SubResource("CompressedTexture2D_c258t")
 region = Rect2(0, 0, 16, 0)
 
-[sub_resource type="Curve" id="Curve_b013q"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.21652423, 0.86036044), 0.0, 0.0, 0, 0, Vector2(0.5470085, 0.40090096), 0.0, 0.0, 0, 0, Vector2(0.8062678, 0.31531537), -2.4381213, -2.4381213, 0, 0, Vector2(0.98575497, 0), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="Gradient" id="Gradient_n2p8t"]
-colors = PackedColorArray(0.84742403, 0.91993576, 0.99994236, 1, 1, 1, 1, 1)
-
 [sub_resource type="Animation" id="Animation_ub7w6"]
 resource_name = "LightAttack1"
 length = 0.5
@@ -39,10 +33,10 @@ tracks/0/path = NodePath("PivotPoint:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.04946508, 0.08063484, 0.17543705, 0.25932813, 0.5),
-"transitions": PackedFloat32Array(0.24999942, 2.0705273, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.08063484, 0.17543705, 0.25932813, 0.5),
+"transitions": PackedFloat32Array(0.24999942, 1, 1, 1, 1),
 "update": 0,
-"values": [-0.7853981633974483, -0.8726646259971648, -0.6981317, -0.6981317, 0.8726646259971648, 0.0]
+"values": [-1.2217304763960306, -1.3089969389957472, -1.3089969389957472, 1.3089969389957472, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -55,6 +49,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Rect2(16, 0, 16, 0), Rect2(0, 0, 16, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponTrailHandler:can_update_trail")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.25950775),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_n2p8t"]
@@ -67,10 +73,10 @@ tracks/0/path = NodePath("PivotPoint:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.04803956, 0.08063484, 0.17543705, 0.25932813, 0.5),
-"transitions": PackedFloat32Array(0.24999942, 2.0705273, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.08123975, 0.17543705, 0.5),
+"transitions": PackedFloat32Array(0.24999942, 1, 1, 1),
 "update": 0,
-"values": [0.7853981633974483, 0.8726646259971648, 0.6981317007977318, 0.6981317007977318, -0.8726646259971648, 0.0]
+"values": [1.2217304763960306, 1.3089969389957472, -1.3089969389957472, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -83,6 +89,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Rect2(16, 0, 16, 0), Rect2(0, 0, 16, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponTrailHandler:can_update_trail")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.17542483),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_g5ps3"]
@@ -114,6 +132,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_72jd1"]
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -150,6 +169,42 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:can_update_trail")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("WeaponTrailHandler:can_update_trail")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PivotPoint/WeaponSprite:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g5ps3"]
 _data = {
@@ -159,7 +214,7 @@ _data = {
 &"RESET": SubResource("Animation_72jd1")
 }
 
-[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "animation", "sprite", "trail", "trail_timer")]
+[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "animation", "sprite", "weapon_trail_handler", "trail_spawn_point")]
 script = ExtResource("1_n2p8t")
 pivot_point = NodePath("PivotPoint")
 hitbox_shape = SubResource("CapsuleShape2D_b013q")
@@ -169,9 +224,8 @@ rotation_speed = 30
 damage = 10
 base_texture = SubResource("AtlasTexture_c258t")
 swing_texture = SubResource("AtlasTexture_ub7w6")
-trail = NodePath("PivotPoint/WeaponSprite/Line2D")
-trail_timer = NodePath("TrailTimer")
-max_trail_size = 5
+weapon_trail_handler = NodePath("WeaponTrailHandler")
+trail_spawn_point = NodePath("PivotPoint/WeaponSprite/TrailSpawnPoint")
 
 [node name="PivotPoint" type="Marker2D" parent="." unique_id=1162009274]
 
@@ -180,18 +234,10 @@ position = Vector2(16, 0)
 rotation = 1.5707964
 texture = SubResource("AtlasTexture_n2p8t")
 
-[node name="Line2D" type="Line2D" parent="PivotPoint/WeaponSprite" unique_id=284816884]
-top_level = true
-position = Vector2(17, 0)
-rotation = -1.5707964
-width_curve = SubResource("Curve_b013q")
-gradient = SubResource("Gradient_n2p8t")
+[node name="TrailSpawnPoint" type="Marker2D" parent="PivotPoint/WeaponSprite" unique_id=628229960]
+position = Vector2(0.093794346, -6.803316)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=555066362]
+[node name="WeaponTrailHandler" parent="." unique_id=151786550 instance=ExtResource("3_ub7w6")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=156080567]
 libraries/ = SubResource("AnimationLibrary_g5ps3")
-
-[node name="TrailTimer" type="Timer" parent="." unique_id=2126566039]
-wait_time = 0.1
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
