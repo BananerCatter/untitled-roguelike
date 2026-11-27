@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://be0rdn0ddopxy"]
+
+[ext_resource type="Script" uid="uid://bx1i5ryg0wuov" path="res://scripts/dialogue_box.gd" id="1_2c88n"]
+
+[node name="DialogueBox" type="Control" unique_id=1808179620]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -240.0
+offset_right = -40.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+offset_transform_enabled = true
+script = ExtResource("1_2c88n")
+
+[node name="Background" type="Panel" parent="." unique_id=415872460]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="Background" unique_id=2057032705]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 15.0
+offset_right = 325.0
+offset_bottom = 45.0
+
+[node name="DialogueText" type="RichTextLabel" parent="Background" unique_id=1369837699]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 50.0
+offset_right = 1815.0
+offset_bottom = 115.0
+theme_override_font_sizes/normal_font_size = 18
+
+[node name="ContinueLabel" type="Label" parent="Background" unique_id=1740928627]
+layout_mode = 0
+offset_left = 1650.0
+offset_top = 125.0
+offset_right = 1800.0
+offset_bottom = 150.0
+text = "Press \"F\" to Continue"
