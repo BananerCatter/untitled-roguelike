@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cmu2qrnde2at7"]
+
+[ext_resource type="PackedScene" uid="uid://bj1pki7ewk2w" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://bhkaoykn4qu24" path="res://scripts/main_level.gd" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://1mbjqqv607qo" path="res://scenes/game_ui.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://be0rdn0ddopxy" path="res://scenes/ui/DialogueBox.tscn" id="4_qmak7"]
+
+[node name="main" type="Node2D" unique_id=1012450263]
+script = ExtResource("1_tbgi4")
+
+[node name="Player" parent="." unique_id=1112876604 instance=ExtResource("1_o5qli")]
+unique_name_in_owner = true
+top_level = true
+position = Vector2(709, 350)
+
+[node name="GameUi" parent="." unique_id=1748888889 instance=ExtResource("4_jyhfs")]
+
+[node name="DialogueBox" parent="GameUi" unique_id=1808179620 instance=ExtResource("4_qmak7")]
+
+[connection signal="on_death" from="Player" to="." method="_on_player_on_death"]
