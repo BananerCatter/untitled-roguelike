@@ -14,8 +14,8 @@ func _ready() -> void:
 		current_state=initial_state
 
 
-func _on_change_state(new_state_name: String) ->void:
-	if new_state_name == current_state_name.to_lower():
+func _on_change_state(new_state_name: String, reset_state: bool = false) ->void:
+	if new_state_name == current_state_name.to_lower() and !reset_state:
 		return
 		
 	var new_state: State=state_dict.get(new_state_name.to_lower())

@@ -250,8 +250,10 @@ texture = SubResource("AtlasTexture_n2p8t")
 position = Vector2(-3.059797e-07, -7)
 
 [node name="WeaponTrailHandler" parent="." unique_id=151786550 instance=ExtResource("3_ub7w6")]
-rotation = 0.0
 max_trail_size = 300
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=156080567]
 libraries/ = SubResource("AnimationLibrary_g5ps3")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]

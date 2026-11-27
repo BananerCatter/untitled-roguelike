@@ -21,6 +21,7 @@ func _ready() -> void:
 		if anim.begins_with("LightAttack"):
 			animation_array.append(anim)
 			max_item_index+=1
+			
 
 
 			
@@ -36,15 +37,20 @@ func _physics_process(_delta: float) -> void:
 		if weapon_trail_handler:
 			weapon_trail_handler.update_trail(trail_spawn_point.global_position)
 		
+
 		
+
+
+
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name in animation_array:
 		sprite.texture = base_texture
+
 		await (get_tree().create_timer(0.5).timeout)
 		if not animation.is_playing():
 			current_anim_index=0
 	
-		
 
 
 func _on_animation_player_animation_started(anim_name: StringName) -> void:

@@ -48,8 +48,6 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-		if stats.health <=0 && stats.current_damage>0:
-			print("Enemy died")
 		move_and_slide()
 
 #--------------------------------------------------------------

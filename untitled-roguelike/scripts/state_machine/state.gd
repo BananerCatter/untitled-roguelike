@@ -2,7 +2,7 @@ class_name State extends Node
 @export var character: CharacterBody2D
 #@export var animated_sprte: AnimatedSprite2D
 
-signal change_state(state_name: String)
+signal change_state(state_name: String, reset_state:bool)
 	
 
 func enter_state() ->void:

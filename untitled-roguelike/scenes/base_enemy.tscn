@@ -130,7 +130,7 @@ wait_time = 0.6
 one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="." unique_id=1956792]
-wait_time = 5.0
+wait_time = 0.8
 one_shot = true
 
 [node name="DashBrake" type="Timer" parent="." unique_id=1738423556]
