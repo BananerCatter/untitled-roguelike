@@ -4,7 +4,7 @@ var hitbox: Hitbox
 func enter_state():
 	character.lose_stamina(20)
 	direction=character.get_input()
-	hitbox = Hitbox.new (character.stats, 0.4, character.held_item.hitbox_shape, character.held_item.damage, Hitlog.new())
+	hitbox = Hitbox.new (character.stats, 0.4, character.held_item.hitbox_shape, character.held_item.damage, Hitlog.new(), character.held_item.hitbox_position)
 	character.held_item.sprite.add_child(hitbox)
 
 func update(delta:float) -> void:

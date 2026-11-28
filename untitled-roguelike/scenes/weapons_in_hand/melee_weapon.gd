@@ -14,9 +14,15 @@ var current_anim_index: int =0
 var max_item_index: int 
 var item_from: Item
 @export var trail_spawn_point: Marker2D
+@export var hitbox_template: CollisionShape2D
+
+var hitbox_position: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	hitbox_position = to_local(hitbox_template.global_position)
+	hitbox_shape = hitbox_template.shape
+	
 	for anim:String in animation.get_animation_list():
 		if anim.begins_with("LightAttack"):
 			animation_array.append(anim)

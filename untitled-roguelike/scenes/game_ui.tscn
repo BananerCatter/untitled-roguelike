@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dueorwigpeuty" path="res://scripts/progress_bar.gd" id="3_u001w"]
 [ext_resource type="PackedScene" uid="uid://5k73nvky5g5v" path="res://scenes/inventory_dialogue.tscn" id="4_u2dgd"]
 [ext_resource type="PackedScene" uid="uid://cmqs5ppk6jh7q" path="res://scenes/ui/status_effects.tscn" id="5_bt76a"]
+[ext_resource type="PackedScene" uid="uid://be0rdn0ddopxy" path="res://scenes/ui/DialogueBox.tscn" id="6_djwj0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yubou"]
 
@@ -121,5 +122,7 @@ offset_left = -2.0
 offset_top = -54.21997
 offset_right = 0.0
 offset_bottom = -52.21997
+
+[node name="DialogueBox" parent="." unique_id=1808179620 instance=ExtResource("6_djwj0")]
 
 [connection signal="timeout" from="HUD/MarginContainer2/StaminaBar/Timer" to="HUD/MarginContainer2/StaminaBar" method="_on_timer_timeout"]

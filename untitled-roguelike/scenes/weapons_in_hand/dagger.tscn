@@ -23,6 +23,10 @@ load_path = "res://.godot/imported/dagger_basic.png-b70e3360f3a54e7f07211d2bb2fb
 atlas = SubResource("CompressedTexture2D_c258t")
 region = Rect2(0, 0, 16, 0)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lpp5k"]
+radius = 4.0
+height = 14.0
+
 [sub_resource type="Animation" id="Animation_ub7w6"]
 resource_name = "LightAttack1"
 length = 0.5
@@ -226,7 +230,7 @@ _data = {
 &"RESET": SubResource("Animation_72jd1")
 }
 
-[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "animation", "sprite", "weapon_trail_handler", "trail_spawn_point")]
+[node name="Dagger" type="Node2D" unique_id=1896490673 node_paths=PackedStringArray("pivot_point", "animation", "sprite", "weapon_trail_handler", "trail_spawn_point", "hitbox_template")]
 script = ExtResource("1_n2p8t")
 pivot_point = NodePath("PivotPoint")
 hitbox_shape = SubResource("CapsuleShape2D_b013q")
@@ -238,6 +242,7 @@ base_texture = SubResource("AtlasTexture_c258t")
 swing_texture = SubResource("AtlasTexture_ub7w6")
 weapon_trail_handler = NodePath("WeaponTrailHandler")
 trail_spawn_point = NodePath("PivotPoint/WeaponSprite/TrailSpawnPoint")
+hitbox_template = NodePath("PivotPoint/WeaponSprite/Area2D/HitboxTemplate")
 
 [node name="PivotPoint" type="Marker2D" parent="." unique_id=1162009274]
 
@@ -248,6 +253,12 @@ texture = SubResource("AtlasTexture_n2p8t")
 
 [node name="TrailSpawnPoint" type="Marker2D" parent="PivotPoint/WeaponSprite" unique_id=628229960]
 position = Vector2(-3.059797e-07, -7)
+
+[node name="Area2D" type="Area2D" parent="PivotPoint/WeaponSprite" unique_id=1225242167]
+
+[node name="HitboxTemplate" type="CollisionShape2D" parent="PivotPoint/WeaponSprite/Area2D" unique_id=2004372711]
+position = Vector2(-8.742279e-08, -2)
+shape = SubResource("CapsuleShape2D_lpp5k")
 
 [node name="WeaponTrailHandler" parent="." unique_id=151786550 instance=ExtResource("3_ub7w6")]
 max_trail_size = 300

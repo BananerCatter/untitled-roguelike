@@ -4,6 +4,7 @@ var dungeon_test: Node2D
 var test_room: Node2D
 @onready var UI: CanvasLayer= $GameUi
 @onready var game_ui: CanvasLayer = $GameUi
+@onready var dialogue_box: DialogueBox = $GameUi/DialogueBox as DialogueBox
 const DUNGEON_TEST = preload("uid://ib5t11nrr4fd")
 const TEST_MAP = preload("uid://wswnwq5ypg4o")
 
@@ -29,6 +30,7 @@ func _ready() -> void:
 	
 		
 	call_deferred("init_player")
+	DialogueManager.setup(dialogue_box)
 
 
 func init_player() -> void:

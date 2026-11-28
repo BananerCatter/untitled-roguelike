@@ -4,13 +4,15 @@ var hitbox_lifetime: float
 var shape: Shape2D
 var hitlog: Hitlog
 var weapon_damage: float
+var hitbox_position: Vector2
 
-func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D, _weapon_damage: int, _hitlog:Hitlog) -> void:
+func _init(_attacker_stats: Stats, _hitbox_lifetime: float, _shape: Shape2D, _weapon_damage: int, _hitlog:Hitlog, _position: Vector2 = Vector2.ZERO) -> void:
 	attacker_stats=_attacker_stats
 	hitbox_lifetime=_hitbox_lifetime
 	shape=_shape
 	weapon_damage = _weapon_damage
 	hitlog = _hitlog
+	hitbox_position = _position
 
 func _ready():
 	monitorable= false
@@ -24,6 +26,7 @@ func _ready():
 	if shape:
 		var collision_shape = CollisionShape2D.new()
 		collision_shape.shape = shape
+		collision_shape.position = hitbox_position
 		add_child(collision_shape)
 		
 	set_collision_layer_value(1,false)
